@@ -1,9 +1,16 @@
-import csv
-import sqlite3
+import csv, sqlite3
+from flask import Flask, render_template, request
 
+#init database
 conn = sqlite3.connect("datasets.db")
 c = conn.cursor()
+#init app
+app = Flask(__name__)
 
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method = 'GET':
+        return 'testing'
 
 def create_table_from_csv(file_name):
     with open(file_name) as csvfile:
@@ -34,7 +41,10 @@ def get_fields_str(fields):
             fields_str += fields[i] + ' real, '
     return fields_str
 
-create_table_from_csv('winequality_white.csv')
+#create_table_from_csv('winequality_white.csv')
 #create_table_from_csv('breast_cancer.csv') #error in data
 
 conn.close()
+
+if __name__ == "__main__":
+    app.run(debug=True)
