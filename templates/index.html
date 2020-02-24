@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FaceOverlay</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css')}" />
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}" />-->
+    <!-- animation -->
+    <!--<link rel="stylesheet" href="css/animate.css" />-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Materialize JS -->
+    <script src="{{ url_for('static', filename='js/materialize.min.js')}"></script>
+</head>
+
+<body>
+    <div class="row">
+        <h1 class="teal lighten-2">Welcome to SmileyCluster!</h1>
+    </div>
+    <form action="#">
+        <p>
+            <label>
+                <input name="group1" type="radio" checked />
+                <span>Dataset 1</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input name="group1" type="radio" />
+                <span>Dataset 2</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input name="group1" type="radio" />
+                <span>Dataset 3</span>
+            </label>
+        </p>
+    </form>
+
+</body>
+</html>
