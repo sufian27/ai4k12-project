@@ -1,18 +1,45 @@
 import csv, sqlite3
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 #init database
-conn = sqlite3.connect("datasets.db")
+conn = sqlite3.connect("datasets.db", check_same_thread=False) #We need to serialize if multiple write operations later
 c = conn.cursor()
 #init app
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method = 'GET':
-        return 'testing'
+    if request.method == 'GET':
+        return render_template('index.html')
+    
 
-def create_table_from_csv(file_name):
+@app.route('/next', methods=['GET', 'POST'])
+def next_page():
+    if request.method == 'POST':
+        print(request.form['group1'])
+        create_table_from_csv(int(request.form['group1']))
+        get_db_data_json(int(request.form['group1']))
+        return 'JSON Data received' #next page will be rendered here with json data sent to frontend
+    else:
+        return 'Invalid Data'
+
+
+def get_db_data_json(dataset):
+    table_name = ''
+    if dataset == 1:
+        table_name = 'winequality_white'
+
+    c.execute('SELECT * FROM {}'.format(table_name))
+    results = c.fetchall() #holds database content as a list of tuples, need to convert this to a json file
+    # for r in results:
+    #     print (r)
+
+#function will initialize the db from file_name
+def create_table_from_csv(dataset):
+    file_name = ''
+    if dataset == 1:
+        file_name = 'winequality_white.csv'
+
     with open(file_name) as csvfile:
         reader = csv.DictReader(csvfile, delimiter=";") #for breast_cancer.csv, change delimiter to ,
         table_name = file_name.split('.')[0]
@@ -44,7 +71,7 @@ def get_fields_str(fields):
 #create_table_from_csv('winequality_white.csv')
 #create_table_from_csv('breast_cancer.csv') #error in data
 
-conn.close()
+
 
 if __name__ == "__main__":
     app.run(debug=True)
