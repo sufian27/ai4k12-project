@@ -1,4 +1,4 @@
-import csv, sqlite3
+import csv, sqlite3, json
 from flask import Flask, render_template, request, jsonify
 
 #init database
@@ -18,8 +18,8 @@ def next_page():
     if request.method == 'POST':
         print(request.form['group1'])
         create_table_from_csv(int(request.form['group1']))
-        get_db_data_json(int(request.form['group1']))
-        return 'JSON Data received' #next page will be rendered here with json data sent to frontend
+        json_object = get_db_data_json(int(request.form['group1']))
+        return render_template('index.html', json_data = json_object) #render next page with passing json object
     else:
         return 'Invalid Data'
 
@@ -28,11 +28,11 @@ def get_db_data_json(dataset):
     table_name = ''
     if dataset == 1:
         table_name = 'winequality_white'
+    #add different dataset conditions later
+    result = c.execute('SELECT * FROM {}'.format(table_name))
+    records = [dict(zip([key[0] for key in c.description], row)) for row in result] 
+    return json.dumps({'records' : records})
 
-    c.execute('SELECT * FROM {}'.format(table_name))
-    results = c.fetchall() #holds database content as a list of tuples, need to convert this to a json file
-    # for r in results:
-    #     print (r)
 
 #function will initialize the db from file_name
 def create_table_from_csv(dataset):
