@@ -1,0 +1,15 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+{% if json_data %}
+<div>{{ json_data }}</div>
+{% else %}
+<div>json_data is not loaded successfully</div>
+{% endif %}
+{% endblock %}
+
+<!--{% block script %}
+{% if json_data %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endif %}
+{% endblock script %}-->

@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}" />
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Materialize JS -->
+    <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+
+    {% if title %}
+    <title>{{ title }} - SmileyCluster</title>
+    {% else %}
+    <title>Welcome to SmileyCluster</title>
+    {% endif %}
+</head>
+
+<body>
+    {% if title %}
+    <h3>{{ title }} - SmileyCluster</h3>
+    {% else %}
+    <h3>Welcome to SmileyCluster</h3>
+    {% endif %}
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>
