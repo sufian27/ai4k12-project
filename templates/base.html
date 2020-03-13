@@ -12,7 +12,7 @@
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
     {% if title %}
-    <title>{{ title }} - SmileyCluster</title>
+    <title>{{ title }}</title>
     {% else %}
     <title>Welcome to SmileyCluster</title>
     {% endif %}
@@ -26,5 +26,20 @@
     {% endif %}
     <hr>
     {% block content %}{% endblock %}
+
+    <footer>
+        {% if json_data %}
+        <div>
+            <ul>
+                <li>Introduction</li>
+                <li>Factors</li>
+                <li>Dataset Overview</li>
+                <li>Make a Face</li>
+            </ul>
+        </div>
+        {% endif %}
+    </footer>
+
+{% block script %}{% endblock %}
 </body>
 </html>

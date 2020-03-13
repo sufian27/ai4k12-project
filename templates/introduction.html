@@ -1,15 +1,12 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-{% if json_data %}
-<div>{{ json_data }}</div>
-{% else %}
-<div>json_data is not loaded successfully</div>
-{% endif %}
+<img src="{{ url_for('static', filename = 'img/' + example + '/intro.jpg') }}" width="100%">
 {% endblock %}
 
-<!--{% block script %}
-{% if json_data %}
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
-{% endif %}
-{% endblock script %}-->
+{% block script %}
+<script>
+	var dataset = '{{ json_data|tojson }}';
+</script>
+<script src="{{ url_for('static', filename = 'js/index.js') }}"></script>
+{% endblock %}
