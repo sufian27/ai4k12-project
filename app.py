@@ -10,16 +10,16 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('index.html', title='Home')
     
-@app.route('/next', methods=['GET', 'POST'])
-def next_page():
+
+@app.route('/intro', methods=['GET', 'POST'])
+def introduction():
     if request.method == 'POST':
         print(request.form['group1'])
         create_table_from_csv(int(request.form['group1']))
         json_object = get_db_data_json(int(request.form['group1']))
-        return json_object
-        # return render_template('index.html', json_data = json_object) #render next page with passing json object
+        return render_template('introduction.html', json_data = json_object, example = "example1", title='Introduction') #render next page with passing json object
     else:
         return 'Invalid Data'
 

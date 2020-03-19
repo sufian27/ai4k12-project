@@ -1,44 +1,31 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FaceOverlay</title>
-    <!-- Materialize CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}" />
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />-->
-    <!-- animation -->
-    <!--<link rel="stylesheet" href="css/animate.css" />-->
-    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <!-- Materialize JS -->
-    <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
-</head>
+﻿{% extends "base.html" %}
 
-<body>
-    <div class="row">
-        <h1 class="teal lighten-2">Welcome to SmileyCluster!</h1>
-    </div>
-    <form action="/next" method="post">
-        <p>
-            <label>
-                <input name="group1" type="radio" value='1'checked />
-                <span>Dataset 1</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input name="group1" type="radio" value='2'/>
-                <span>Dataset 2</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input name="group1" type="radio" value='3'/>
-                <span>Dataset 3</span>
-            </label>
-        </p>
-        <button type="submit">SUBMIT!</button>
-    </form>
-</body>
-</html>
+{% block content %}
+<form action="/intro" method="post">
+    <p>
+        <label>
+            <input name="group1" type="radio" value='1' checked />
+            <span>Wine Quality Dataset</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input name="group1" type="radio" value='2' />
+            <span>Dataset 2</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input name="group1" type="radio" value='3' />
+            <span>Dataset 3</span>
+        </label>
+    </p>
+    <button type="submit">SUBMIT</button>
+</form>
+{% endblock %}
+
+<!--{% block script %}
+{% if json_data %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endif %}
+{% endblock script %}-->

@@ -1,0 +1,12 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<img src="{{ url_for('static', filename = 'img/' + example + '/intro.jpg') }}" width="100%">
+{% endblock %}
+
+{% block script %}
+<script>
+	var dataset = '{{ json_data|tojson }}';
+</script>
+<script src="{{ url_for('static', filename = 'js/index.js') }}"></script>
+{% endblock %}
