@@ -1,18 +1,29 @@
-import csv, sqlite3, json
-from flask import Flask, render_template, request, jsonify
+import csv, sqlite3, json, os
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 
-#init database
+#init dataset database
 conn = sqlite3.connect("datasets.db", check_same_thread=False) #We need to serialize if multiple write operations later
 c = conn.cursor()
 #init app
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
+#init log database
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
+db = SQLAlchemy(app)
+from models import User
+db.create_all()
+
+#For testing
+
+db.session.commit()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
         return render_template('index.html', title='Home')
     
-
 @app.route('/intro', methods=['GET', 'POST'])
 def introduction():
     if request.method == 'POST':
@@ -23,6 +34,19 @@ def introduction():
     else:
         return 'Invalid Data'
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session.pop('user_id', None)
+        user_id = request.form['user_id']
+        user_exists = db.session.query(db.exists().where(User.id == user_id)).scalar()
+        if user_exists: 
+            session['user_id'] = user_id
+            return redirect(url_for('index'))
+
+        return redirect(url_for('login'))
+
+    return render_template('login.html')
 
 def get_db_data_json(dataset):
     table_name = ''
@@ -74,4 +98,4 @@ def get_fields_str(fields):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
