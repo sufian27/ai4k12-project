@@ -1,6 +1,9 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
+<h1>
+    Welcome User {{g.user.id}}!
+</h1>
 <form action="/intro" method="post">
     <p>
         <label>

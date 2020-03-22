@@ -1,5 +1,5 @@
 import csv, sqlite3, json, os
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g
 from flask_sqlalchemy import SQLAlchemy
 
 #init dataset database
@@ -12,24 +12,36 @@ app.secret_key = os.urandom(24)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 db = SQLAlchemy(app)
-from models import User
+from models import User, User_Action
 db.create_all()
 
-#For testing
-
-db.session.commit()
-
-@app.route('/', methods=['GET', 'POST'])
+@app.before_request
+def before_request(): #set global user
+    g.user = None
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        g.user = user
+        
+@app.route('/')
 def index():
-    if request.method == 'GET':
-        return render_template('index.html', title='Home')
+    if g.user == None:
+        return redirect(url_for('login'))
+
+    db.session.add(User_Action('user at home page', session['user_id'])) #log data 
+    db.session.commit()
+    return render_template('index.html', title='Home')
     
 @app.route('/intro', methods=['GET', 'POST'])
 def introduction():
+    if g.user == None:
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
         print(request.form['group1'])
         create_table_from_csv(int(request.form['group1']))
         json_object = get_db_data_json(int(request.form['group1']))
+        db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
+        db.session.commit()
         return render_template('introduction.html', json_data = json_object, example = "example1", title='Introduction') #render next page with passing json object
     else:
         return 'Invalid Data'
@@ -40,13 +52,22 @@ def login():
         session.pop('user_id', None)
         user_id = request.form['user_id']
         user_exists = db.session.query(db.exists().where(User.id == user_id)).scalar()
-        if user_exists: 
+        if user_exists: #user logged in
             session['user_id'] = user_id
+            db.session.add(User_Action('successfully logged in', user_id)) #log data
+            db.session.commit()
             return redirect(url_for('index'))
 
         return redirect(url_for('login'))
 
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    db.session.add(User_Action('user logged out', session['user_id'])) #log data 
+    db.session.commit()
+    session.pop('user_id', None)
+    return redirect(url_for('login'))
 
 def get_db_data_json(dataset):
     table_name = ''
@@ -82,7 +103,6 @@ def get_values_str(reader, row):
     values_str = ", ".join(values) #create string from values in a record
     return values_str
 
-
 def get_fields_str(fields):
     fields_str = ''
     for i in range(0, len(fields)):
@@ -91,11 +111,6 @@ def get_fields_str(fields):
         else:
             fields_str += fields[i] + ' real, '
     return fields_str
-
-#create_table_from_csv('winequality_white.csv')
-#create_table_from_csv('breast_cancer.csv') #error in data
-
-
 
 if __name__ == "__main__":
     app.run()

@@ -16,11 +16,13 @@
     {% else %}
     <title>Welcome to SmileyCluster</title>
     {% endif %}
+
 </head>
 
 <body>
     {% if title %}
     <h3>{{ title }} - SmileyCluster</h3>
+    <a href="/logout">logout</a>
     {% else %}
     <h3>Welcome to SmileyCluster</h3>
     {% endif %}
