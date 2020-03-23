@@ -1,4 +1,4 @@
-import csv, sqlite3, json, os
+import sqlite3, os
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,6 +13,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 db = SQLAlchemy(app)
 from models import User, User_Action
+from helpers import get_db_data_json, create_table_from_csv, get_values_str, get_fields_str
 db.create_all()
 
 @app.before_request
@@ -37,7 +38,6 @@ def introduction():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        print(request.form['group1'])
         create_table_from_csv(int(request.form['group1']))
         json_object = get_db_data_json(int(request.form['group1']))
         db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
@@ -48,6 +48,7 @@ def introduction():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    valid_user = False
     if request.method == 'POST':
         session.pop('user_id', None)
         user_id = request.form['user_id']
@@ -58,9 +59,9 @@ def login():
             db.session.commit()
             return redirect(url_for('index'))
 
-        return redirect(url_for('login'))
+        return render_template('login.html', valid = user_exists)
 
-    return render_template('login.html')
+    return render_template('login.html', valid = True)
 
 @app.route('/logout')
 def logout():
@@ -69,48 +70,22 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
-def get_db_data_json(dataset):
-    table_name = ''
-    if dataset == 1:
-        table_name = 'winequality_white'
-    #add different dataset conditions later
-    result = c.execute('SELECT * FROM {}'.format(table_name))
-    records = [dict(zip([key[0] for key in c.description], row)) for row in result] 
-    return json.dumps({'records' : records})
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    added = False
+    unique = True
+    user_id = 0
+    if request.method == 'POST':
+        try:
+            db.session.add(User(request.form['user_id']))
+            db.session.commit()
+            user_id = request.form['user_id']
+            added = True
+        except:
+            unique = False
+    
+    return render_template('add.html', added = added, user_id = user_id, unique = unique)
 
-
-#function will initialize the db from file_name
-def create_table_from_csv(dataset):
-    file_name = ''
-    if dataset == 1:
-        file_name = 'winequality_white.csv'
-
-    with open(file_name) as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=";") #for breast_cancer.csv, change delimiter to ,
-        table_name = file_name.split('.')[0]
-        c.execute('CREATE TABLE IF NOT EXISTS ' + table_name + ' ('
-         + get_fields_str(reader.fieldnames) + ')'
-        ) #create table
-        for row in reader:            
-            c.execute('INSERT INTO ' + table_name + 
-            ' VALUES (' + get_values_str(reader, row) + ')') #insert values into table
-        conn.commit()
-
-def get_values_str(reader, row):
-    values = []
-    for field in reader.fieldnames:
-        values.append(row.pop(field))
-    values_str = ", ".join(values) #create string from values in a record
-    return values_str
-
-def get_fields_str(fields):
-    fields_str = ''
-    for i in range(0, len(fields)):
-        if i == len(fields)-1:
-            fields_str += fields[i] + ' real'
-        else:
-            fields_str += fields[i] + ' real, '
-    return fields_str
 
 if __name__ == "__main__":
     app.run()

@@ -6,8 +6,12 @@
             <input type="text" name="user_id" placeholder="Username">
         </label>
     </p>
-    
+    {% if not valid %}
+    <p>Enter valid ID!</p>
+    {% endif %}
     <button type="submit">SUBMIT</button>
 </form>
+<br>
+<a href="/add">Add User</a>
 
 {% endblock %}

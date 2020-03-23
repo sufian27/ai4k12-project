@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if added %}
+<h3>User ID {{user_id}} added to database!</h3>
+{% else %}
+<form action="/add" method="post">
+    <p>
+        <label>
+            <input type="text" name="user_id" placeholder="Enter username to add">
+        </label>
+    </p>
+    {% if not unique %}
+    <p>ID already taken!</p>
+    {% endif %}
+    <button type="submit">ADD</button>
+</form>
+{% endif %}
+<br>
+<a href="/login">Go to Login</a>
+
+{% endblock %}
