@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div>TEST</div>
+<div id="variables"></div>
 {% endblock %}
 
 {% block script %}
 <script>
-	var dataset = '{{ json_data|tojson }}';
-	console.log(dataset);
+	var getLocalData = localStorage.getItem('localDataset');
+	var json_dataset = JSON.parse(getLocalData);
+	var variables = Object.keys(json_dataset[0]);
+	var variables_content = "";
+	for (i=0; i<variables.length; i++) {
+		variables_content += "<div>" + variables[i] + "</div>";
+	}
+	document.getElementById("variables").innerHTML = variables_content;
 </script>
 {% endblock %}

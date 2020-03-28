@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="" style="overflow:scroll; height:400px;">
+<table id="1"> </table>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	var getLocalData = localStorage.getItem('localDataset');
+	var json_dataset = JSON.parse(getLocalData);
+	var variables = Object.keys(json_dataset[0]);
+	var content = "<tr>" + '<td>' + "ID" +"</td>";
+	for (i=0; i<variables.length; i++) {
+		content += "<td>" + variables[i] + "</td>";
+	}
+	content += "</tr>";
+
+	for (i=0; i<json_dataset.length; i++) {
+		content += "<tr>";
+		content += '<td>' + str(i + 1) + "</td>";
+        for (j = 0; j < variables.length; j++) {
+        	content += '<td>' + json_dataset[i][variables[j]] + "</td>";
+        }
+        content += '</tr>';
+	}
+    document.getElementById("1").innerHTML = content;
+</script>
+{% endblock %}

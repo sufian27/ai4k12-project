@@ -4,31 +4,31 @@
 <h1>
     Welcome User {{g.user.id}}!
 </h1>
-<form action="/intro" method="post">
+<form action="/intro?example" method="GET">
     <p>
         <label>
-            <input name="group1" type="radio" value='1' checked />
+            <input name="example" type="radio" value='1' checked />
             <span>Wine Quality Dataset</span>
         </label>
     </p>
     <p>
         <label>
-            <input name="group1" type="radio" value='2' />
+            <input name="example" type="radio" value='2' />
             <span>Dataset 2</span>
         </label>
     </p>
     <p>
         <label>
-            <input name="group1" type="radio" value='3' />
+            <input name="example" type="radio" value='3' />
             <span>Dataset 3</span>
         </label>
     </p>
-    <button type="submit">SUBMIT</button>
+    <button type="submit" id="example-selection">SUBMIT</button>
 </form>
 {% endblock %}
 
-<!--{% block script %}
-{% if json_data %}
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
-{% endif %}
-{% endblock script %}-->
+{% block script %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}

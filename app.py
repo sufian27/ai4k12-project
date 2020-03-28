@@ -1,4 +1,5 @@
 import sqlite3, os
+import csv, json
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g
 from flask_sqlalchemy import SQLAlchemy
 
@@ -15,7 +16,7 @@ db = SQLAlchemy(app)
 from models import User, User_Action
 from helpers import get_db_data_json, create_table_from_csv, get_values_str, get_fields_str
 db.create_all()
-json_object = get_db_data_json(1) #todo: store the dataset as a global variable that all the webpage can access (try session?)
+# json_object = get_db_data_json(1) #todo: store the dataset as a global variable that all the webpage can access (try session?)
 
 @app.before_request
 def before_request(): #set global user
@@ -73,27 +74,36 @@ def add():
     
     return render_template('add.html', added = added, user_id = user_id, unique = unique)
 
-@app.route('/intro', methods=['GET', 'POST'])
+@app.route('/intro')
 def introduction():
     if g.user == None:
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
-        create_table_from_csv(int(request.form['group1']))
-        print(int(request.form['group1']))
-        json_object = get_db_data_json(int(request.form['group1']))
-        db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
-        db.session.commit()
-        return render_template('introduction.html', json_data = json_object, example = "example1", title='Introduction') #render next page with passing json object
-    else:
-        return 'Invalid Data'
+    example_index = request.args.get('example', default = 0, type = int)
+    create_table_from_csv(example_index)
+    json_object = get_db_data_json(example_index)
+
+    db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
+    db.session.commit()
+    return render_template('introduction.html', json_data = json_object, example = str(example_index), title='Introduction') #render next page with passing json object
 
 @app.route('/var', methods = ['GET', 'POST'])
 def var():
     if g.user == None:
         return redirect(url_for('login'))
     if request.method == 'GET':
-        return render_template('var.html', json_data = json_object, example = "example1", title='Variable') #render next page with passing json object
+        example_index = request.args.get('example', default = 0, type = int)
+        return render_template('var.html', example = str(example_index), title='Variable')
+    else:
+        return 'Invalid Data'
+
+@app.route('/dataset2face', methods = ['GET', 'POST'])
+def dataset2face():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        return render_template('dataset2face.html', example = str(example_index), title='Dataset to Face')
     else:
         return 'Invalid Data'
 

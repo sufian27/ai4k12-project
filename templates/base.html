@@ -9,6 +9,10 @@
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Materialize JS -->
     <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+    <script type="text/javascript">var example = 0;</script>
+    {% if example %}
+    <script type="text/javascript">example = {{ example }};</script>
+    {% endif %}
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
     {% if title %}
@@ -29,21 +33,19 @@
     <hr>
     {% block content %}{% endblock %}
 
-    <footer>
-        {% if json_data %}
+    <footer id="toolbox">
+        {% if example %}
         <div>
             <ul>
                 <li>Introduction</li>
                 <li>Factors</li>
-                <li>Dataset Overview</li>
-                <li>Make a Face</li>
+                <li><a class="dataset2face">Dataset</a></li>
             </ul>
         </div>
         {% endif %}
     </footer>
 
 {% block script %}
-
 {% endblock %}
 
 </body>
