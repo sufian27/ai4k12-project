@@ -1,0 +1,27 @@
+body {
+  margin: 0px;
+  overflow: scroll;
+}
+
+path.mouth {
+    opacity: 1;
+    fill: #e25c6e;
+    stroke: none;
+    stroke-width: 8;
+}
+
+rect {
+    opacity: 1;
+    fill: #493C36;
+}
+
+path.eye {
+    opacity: .02;
+    fill: white;
+    stroke: none;
+}
+
+path.pupil{
+    opacity: .05;
+    fill: #493C36;
+}

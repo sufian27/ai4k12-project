@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="" style="overflow:scroll; height:400px;">
-<table id="1"> </table>
+<div class="row">
+	<div id="" style="overflow:scroll; height:400px;" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+		<table id="data_table"></table>
+	</div>
+	<div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+		<div id="face"></div>
+    </div>
 </div>
 {% endblock %}
 
@@ -10,21 +15,36 @@
 <script>
 	var getLocalData = localStorage.getItem('localDataset');
 	var json_dataset = JSON.parse(getLocalData);
+	getLocalData = localStorage.getItem('mappingRule');
+	var json_mapping = JSON.parse(getLocalData);
 	var variables = Object.keys(json_dataset[0]);
 	var content = "<tr>" + '<td>' + "ID" +"</td>";
+	
 	for (i=0; i<variables.length; i++) {
-		content += "<td>" + variables[i] + "</td>";
+		content += "<td class='data-id'>" + variables[i] + "</td>";
 	}
 	content += "</tr>";
 
 	for (i=0; i<json_dataset.length; i++) {
 		content += "<tr>";
-		content += '<td>' + str(i + 1) + "</td>";
+		content += '<td>' + (i + 1) + "</td>";
         for (j = 0; j < variables.length; j++) {
         	content += '<td>' + json_dataset[i][variables[j]] + "</td>";
         }
         content += '</tr>';
 	}
-    document.getElementById("1").innerHTML = content;
+
+	document.getElementById("data_table").innerHTML = content;
+
+    //default selection
+    var data_id = 0;
+    var datapoint = json_dataset[data_id];
+
+    $(".data-id").click( function() {
+    	data_id = parseInt($(this).attr('class'));
+    	datapoint = json_dataset[data_id];
+    });
+
 </script>
+<script src="{{ url_for('static', filename = 'js/face.js') }}"></script>
 {% endblock %}

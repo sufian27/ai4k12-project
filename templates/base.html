@@ -4,11 +4,12 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Materialize CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='public/css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/D3face.css') }}" />
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <!-- Materialize JS -->
-    <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/chernoff.js') }}"></script>
+    <script src="{{ url_for('static', filename='public/js/bootstrap.js') }}"></script>
     <script type="text/javascript">var example = 0;</script>
     {% if example %}
     <script type="text/javascript">example = {{ example }};</script>

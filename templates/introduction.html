@@ -2,20 +2,34 @@
 
 {% block content %}
 <img src="{{ url_for('static', filename = 'img/example' + example + '/intro.jpg') }}" width="50%">
-<a class="waves-effect waves-light btn-large">Next</a>
+<a class="btn btn-primary" role="button">Next</a>
 {% endblock %}
 
 {% block script %}
 <script>
 	var dataset = {{ json_data|tojson }};
 	var json_dataset = JSON.parse(dataset);
-	var sub_dataset = json_dataset.records.slice(0, 212)
+	var sub_dataset = json_dataset.records.slice(0, 210)
+	var variables = Object.keys(sub_dataset[0]);
 	var str_dataset = JSON.stringify(sub_dataset);
 	localStorage.setItem('localDataset', str_dataset);
+
+	var mapping = {};
+	var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc", "nw", "nh"];
+
+	for (i = 0; i < variables.length; i++) {
+		if (i <= facial_feature.length) {
+			mapping[variables[i]] = facial_feature[i];
+		} else {
+			mapping[variables[i]] = 0;
+		}
+	}
+	var str_mapping = JSON.stringify(mapping);
+	localStorage.setItem('mappingRule', str_mapping);
+
 	var example = {{ example }};
-	$(".btn-large").click( function() {
+	$(".btn").click( function() {
 		$(this).attr("href", "/var?example=" + example);
 	});
 </script>
-<script src="{{ url_for('static', filename = 'js/index.js') }}"></script>
 {% endblock %}
