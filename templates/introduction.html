@@ -15,13 +15,13 @@
 	localStorage.setItem('localDataset', str_dataset);
 
 	var mapping = {};
-	var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc", "nw", "nh"];
+	var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc"];
 
 	for (i = 0; i < variables.length; i++) {
-		if (i <= facial_feature.length) {
+		if (i < facial_feature.length) {
 			mapping[variables[i]] = facial_feature[i];
 		} else {
-			mapping[variables[i]] = 0;
+			mapping[variables[i]] = "0";
 		}
 	}
 	var str_mapping = JSON.stringify(mapping);
