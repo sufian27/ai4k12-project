@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 from flask_sqlalchemy import SQLAlchemy
 
 #init dataset database
-conn = sqlite3.connect("datasets.db", check_same_thread=False) #We need to serialize if multiple write operations later
+conn = sqlite3.connect("datasets.db", check_same_thread=False) #todo: We need to serialize if multiple write operations later
 c = conn.cursor()
 #init app
 app = Flask(__name__)
@@ -15,6 +15,7 @@ db = SQLAlchemy(app)
 from models import User, User_Action
 from helpers import get_db_data_json, create_table_from_csv, get_values_str, get_fields_str
 db.create_all()
+json_object = get_db_data_json(1) #todo: store the dataset as a global variable that all the webpage can access (try session?)
 
 @app.before_request
 def before_request(): #set global user
@@ -31,20 +32,6 @@ def index():
     db.session.add(User_Action('user at home page', session['user_id'])) #log data 
     db.session.commit()
     return render_template('index.html', title='Home')
-    
-@app.route('/intro', methods=['GET', 'POST'])
-def introduction():
-    if g.user == None:
-        return redirect(url_for('login'))
-
-    if request.method == 'POST':
-        create_table_from_csv(int(request.form['group1']))
-        json_object = get_db_data_json(int(request.form['group1']))
-        db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
-        db.session.commit()
-        return render_template('introduction.html', json_data = json_object, example = "example1", title='Introduction') #render next page with passing json object
-    else:
-        return 'Invalid Data'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -86,6 +73,29 @@ def add():
     
     return render_template('add.html', added = added, user_id = user_id, unique = unique)
 
+@app.route('/intro', methods=['GET', 'POST'])
+def introduction():
+    if g.user == None:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        create_table_from_csv(int(request.form['group1']))
+        print(int(request.form['group1']))
+        json_object = get_db_data_json(int(request.form['group1']))
+        db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('introduction.html', json_data = json_object, example = "example1", title='Introduction') #render next page with passing json object
+    else:
+        return 'Invalid Data'
+
+@app.route('/var', methods = ['GET', 'POST'])
+def var():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        return render_template('var.html', json_data = json_object, example = "example1", title='Variable') #render next page with passing json object
+    else:
+        return 'Invalid Data'
 
 if __name__ == "__main__":
     app.run()

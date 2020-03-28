@@ -1,12 +1,17 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-<img src="{{ url_for('static', filename = 'img/' + example + '/intro.jpg') }}" width="100%">
+<img src="{{ url_for('static', filename = 'img/' + example + '/intro.jpg') }}" width="50%">
+<a class="waves-effect waves-light btn-large" href="/var">Next</a>
 {% endblock %}
 
 {% block script %}
 <script>
 	var dataset = '{{ json_data|tojson }}';
+	// console.log(dataset);
+	// var str_dataset = JSON.stringify(dataset);
+	// localStorage.setItem('localDataset', str_dataset); 
+	
 </script>
 <script src="{{ url_for('static', filename = 'js/index.js') }}"></script>
 {% endblock %}

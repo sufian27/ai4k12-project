@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>TEST</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	var dataset = '{{ json_data|tojson }}';
+	console.log(dataset);
+</script>
+{% endblock %}
