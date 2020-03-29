@@ -1,3 +1,0 @@
-1. Refresh introduction page, the page will return "invalid data"
-2. http://127.0.0.1:5000/favicon.ico 404 (NOT FOUND)
-3. "/var" logic.js:1 Uncaught SyntaxError: Identifier 'LOGIC_VERSION' has already been declared at VM88 logic.js:1

@@ -106,12 +106,16 @@
 
             //////////////////// MY CODE BELOW (Zhaoxiong) /////////////
             ele.append('circle')
-                .attr('r',53)
+                .attr('r',50)
                 .attr('fill', '#F3D681')
-                .attr('transform', `translate(70,110)`);
+                // .attr('transform', `translate(70,110)`);
+                .attr('transform', `translate(50,50)`);
 
-            let xoffset = 70,
-                yoffset = 110+mv_var; //130+mv_var
+            //let xoffset = 70,
+            //    yoffset = 110+mv_var; //130+mv_var
+
+            let xoffset = 50,
+                yoffset = 50+mv_var; //130+mv_var
 
             let mouth = [{x: xoffset, y: yoffset+mc_var-mouthOpensize},
                         {x: xoffset+ms_var, y: yoffset},
@@ -121,12 +125,17 @@
             ele.selectAll("path.mouth").data([mouth]).enter()
                 .append("path")
                 .attr("class", "mouth")
+                .attr('fill', '#e25c6e')
                 .attr("d", line);
 
             // Eyes //
-            let leyex = 50,
-                reyex = 90,
-                eyey = 95;
+            // let leyex = 50,
+            //     reyex = 90,
+            //     eyey = 95;
+
+            let leyex = 30,
+                reyex = 70,
+                eyey = 35;
 
             let leye = [{x: leyex, y: eyey-er_var}, {x: leyex+er_var, y: eyey},
                         {x: leyex, y: eyey+er_var}, {x: leyex-er_var, y: eyey}];
@@ -152,7 +161,8 @@
             // Eyebrows //
             ele.append('rect')
                 .attr('x', -eyeSpacing - bl_var / 2 - browSpacing)
-                .attr('transform', `translate(68, ${-1*eyeVertical+bv_var+74}) rotate(${bs_var})`)
+                // .attr('transform', `translate(68, ${-1*eyeVertical+bv_var+74}) rotate(${bs_var})`)
+                .attr('transform', `translate(48, ${-1*eyeVertical+bv_var+14}) rotate(${bs_var})`)
                 .attr('width', bl_var)
                 .attr('height', browThickness)
                 .transition();
@@ -164,20 +174,23 @@
                 .attr('x', eyeSpacing - bl_var / 2 + browSpacing)
                 // .attr('transform', ``)
                 // .attr('transform', `rotate(-20 * (Math.PI / 180))`)
-                .attr('transform', `translate( 72, ${-1*eyeVertical+bv_var+74}) rotate(-${bs_var})`)
+                // .attr('transform', `translate( 72, ${-1*eyeVertical+bv_var+74}) rotate(-${bs_var})`)
+                .attr('transform', `translate( 52, ${-1*eyeVertical+bv_var+14}) rotate(-${bs_var})`)
                 .attr('width', bl_var)
                 .attr('height', browThickness);
 
             // Pupils //
             ele.append("circle")
-                .attr("transform", `translate(66, ${-1*eyeVertical+79})`)
+                // .attr("transform", `translate(66, ${-1*eyeVertical+79})`)
+                .attr("transform", `translate(46, ${-1*eyeVertical+19})`)
                 .attr("class","pupil")
                 .attr("r",pupilSize)
                 .attr('cx', -eyeSpacing)
                 .attr('cy', pupilHeight);
 
             ele.append('circle')
-                .attr("transform", `translate(74, ${-1*eyeVertical+79})`)
+                // .attr("transform", `translate(74, ${-1*eyeVertical+79})`)
+                .attr("transform", `translate(54, ${-1*eyeVertical+19})`)
                 .attr("class", "pupil")
                 .attr('r', pupilSize)
                 .attr('cx', eyeSpacing)

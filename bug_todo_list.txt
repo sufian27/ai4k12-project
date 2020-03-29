@@ -1,0 +1,5 @@
+1. Refresh introduction page, the page will return "invalid data"
+2. http://127.0.0.1:5000/favicon.ico 404 (NOT FOUND)
+3. "/var" logic.js:1 Uncaught SyntaxError: Identifier 'LOGIC_VERSION' has already been declared at VM88 logic.js:1
+4. The png images generated from sag show the mouth of a face is black, which is not the correct color.
+5. The current affordance is only 7, which is too little. Consider nose feature in the future(as less important feature)
