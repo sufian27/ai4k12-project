@@ -1,5 +1,5 @@
 $(document).ready( function() {
-	function chernoffFace() {
+	function chernoffFace1() {
 		var width = 100, height = 100;
 		var chernoff = d3.chernoff()
 			.face(function(d) { return d.f; })
@@ -121,14 +121,14 @@ $(document).ready( function() {
     }
 
 	d3.select("#face")
-		.call(chernoffFace());
+		.call(chernoffFace1());
 
 	$("#data_table .data-id").click( function() {
     	data_id = parseInt($(this).text());
     	datapoint = json_dataset[data_id];
     	d3.select("#face svg").remove();
     	d3.select("#face")
-    		.call(chernoffFace());
+    		.call(chernoffFace1());
     });
 
 });

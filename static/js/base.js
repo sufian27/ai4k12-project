@@ -1,12 +1,13 @@
 ﻿$(document).ready(function(){
 	// alert("test");
-    function reload() {
+    function tool_reload() {
         var container = $("#toolbox");
         var content = container.innerHTML;
         container.innerHTML= content; 
     }
-    reload();
+    tool_reload();
     if(example > 0) {
     	$(".dataset2face").attr("href", "/dataset2face?example=" + example);
     }
+
 });

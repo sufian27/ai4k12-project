@@ -1,5 +1,4 @@
 $(document).ready( function() {
-
     $("#all_faces .btn").click( function() {
         $("#data_table").toggleClass("hidden");
         $("#face").toggleClass("hidden");
@@ -10,20 +9,58 @@ $(document).ready( function() {
 
         var face_plance_content = "";
         for (data_id = 0; data_id < json_dataset.length; data_id++) {
-            face_plance_content += '<td id = "id' + data_id + '"></td>';
+            face_plance_content += '<span id = "id' + data_id + '"></span>';
         }
         document.getElementById("face_table").innerHTML = face_plance_content;
 
+        // for (data_id = 0; data_id < 7; data_id++) {
         for (data_id = 0; data_id < json_dataset.length; data_id++) {
-            datapoint = json_dataset[data_id];
-            face_place_id = "#id" + data_id;
-            d3.select(face_place_id)
-                .call(chernoffFace());
+            setTimeout((function(data_id) {
+                datapoint = json_dataset[data_id];
+                var face_place_id = "#id" + data_id;
+                d3.select(face_place_id)
+                    .call(chernoffFace2());
+
+                //codes to transfer the canvas as a png image:
+                var svgtag = face_place_id + " svg";
+                console.log(svgtag);
+                var svg_face = document.querySelector(svgtag);
+                var svgData = new XMLSerializer().serializeToString(svg_face);
+                var canvas = document.createElement("canvas");
+                var svgSize = svg_face.getBoundingClientRect();
+                canvas.width = svgSize.width;
+                canvas.height = svgSize.height;
+                var ctx = canvas.getContext("2d");
+                var img = document.createElement("img");
+                img.setAttribute( "src", "data:image/svg+xml;base64," + btoa( svgData ) );
+                
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0);
+                    var imgUrl = canvas.toDataURL( "image/png" );
+                    console.log( imgUrl );
+                    imgUrl = imgUrl.substring(22);
+                    var imgData = {};
+                    imgData[data_id] = imgUrl; //codes from https://blog.csdn.net/weixin_41679938/java/article/details/89400287
+                    var senddata = JSON.stringify(imgData);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/uploadcanvas", true);
+                    xhr.setRequestHeader('content-type', 'application/json');
+                    xhr.send(JSON.stringify(senddata));
+                }
+            })(data_id),(function(data_id){
+                console.log(data_id);
+                return data_id * 1000;
+            })(data_id));
+            // codes to download png image
+            // var link = document.createElement('a');
+            // link.download = data_id + '.png';
+            // link.href = canvas.toDataURL("image/png");
+            // link.click();  
         }
 
     });
 
-	function chernoffFace() {
+	function chernoffFace2() {
 		var width = 100, height = 100;
 		var chernoff = d3.chernoff()
 			.face(function(d) { return d.f; })
@@ -71,44 +108,6 @@ $(document).ready( function() {
         			d[facial] = data_new[key];
         		}
         	}
-        	// console.log(new_data);
-        	// for (key in new_data) {
-        	// 	console.log(key);
-        	// 	console.log(json_mapping[key]);
-        	// 	console.log(new_data[key]);
-
-        		// switch(json_mapping[key]) {
-        		// 	case 'er':
-	         //  			output = document.getElementById("area");
-	         //  			output.innerHTML = new_data[key].toFixed(2);
-	         //            break;
-	         //        case 'bs':
-	         //            output = document.getElementById("perimeter");
-	         //            output.innerHTML = new_data[key].toFixed(2);
-	         //            break;
-	         //        case 'bl':
-	         //            output = document.getElementById("compactness");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'bv':
-	         //            output = document.getElementById("klength");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'ms':
-	         //            output = document.getElementById("kwidth");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'mv':
-	         //            output = document.getElementById("asymmetry");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'mc':
-	         //            output = document.getElementById("glength");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //         default:
-	         //         	break;
-        		// }
         	return [d];
         }
 
@@ -143,20 +142,5 @@ $(document).ready( function() {
 
         return draw;
     }
-
-    //use to generate png images:
-    // var svg = document.querySelector( "#face svg" );
-    // var svgData = new XMLSerializer().serializeToString( svg );
-    // var canvas = document.createElement( "canvas" );
-    // var svgSize = svg.getBoundingClientRect();
-    // canvas.width = svgSize.width;
-    // canvas.height = svgSize.height;
-    // var ctx = canvas.getContext( "2d" );
-    // var img = document.createElement( "img" );
-    // img.setAttribute( "src", "data:image/svg+xml;base64," + btoa( svgData ) );
-    // img.onload = function() {
-    //     ctx.drawImage( img, 0, 0 );
-    //     console.log( canvas.toDataURL( "image/png" ) );
-    // };
 
 });

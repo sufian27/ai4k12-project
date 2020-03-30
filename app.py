@@ -1,6 +1,7 @@
 import sqlite3, os
 import csv, json
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g
+import base64
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g, make_response
 from flask_sqlalchemy import SQLAlchemy
 
 #init dataset database
@@ -106,6 +107,25 @@ def dataset2face():
         return render_template('dataset2face.html', example = str(example_index), title='Dataset to Face')
     else:
         return 'Invalid Data'
+
+@app.route('/uploadcanvas', methods = ['GET', 'POST'])
+def testing():
+    if request.method == 'POST':
+        #from https://blog.csdn.net/weixin_41679938/java/article/details/89400287
+        recv_data = request.get_json()
+        if recv_data is None:
+            print("request.get_json() is None")
+            recv_data = request.get_data()
+
+        json_re = json.loads(recv_data)
+        image_name = json_re.keys()[0]
+        imgRes = json_re[image_name]
+        file_path = './image/' + image_name + '.png'  
+        imgdata = base64.b64decode(imgRes)    
+        file = open(file_path, "wb")
+        file.write(imgdata)
+        file.close()
+        return render_template('uploadcanvas.html')
 
 if __name__ == "__main__":
     app.run()
