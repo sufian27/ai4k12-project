@@ -7,4 +7,4 @@
 7. How about create a txt file in the root and all the user id in the txt file (each in a row) will be added to the database and only the id on the file can log in
 8. integrate chernoffFace1(), chernoffFace2() and chernoffFace3()
 9. currently the function to transfer data to 0-1 for chernoff face generation is fixed
-10. the problem of generating all the images dynamically (check if generated already)
+10. create a global var in app.py to identify the image path "image/which user/which example"

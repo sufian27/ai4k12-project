@@ -23,7 +23,6 @@ $(document).ready( function() {
 
                 //codes to transfer the canvas as a png image:
                 var svgtag = face_place_id + " svg";
-                console.log(svgtag);
                 var svg_face = document.querySelector(svgtag);
                 var svgData = new XMLSerializer().serializeToString(svg_face);
                 var canvas = document.createElement("canvas");
@@ -37,18 +36,20 @@ $(document).ready( function() {
                 img.onload = function() {
                     ctx.drawImage(img, 0, 0);
                     var imgUrl = canvas.toDataURL( "image/png" );
-                    console.log( imgUrl );
                     imgUrl = imgUrl.substring(22);
                     var imgData = {};
                     imgData[data_id] = imgUrl; //codes from https://blog.csdn.net/weixin_41679938/java/article/details/89400287
+                    imgData["example"] = example;
                     var senddata = JSON.stringify(imgData);
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/uploadcanvas", true);
+                    var uploadcanvas = "/uploadcanvas";
+                    xhr.open("POST", uploadcanvas, true);
                     xhr.setRequestHeader('content-type', 'application/json');
                     xhr.send(JSON.stringify(senddata));
                 }
+                
+
             })(data_id),(function(data_id){
-                console.log(data_id);
                 return data_id * 1000;
             })(data_id));
             // codes to download png image

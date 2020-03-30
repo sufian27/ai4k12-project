@@ -118,13 +118,27 @@ def testing():
             recv_data = request.get_data()
 
         json_re = json.loads(recv_data)
-        image_name = json_re.keys()[0]
-        imgRes = json_re[image_name]
-        file_path = './image/' + image_name + '.png'  
-        imgdata = base64.b64decode(imgRes)    
-        file = open(file_path, "wb")
-        file.write(imgdata)
-        file.close()
+        keys = json_re.keys()
+        for i in keys:
+            if i == "example":
+                example_id = json_re[i]
+            else:
+                image_name = i
+                imgRes = json_re[image_name]        
+        imgdata = base64.b64decode(imgRes)
+        
+        user_id = g.user.id    
+        folder_path = './image/user' + str(user_id) + '/' + 'example' + str(example_id) + '/'
+        isFolder = os.path.isdir(folder_path) 
+        if not isFolder:
+            os.makedirs(folder_path)
+        
+        file_path = folder_path + image_name + '.png'
+        isFile = os.path.isfile(file_path)
+        if not isFile:
+            file = open(file_path, "wb")
+            file.write(imgdata)
+            file.close()
         return render_template('uploadcanvas.html')
 
 if __name__ == "__main__":
