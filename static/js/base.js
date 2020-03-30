@@ -1,5 +1,4 @@
-﻿$(document).ready(function(){
-	// alert("test");
+﻿$(document).ready(function() {
     function tool_reload() {
         var container = $("#toolbox");
         var content = container.innerHTML;

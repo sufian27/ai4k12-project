@@ -140,6 +140,8 @@ def testing():
             file.write(imgdata)
             file.close()
         return render_template('uploadcanvas.html')
+    else:
+        return 'Invalid Data'
 
 if __name__ == "__main__":
     app.run()
