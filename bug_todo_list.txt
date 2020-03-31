@@ -8,3 +8,6 @@
 8. integrate chernoffFace1(), chernoffFace2() and chernoffFace3()
 9. currently the function to transfer data to 0-1 for chernoff face generation is fixed
 10. create a global var in app.py to identify the image path "image/which user/which example"
+
+11. only when view_all_faces is clicked, all the images are generated and can be used
+12. bug: first click compare faces then before click view all faces button

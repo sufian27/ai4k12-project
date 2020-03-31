@@ -15,6 +15,9 @@
 
 {% block script %}
 <script>
+	function readpara (para) {
+		return para;
+	}
 	var getLocalData = localStorage.getItem('localDataset');
 	var json_dataset = JSON.parse(getLocalData);
 	getLocalData = localStorage.getItem('mappingRule');
@@ -41,7 +44,7 @@
     //default selection
     var data_id = 0;
     var datapoint = json_dataset[data_id];
-    var example = {{ example }};
+    var example = readpara( {{ example }} );
 
 </script>
 <script src="{{ url_for('static', filename = 'js/face.js') }}"></script>

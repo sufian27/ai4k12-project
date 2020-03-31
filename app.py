@@ -8,7 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 conn = sqlite3.connect("datasets.db", check_same_thread=False) #todo: We need to serialize if multiple write operations later
 c = conn.cursor()
 #init app
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.secret_key = os.urandom(24)
 #init log database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -108,6 +109,16 @@ def dataset2face():
     else:
         return 'Invalid Data'
 
+@app.route('/compare', methods = ['GET', 'POST'])
+def compare():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        return render_template('compare.html', example = str(example_index), title='Smilarity Comparison')
+    else:
+        return 'Invalid Data'
+
 @app.route('/uploadcanvas', methods = ['GET', 'POST'])
 def testing():
     if request.method == 'POST':
@@ -128,7 +139,7 @@ def testing():
         imgdata = base64.b64decode(imgRes)
         
         user_id = g.user.id    
-        folder_path = './image/user' + str(user_id) + '/' + 'example' + str(example_id) + '/'
+        folder_path = './static/image/user' + str(user_id) + '/' + 'example' + str(example_id) + '/'
         isFolder = os.path.isdir(folder_path) 
         if not isFolder:
             os.makedirs(folder_path)

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
+		<div>
+			<div class="compare_canvas"></div>
+			<div class="compare_index"></div>
+		</div>
+	</div>
+	<div id="face_browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	function readpara (para) {
+		return para;
+	}
+	var example_id = readpara( {{ example | safe }} );
+	var user_id = readpara( {{ g.user.id | safe }} );
+	var getLocalData = localStorage.getItem('localDataset');
+	var json_dataset = JSON.parse(getLocalData);
+	getLocalData = localStorage.getItem('mappingRule');
+	var json_mapping = JSON.parse(getLocalData);
+	var variables = Object.keys(json_dataset[0]);
+
+	var content = "";
+    for (data_id in json_dataset) {
+    	var src = "/static/image/user" + user_id + "/example" + example_id + "/" + data_id + ".png";
+    	content += "<span id = 'span" + data_id + "'><img id = 'drag" + data_id +"' src = '" + src + "' width = '35' >" + "</span>";
+    	console.log(content);
+    }
+    document.getElementById("face_browser").innerHTML = content;
+</script>
+{% endblock %}
