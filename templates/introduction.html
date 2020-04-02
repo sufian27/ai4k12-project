@@ -14,7 +14,9 @@
 	}
 	var dataset = {{ json_data|tojson }};
 	var full_json_dataset = JSON.parse(dataset);
-	var json_dataset = full_json_dataset.records.slice(0, 210)
+	// var json_dataset = full_json_dataset.records.slice(0, 210)
+	var json_dataset = full_json_dataset.records;
+	console.log(json_dataset.length);
 	var variables = Object.keys(json_dataset[0]);
 	var str_dataset = JSON.stringify(json_dataset);
 	localStorage.setItem('localDataset', str_dataset);
