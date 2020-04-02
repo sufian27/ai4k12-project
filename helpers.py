@@ -6,6 +6,10 @@ def get_db_data_json(dataset):
     table_name = ''
     if dataset == 1:
         table_name = 'winequality_white'
+    elif dataset == 2:
+        table_name = 'beetle_richness'
+    elif dataset == 3:
+        table_name = 'breast_cancer'
     #add different dataset conditions later
     result = c.execute('SELECT * FROM {}'.format(table_name))
     records = [dict(zip([key[0] for key in c.description], row)) for row in result] 
@@ -16,16 +20,58 @@ def create_table_from_csv(dataset):
     file_name = ''
     if dataset == 1:
         file_name = 'winequality_white.csv'
+    elif dataset == 2:
+        file_name = 'beetle_richness.csv'
+    elif dataset == 3:
+        file_name = 'breast_cancer.csv'
 
     with open(file_name) as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=";") #for breast_cancer.csv, change delimiter to ,
+        reader = csv.DictReader(csvfile, delimiter=",") #for breast_cancer.csv, change delimiter to ,
         table_name = file_name.split('.')[0]
-        c.execute('CREATE TABLE IF NOT EXISTS ' + table_name + ' ('
-         + get_fields_str(reader.fieldnames) + ')'
-        ) #create table
-        for row in reader:            
-            c.execute('INSERT INTO ' + table_name + 
-            ' VALUES (' + get_values_str(reader, row) + ')') #insert values into table
+        if dataset == 1:
+            command = ''' CREATE TABLE IF NOT EXISTS winequality_white (
+                fixed_acidity real, volatile_acidity real, 
+                citric_acid real, residual_sugar real, 
+                chlorides real, free_sulfur_dioxide real, 
+                total_sulfur_dioxide real, density real, 
+                pH real, sulphates real, alcohol real, quality real
+            ) '''
+        elif dataset == 2:
+            command = ''' CREATE TABLE IF NOT EXISTS beetle_richness (
+                NEON_Site text primary key, Latitude real, 
+                Longitude real, Elevation_m real, 
+                Mean_Temp_degC real, Mean_Ann_Precip_mm real, 
+                Mean_Canopy_Height_m real, 
+                Mammal_Richness real, Beetles_Richness real
+            ) '''
+        elif dataset == 3:
+            command = ''' CREATE TABLE IF NOT EXISTS breast_cancer (
+                id_num integer, clump_thickness integer,
+                uniformity_of_cell_size integer, uniformity_of_cell_shape integer, 
+                marginal_adhesion integer, single_epithelial_cell_size integer, 
+                bare_nuclei integer, bland_chromatin integer, 
+                normal_nucleoli integer, mitoses integer, class integer
+            )''' #fix dataset
+
+
+        c.execute(command) #create table
+
+        for row in reader: 
+            vals = get_values_str(reader, row)
+
+            if dataset == 1:
+                command = 'INSERT INTO winequality_white VALUES (' + vals + ')'
+            elif dataset == 2:
+                vals = ''.join(['"'+ vals[:4] + '"', vals[4:]])
+                command = 'INSERT INTO beetle_richness VALUES (' + vals + ')'
+            elif dataset == 3:
+                command = 'INSERT INTO breast_cancer VALUES (' + vals + ')' 
+
+            try:
+                c.execute(command) #insert values into table
+            except:
+                print('Not unique data')
+
         conn.commit()
 
 def get_values_str(reader, row):
@@ -35,11 +81,11 @@ def get_values_str(reader, row):
     values_str = ", ".join(values) #create string from values in a record
     return values_str
 
-def get_fields_str(fields):
-    fields_str = ''
-    for i in range(0, len(fields)):
-        if i == len(fields)-1:
-            fields_str += fields[i] + ' real'
-        else:
-            fields_str += fields[i] + ' real, '
-    return fields_str
+# def get_fields_str(fields):
+#     fields_str = ''
+#     for i in range(0, len(fields)):
+#         if i == len(fields)-1:
+#             fields_str += fields[i] + ' real'
+#         else:
+#             fields_str += fields[i] + ' real, '
+#     return fields_str

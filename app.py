@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 db = SQLAlchemy(app)
 from models import User, User_Action
-from helpers import get_db_data_json, create_table_from_csv, get_values_str, get_fields_str
+from helpers import get_db_data_json, create_table_from_csv
 db.create_all()
 # json_object = get_db_data_json(1) #todo: store the dataset as a global variable that all the webpage can access (try session?)
 
