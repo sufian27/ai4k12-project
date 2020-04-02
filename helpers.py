@@ -51,7 +51,7 @@ def create_table_from_csv(dataset):
                 marginal_adhesion integer, single_epithelial_cell_size integer, 
                 bare_nuclei integer, bland_chromatin integer, 
                 normal_nucleoli integer, mitoses integer, class integer
-            )''' #fix dataset
+            )''' 
 
 
         c.execute(command) #create table
@@ -70,8 +70,8 @@ def create_table_from_csv(dataset):
             try:
                 c.execute(command) #insert values into table
             except:
-                print('Not unique data')
-
+                pass
+            
         conn.commit()
 
 def get_values_str(reader, row):

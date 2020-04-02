@@ -27,14 +27,21 @@ def before_request(): #set global user
         user = User.query.get(session['user_id'])
         g.user = user
         
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def index():
     if g.user == None:
         return redirect(url_for('login'))
 
-    db.session.add(User_Action('user at home page', session['user_id'])) #log data 
-    db.session.commit()
-    return render_template('index.html', title='Home')
+    if request.method == "POST": #handle asynchronous request
+        req = request.get_json()
+        db.session.add(User_Action('user checked checkbox {}'.format(req['val']), session['user_id']))
+        db.session.commit()
+        res = make_response(jsonify(req), 200)
+        return res
+    else: 
+        db.session.add(User_Action('user at home page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('index.html', title='Home')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -84,7 +91,8 @@ def introduction():
     example_index = request.args.get('example', default = 0, type = int)
     create_table_from_csv(example_index)
     json_object = get_db_data_json(example_index)
-
+    
+    db.session.add(User_Action('user made dataset selection {}'.format(example_index), session['user_id']))
     db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
     db.session.commit()
     return render_template('introduction.html', json_data = json_object, example = str(example_index), title='Introduction') #render next page with passing json object
