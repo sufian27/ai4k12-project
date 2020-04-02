@@ -7,7 +7,7 @@
 <form action="/add" method="post">
     <p>
         <label>
-            <input type="text" name="user_id" placeholder="Enter username to add">
+            <input type="text" name="user_id" required="required" placeholder="Enter username to add">
         </label>
     </p>
     {% if not unique %}

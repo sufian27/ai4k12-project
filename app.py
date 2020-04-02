@@ -71,9 +71,9 @@ def logout():
 def add():
     added = False
     unique = True
-    user_id = 0
+    user_id = None
     if request.method == 'POST':
-        try:
+        try: 
             db.session.add(User(request.form['user_id']))
             db.session.commit()
             user_id = request.form['user_id']
