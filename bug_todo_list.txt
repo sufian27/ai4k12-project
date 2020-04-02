@@ -12,3 +12,6 @@
 11. only when view_all_faces is clicked, all the images are generated and can be used
 12. bug: first click compare faces then before click view all faces button
 13. redo dataset database for final study
+
+14. Modification: log in directly after add new users.
+15. default selection for the example selection page
