@@ -23,11 +23,12 @@
 	}
 	var example_id = readpara( {{ example | safe }} );
 	var user_id = readpara( {{ g.user.id | safe }} );
+	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var getLocalData = localStorage.getItem('localDataset');
 	var json_dataset = JSON.parse(getLocalData);
 	getLocalData = localStorage.getItem('mappingRule');
 	var json_mapping = JSON.parse(getLocalData);
-	var variables = Object.keys(json_dataset[0]);
+	// var variables = Object.keys(json_dataset[0]);
 
 	var current_id = 0;
 
@@ -95,25 +96,27 @@
     		.end()  //again go back to selected element
     		.text();
     	var data_id = parseInt(id) - 1;
-    	var image = $("#drag" + data_id);
-    	$("#drag" + data_id).remove();
-    	image.attr("width", 35);
-    	image.css("opacity", 1);
-    	$("#wrap" + data_id).append(image);
-    	$("#wrap" + data_id).css('opacity', 1);
-    	$("#drag" + data_id).removeClass("overlay");
-    	$("#drag" + data_id).css('z-index', 0);
-    	var canvas_id = $(this).parent(".badge").parent(".compare-index").siblings(".compare-canvas").attr("id");
-    	var x = $("#" + canvas_id).children().length;
-    	if (x!=0) {
-    		$("#" + canvas_id).children("img").css('opacity', 1/x);
+    	
+    	if (!$("#drag" + data_id).hasClass('hidden')) {
+    		var image = $("#drag" + data_id);
+	    	$("#drag" + data_id).remove();
+	    	image.attr("width", 35);
+	    	image.css("opacity", 1);
+	    	$("#wrap" + data_id).append(image);
+	    	$("#wrap" + data_id).css('opacity', 1);
+	    	$("#drag" + data_id).removeClass("overlay");
+	    	$("#drag" + data_id).css('z-index', 0);
+	    	var canvas_id = $(this).parent(".badge").parent(".compare-index").siblings(".compare-canvas").attr("id");
+	    	var x = $("#" + canvas_id).children().length;
+	    	if (x!=0) {
+	    		$("#" + canvas_id).children("img").css('opacity', 1/x);
+	    	}
+	    	$(this).parent(".badge").remove();
     	}
-    	$(this).parent(".badge").remove();
 	});
 
 	$(".add-btn").click(function () {
 		var current_num = $('.compare-block').length;
-		console.log(current_num);
 		var compare_template = $('.compare-block').eq(0).clone();
 		compare_template.children(".compare-canvas").children().remove();
 		compare_template.children(".compare-index").children().remove();
@@ -124,4 +127,5 @@
 
 </script>
 <script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
 {% endblock %}

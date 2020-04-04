@@ -120,7 +120,7 @@ $(document).ready( function() {
         return draw;
     }
 
-    console.log(datapoint_face);
+    // console.log(datapoint_face);
 	d3.select("#face")
 		.call(chernoffFace1());
 
