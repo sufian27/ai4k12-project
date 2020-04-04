@@ -4,13 +4,14 @@
 <div class="row">
 	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
 		<div class="row">
-			<div class="col">
-				<div class="compare_canvas" id = "canvas0" style="height: 100px; width: 100px; background-color: #d5f4e6; z-index: 0; position: relative;" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div>
-				<div class="compare_index"></div>				
+			<div class="col compare-block">
+				<div class="compare-canvas" id = "canvas0" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div>
+				<div class="compare-index"></div>				
 			</div>
+			<button type="button" class="btn btn-primary add-btn">+</button>			
 		</div>
 	</div>
-	<div id="face_browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
+	<div id="face-browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
 </div>
 {% endblock %}
 
@@ -43,7 +44,7 @@
         var data_element = document.getElementById(data);
         if(typeof(data_element) != 'undefined' && data_element != null) {
 	        data_element.width = "100";
-	        if (ev.target.className == 'compare_canvas') {
+	        if (ev.target.className == 'compare-canvas') {
 	        	var x = ev.target.childElementCount;
 	        	data_element.style.zIndex = x.toString();
 	        	ev.target.appendChild(data_element);
@@ -57,10 +58,9 @@
 
 	        var canvas_id = elem.previousElementSibling.id;
 	        var canvas_id_val = parseInt(canvas_id.substr(6));
-	        // $(".compare_canvas img").css('position', 'absolute');
-	        $(".compare_canvas img").css('top', 0 );
-	        $(".compare_canvas img").css('left', 100*canvas_id_val );
-	        $(".compare_canvas img").addClass("overlay");
+	        // $(".compare-canvas img").css('top', 0 );
+	        // $(".compare-canvas img").css('left', 100*canvas_id_val );
+	        $(".compare-canvas img").addClass("overlay");
 	        
 	        $("#" + canvas_id).children("img").css('opacity', 1/(x+1));
 
@@ -103,12 +103,23 @@
     	$("#wrap" + data_id).css('opacity', 1);
     	$("#drag" + data_id).removeClass("overlay");
     	$("#drag" + data_id).css('z-index', 0);
-    	var canvas_id = $(this).parent(".badge").parent(".compare_index").siblings(".compare_canvas").attr("id");
+    	var canvas_id = $(this).parent(".badge").parent(".compare-index").siblings(".compare-canvas").attr("id");
     	var x = $("#" + canvas_id).children().length;
     	if (x!=0) {
     		$("#" + canvas_id).children("img").css('opacity', 1/x);
     	}
     	$(this).parent(".badge").remove();
+	});
+
+	$(".add-btn").click(function () {
+		var current_num = $('.compare-block').length;
+		console.log(current_num);
+		var compare_template = $('.compare-block').eq(0).clone();
+		compare_template.children(".compare-canvas").children().remove();
+		compare_template.children(".compare-index").children().remove();
+		compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);
+		// $('.compare-row').append(compare_template);
+		$(this).before(compare_template);
 	});
 
 </script>

@@ -2,16 +2,37 @@
 	display: none;
 }
 
-.compare_index {
+.compare-canvas {
+	height: 100px; 
+	width: 100px; 
+	background-color: #d5f4e6; 
+	z-index: 0; 
+	position: relative;
+}
+
+.compare-index {
 	margin-left: 10px;
 	padding-left: 10px;
 	width: 100px;
 }
 
+.compare-block {
+	margin-left: 20px;
+	margin-top: 20px;
+	float: left;
+}
+
+.compare-row {
+}
+
+.add-btn {
+	float: right;
+}
+
 .overlay {
 	position: absolute; 
-/*	top: 0px; 
-	left: 0px; */
+	top: 0px; 
+	left: 0px; 
 }
 
 .pointer_cursor {

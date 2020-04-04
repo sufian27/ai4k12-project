@@ -7,10 +7,10 @@
     	content += "<div class = 'conbox' id = 'wrap" + data_id + "' ><img id = 'drag" + data_id +"' src = '" + src + "' width = '35' draggable = 'true' ondragstart = 'drag(event)' class = 'pointer_cursor' >" + "</div>";
     
     }
-    document.getElementById("face_browser").innerHTML = content;
+    document.getElementById("face-browser").innerHTML = content;
 
     for (var data_id = 0; data_id < json_dataset.length; data_id++) {
-    	$('.conbox').eq(data_id).css({ 'width': '35px', 'height': '35px', 'background': 'transparent url("' + $('#face_browser div').eq(data_id).find('img').attr('src') + '") no-repeat center', 'background-size': 'contain', 'filter': 'alpha(opacity=20)' })
+    	$('.conbox').eq(data_id).css({ 'width': '35px', 'height': '35px', 'background': 'transparent url("' + $('#face-browser div').eq(data_id).find('img').attr('src') + '") no-repeat center', 'background-size': 'contain', 'filter': 'alpha(opacity=20)' })
     }
 
 });
