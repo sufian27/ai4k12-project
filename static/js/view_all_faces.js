@@ -16,15 +16,16 @@ $(document).ready( function() {
         })
 
         var face_plance_content = "";
-        for (data_id = 0; data_id < json_dataset.length; data_id++) {
+        for (data_id = 0; data_id < dataset_face.length; data_id++) {
             face_plance_content += '<span id = "id' + data_id + '"></span>';
         }
         document.getElementById("face_table").innerHTML = face_plance_content;
 
         // for (data_id = 0; data_id < 7; data_id++) {
-        for (data_id = 0; data_id < json_dataset.length; data_id++) {
+        for (data_id = 0; data_id < dataset_face.length; data_id++) {
             setTimeout((function(data_id) {
-                datapoint = json_dataset[data_id];
+                // datapoint = json_dataset[data_id];
+                datapoint_face = dataset_face[data_id];
                 var face_place_id = "#id" + data_id;
                 d3.select(face_place_id)
                     .call(chernoffFace2());
@@ -62,7 +63,7 @@ $(document).ready( function() {
                 return data_id * 1000;
             })(data_id));
 
-            if (data_id == (json_dataset.length - 1)) {
+            if (data_id == (dataset_face.length - 1)) {
                 image_stored = true;
                 localStorage.setItem("images_stored",image_stored);
             }
@@ -114,13 +115,13 @@ $(document).ready( function() {
         }
         
         function data() {
-        	var data_new = value_transfer(datapoint);
+        	// var data_new = value_transfer(datapoint);
         	var d = {};
         	var facial = "";
-        	for (key in data_new) {
+        	for (key in datapoint_face) {
         		facial = json_mapping[key];
         		if (facial != "0") {
-        			d[facial] = data_new[key];
+        			d[facial] = datapoint_face[key];
         		}
         	}
         	return [d];

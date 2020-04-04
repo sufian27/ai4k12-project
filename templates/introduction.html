@@ -12,7 +12,8 @@
 	function readpara (para) {
 		return para;
 	}
-	var dataset = {{ json_data|tojson }};
+	var dataset = readpara( {{ json_data | tojson | safe }} );
+	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var full_json_dataset = JSON.parse(dataset);
 	// var json_dataset = full_json_dataset.records.slice(0, 210)
 	var json_dataset = full_json_dataset.records;

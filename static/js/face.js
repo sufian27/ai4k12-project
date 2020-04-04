@@ -38,13 +38,13 @@ $(document).ready( function() {
         }
         
         function data() {
-        	var data_new = value_transfer(datapoint);
+        	// var data_new = value_transfer(datapoint);
         	var d = {};
         	var facial = "";
-        	for (key in data_new) {
+        	for (key in datapoint_face) {
         		facial = json_mapping[key];
         		if (facial != "0") {
-        			d[facial] = data_new[key];
+        			d[facial] = datapoint_face[key];
         		}
         	}
         	// console.log(new_data);
@@ -120,12 +120,13 @@ $(document).ready( function() {
         return draw;
     }
 
+    console.log(datapoint_face);
 	d3.select("#face")
 		.call(chernoffFace1());
 
 	$("#data_table .data-id").click( function() {
-    	data_id = parseInt($(this).text());
-    	datapoint = json_dataset[data_id];
+    	data_id = parseInt($(this).text()) - 1;
+    	datapoint_face = dataset_face[data_id];
     	d3.select("#face svg").remove();
     	d3.select("#face")
     		.call(chernoffFace1());

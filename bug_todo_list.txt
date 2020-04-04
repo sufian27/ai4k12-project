@@ -15,3 +15,8 @@
 
 14. Modification: log in directly after add new users.
 15. default selection for the example selection page
+16. use yaml.safe_load makes the loading of introduction page very slow
+17. for data2face.html, the default datapoint to face is not the first one
+18. why each time the length of wine quality dataset are different?
+
+19. beetle dataset: use dataset id as id

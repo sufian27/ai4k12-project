@@ -42,9 +42,10 @@
 	document.getElementById("data_table").innerHTML = content;
 
     //default selection
-    var data_id = 0;
-    var datapoint = json_dataset[data_id];
     var example = readpara( {{ example }} );
+    var dataset_face = readpara( {{ dataset_face | safe }});
+    var data_id = 0;
+    var datapoint_face = dataset_face[data_id];
 
 </script>
 <script src="{{ url_for('static', filename = 'js/face.js') }}"></script>

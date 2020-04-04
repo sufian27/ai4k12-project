@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>
-    Welcome User {{g.user.id}}!
+    Welcome User {{g.user.id | safe}}!
 </h1>
 <form action="/intro?example" method="GET" name="form">
     <p>

@@ -1,5 +1,6 @@
 import sqlite3, os
 import csv, json
+import yaml
 import base64
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g, make_response
 from flask_sqlalchemy import SQLAlchemy
@@ -19,6 +20,29 @@ from models import User, User_Action
 from helpers import get_db_data_json, create_table_from_csv
 db.create_all()
 # json_object = get_db_data_json(1) #todo: store the dataset as a global variable that all the webpage can access (try session?)
+
+def dataset_pre_analysis(json_dataset):
+    variables = json_dataset[0].keys()
+    dataset_by_var = {}
+    for i in variables:
+        dataset_by_var[i] = []
+    for datapoint in json_dataset:
+        for var in variables:
+            dataset_by_var[var].append(datapoint[var])
+    stat_by_var = {}
+    for var in variables:
+        stat_by_var[var] = {}
+        stat_by_var[var]["max"] = max(dataset_by_var[var])
+        stat_by_var[var]["min"] = min(dataset_by_var[var])
+    return stat_by_var
+
+def dataset_preprocess(json_dataset, dataset_stat):
+    variables = json_dataset[0].keys()
+    for datapoint in json_dataset:
+        for var in variables:
+            datapoint[var] = (float(datapoint[var]) - float(dataset_stat[var]["min"]))/(float(dataset_stat[var]["max"]) - float(dataset_stat[var]["min"]))
+    return json_dataset
+
 
 @app.before_request
 def before_request(): #set global user
@@ -91,7 +115,7 @@ def introduction():
     example_index = request.args.get('example', default = 0, type = int)
     create_table_from_csv(example_index)
     json_object = get_db_data_json(example_index)
-    
+
     db.session.add(User_Action('user made dataset selection {}'.format(example_index), session['user_id']))
     db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
     db.session.commit()
@@ -113,7 +137,11 @@ def dataset2face():
         return redirect(url_for('login'))
     if request.method == 'GET':
         example_index = request.args.get('example', default = 0, type = int)
-        return render_template('dataset2face.html', example = str(example_index), title='Dataset to Face')
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+        return render_template('dataset2face.html', example = str(example_index), dataset_face = dataset_face, title='Dataset to Face')
     else:
         return 'Invalid Data'
 
