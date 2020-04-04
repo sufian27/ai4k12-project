@@ -1,5 +1,5 @@
 ﻿$(document).ready(function() {
-    alert("base");
+    // alert("base");
     function tool_reload() {
         var container = $("#toolbox");
         var content = container.innerHTML;
