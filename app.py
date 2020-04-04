@@ -40,7 +40,10 @@ def dataset_preprocess(json_dataset, dataset_stat):
     variables = json_dataset[0].keys()
     for datapoint in json_dataset:
         for var in variables:
-            datapoint[var] = (float(datapoint[var]) - float(dataset_stat[var]["min"]))/(float(dataset_stat[var]["max"]) - float(dataset_stat[var]["min"]))
+            try:
+                datapoint[var] = (float(datapoint[var]) - float(dataset_stat[var]["min"]))/(float(dataset_stat[var]["max"]) - float(dataset_stat[var]["min"]))
+            except ValueError:
+                del datapoint[var]
     return json_dataset
 
 

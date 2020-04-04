@@ -22,19 +22,6 @@
 	var str_dataset = JSON.stringify(json_dataset);
 	localStorage.setItem('localDataset', str_dataset);
 
-	var json_mapping = {};
-	var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc"];
-
-	for (i = 0; i < variables.length; i++) {
-		if (i < facial_feature.length) {
-			json_mapping[variables[i]] = facial_feature[i];
-		} else {
-			json_mapping[variables[i]] = "0";
-		}
-	}
-	var str_mapping = JSON.stringify(json_mapping);
-	localStorage.setItem('mappingRule', str_mapping);
-
 	var example = readpara( {{ example }} );
 	$(".btn").click( function() {
 		$(this).attr("href", "/var?example=" + example);
