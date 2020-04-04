@@ -5,7 +5,7 @@
 	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
 		<div class="row">
 			<div class="col">
-				<div class="compare_canvas" id = "canvas1" style="height: 100px; width: 100px; background-color: #d5f4e6; z-index: 0; position: relative;" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div>
+				<div class="compare_canvas" id = "canvas0" style="height: 100px; width: 100px; background-color: #d5f4e6; z-index: 0; position: relative;" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div>
 				<div class="compare_index"></div>				
 			</div>
 		</div>
@@ -54,15 +54,24 @@
 	        	ev.target.after(data_element);
 	        	var elem = ev.target.parentNode.nextElementSibling;
 	        }
-	        $(".compare_canvas img").css('position', 'absolute');
-	        $(".compare_canvas img").css('top', 0);
-	        $(".compare_canvas img").css('left', 0);
-	        
+
 	        var canvas_id = elem.previousElementSibling.id;
+	        var canvas_id_val = parseInt(canvas_id.substr(6));
+	        // $(".compare_canvas img").css('position', 'absolute');
+	        $(".compare_canvas img").css('top', 0 );
+	        $(".compare_canvas img").css('left', 100*canvas_id_val );
+	        $(".compare_canvas img").addClass("overlay");
+	        
 	        $("#" + canvas_id).children("img").css('opacity', 1/(x+1));
 
+	        fade(current_id);
 	        addTags(elem, current_id);
         }
+    }
+
+    function fade(id) {
+    	var data_id = parseInt(id) - 1;
+    	$("#wrap" + data_id).css('opacity', 0.4);
     }
 
     function addTags(elem, face_id) {
@@ -90,7 +99,15 @@
     	$("#drag" + data_id).remove();
     	image.attr("width", 35);
     	image.css("opacity", 1);
-    	$("#span" + data_id).append(image);
+    	$("#wrap" + data_id).append(image);
+    	$("#wrap" + data_id).css('opacity', 1);
+    	$("#drag" + data_id).removeClass("overlay");
+    	$("#drag" + data_id).css('z-index', 0);
+    	var canvas_id = $(this).parent(".badge").parent(".compare_index").siblings(".compare_canvas").attr("id");
+    	var x = $("#" + canvas_id).children().length;
+    	if (x!=0) {
+    		$("#" + canvas_id).children("img").css('opacity', 1/x);
+    	}
     	$(this).parent(".badge").remove();
 	});
 

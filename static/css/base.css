@@ -7,3 +7,17 @@
 	padding-left: 10px;
 	width: 100px;
 }
+
+.overlay {
+	position: absolute; 
+/*	top: 0px; 
+	left: 0px; */
+}
+
+.pointer_cursor {
+	cursor: pointer;
+}
+
+.conbox {
+	float: left;
+}
