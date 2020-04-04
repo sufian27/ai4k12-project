@@ -5,7 +5,7 @@
 	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
 		<div class="row">
 			<div class="col">
-				<div class="compare_canvas" style="height: 100px; width: 100px; background-color: #d5f4e6; z-index: 0; position: relative;" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div>
+				<div class="compare_canvas" id = "canvas1" style="height: 100px; width: 100px; background-color: #d5f4e6; z-index: 0; position: relative;" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div>
 				<div class="compare_index"></div>				
 			</div>
 		</div>
@@ -28,31 +28,71 @@
 	var json_mapping = JSON.parse(getLocalData);
 	var variables = Object.keys(json_dataset[0]);
 
+	var current_id = 0;
+
 	function allowDrop(ev) {
         ev.preventDefault();
     }
     function drag(ev) {
         ev.dataTransfer.setData('Img', ev.target.id);
+        current_id = parseInt(ev.target.id.substr(4)) + 1;
     }
     function dropChild(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData('img');
         var data_element = document.getElementById(data);
-        data_element.width = "100";
-        if (ev.target.className == 'compare_canvas') {
-        	var x = ev.target.childElementCount;
-        	data_element.style.zIndex = x.toString();
-        	ev.target.appendChild(data_element);
-        } else {
-        	var x = ev.target.parentNode.childElementCount;
-        	data_element.style.zIndex = x.toString();
-        	ev.target.after(data_element);
+        if(typeof(data_element) != 'undefined' && data_element != null) {
+	        data_element.width = "100";
+	        if (ev.target.className == 'compare_canvas') {
+	        	var x = ev.target.childElementCount;
+	        	data_element.style.zIndex = x.toString();
+	        	ev.target.appendChild(data_element);
+	        	var elem = ev.target.nextElementSibling;
+	        } else {
+	        	var x = ev.target.parentNode.childElementCount;
+	        	data_element.style.zIndex = x.toString();
+	        	ev.target.after(data_element);
+	        	var elem = ev.target.parentNode.nextElementSibling;
+	        }
+	        $(".compare_canvas img").css('position', 'absolute');
+	        $(".compare_canvas img").css('top', 0);
+	        $(".compare_canvas img").css('left', 0);
+	        
+	        var canvas_id = elem.previousElementSibling.id;
+	        $("#" + canvas_id).children("img").css('opacity', 1/(x+1));
+
+	        addTags(elem, current_id);
         }
-        $(".compare_canvas img").css('position', 'absolute');
-        $(".compare_canvas img").css('top', 0);
-        $(".compare_canvas img").css('left', 0);
-        $(".compare_canvas").children("img").css('opacity', 1/(x+1));
     }
+
+    function addTags(elem, face_id) {
+    	var id_tag = document.createElement("span");
+    	var close = document.createElement("button");
+    	id_tag.className = "badge";
+    	close.className = "close";
+    	var text = document.createTextNode(face_id);
+    	var text_close = document.createTextNode("x");
+    	close.appendChild(text_close);
+    	id_tag.appendChild(text);
+    	id_tag.appendChild(close);
+    	elem.appendChild(id_tag);
+    }
+
+	$(document).on("click", "button.close" , function() {
+    	var id = $(this).parent(".badge")
+    		.clone()
+    		.children() //select all the children
+    		.remove()   //remove all the children
+    		.end()  //again go back to selected element
+    		.text();
+    	var data_id = parseInt(id) - 1;
+    	var image = $("#drag" + data_id);
+    	$("#drag" + data_id).remove();
+    	image.attr("width", 35);
+    	image.css("opacity", 1);
+    	$("#span" + data_id).append(image);
+    	$(this).parent(".badge").remove();
+	});
 
 </script>
 <script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>

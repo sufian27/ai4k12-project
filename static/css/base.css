@@ -2,5 +2,8 @@
 	display: none;
 }
 
-.compare_canvas img {
+.compare_index {
+	margin-left: 10px;
+	padding-left: 10px;
+	width: 100px;
 }
