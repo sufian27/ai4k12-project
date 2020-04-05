@@ -173,10 +173,11 @@ def cluster():
     if request.method == 'GET':
         example_index = request.args.get('example', default = 0, type = int)
         k_value = request.args.get('k', default = 2, type = int)
-        print("=======================================================")
-        clustering(k_value)
         json_object = get_db_data_json(example_index)
         json_dataset = yaml.safe_load(json_object)["records"]
+        print("=======================================================")
+        dataset_array, centroids, labels = clustering(k_value, json_dataset)
+        print(labels)
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
         return render_template('cluster.html', example = str(example_index), dataset_face = dataset_face, k = k_value, title='Automatic Clustering')
