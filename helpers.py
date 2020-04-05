@@ -30,7 +30,7 @@ def create_table_from_csv(dataset):
         table_name = file_name.split('.')[0]
         if dataset == 1:
             command = ''' CREATE TABLE IF NOT EXISTS winequality_white (
-                id_num integer primary key, fixed_acidity real, volatile_acidity real, 
+                id integer primary key, fixed_acidity real, volatile_acidity real, 
                 citric_acid real, residual_sugar real, 
                 chlorides real, free_sulfur_dioxide real, 
                 total_sulfur_dioxide real, density real, 
@@ -38,7 +38,7 @@ def create_table_from_csv(dataset):
             ) '''
         elif dataset == 2:
             command = ''' CREATE TABLE IF NOT EXISTS beetle_richness (
-                NEON_Site text primary key, Latitude real, 
+                id text primary key, Latitude real, 
                 Longitude real, Elevation_m real, 
                 Mean_Temp_degC real, Mean_Ann_Precip_mm real, 
                 Mean_Canopy_Height_m real, 
@@ -46,7 +46,7 @@ def create_table_from_csv(dataset):
             ) '''
         elif dataset == 3:
             command = ''' CREATE TABLE IF NOT EXISTS breast_cancer (
-                id_num integer primary key, clump_thickness integer,
+                id integer primary key, clump_thickness integer,
                 uniformity_of_cell_size integer, uniformity_of_cell_shape integer, 
                 marginal_adhesion integer, single_epithelial_cell_size integer, 
                 bare_nuclei integer, bland_chromatin integer, 

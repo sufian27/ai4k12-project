@@ -1,4 +1,4 @@
-id_num,clump_thickness,uniformity_of_cell_size,uniformity_of_cell_shape,marginal_adhesion,single_epithelial_cell_size,bare_nuclei,bland_chromatin,normal_nucleoli,mitoses,class
+id,clump_thickness,uniformity_of_cell_size,uniformity_of_cell_shape,marginal_adhesion,single_epithelial_cell_size,bare_nuclei,bland_chromatin,normal_nucleoli,mitoses,class
 1017122,8,10,10,8,7,10,9,7,1,4
 1041801,5,3,3,3,2,3,4,4,1,4
 1044572,8,7,5,10,7,9,5,5,4,4
