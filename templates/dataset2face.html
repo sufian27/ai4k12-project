@@ -1,10 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#mappingModal">Make your own emoji!</button>
+
 <div class="row" id="all_faces">
 	<div><a class="btn">View all Faces</a></div>
 	<div id="face_table" class="hidden"></div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Customize your emoji</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4"></div></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
 	<div style="overflow:scroll; height:400px;" class="col-md-10 col-xs-10 col-sm-10 col-lg-10">
 		<table id="data_table"></table>
@@ -15,6 +38,7 @@
 
 {% block script %}
 <script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 <script>
 	function readpara (para) {
 		return para;

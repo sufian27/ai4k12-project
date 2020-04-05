@@ -1,3 +1,11 @@
+.float-right {
+	float: right;
+}
+
+.float-left {
+	float: left;
+}
+
 .hidden {
 	display: none;
 }
@@ -23,10 +31,6 @@
 }
 
 .compare-row {
-}
-
-.add-btn {
-	float: left;
 }
 
 .overlay {
@@ -59,4 +63,32 @@
 	padding-right: 50px;
 	padding-top: 20px;
 	padding-bottom: 20px;
+}
+
+.feature-item {
+	font-size: 10px;
+	padding: 5px 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	background-color: #fff;
+	border: 2px solid #004d00;
+	border-radius: 10px;
+}
+
+.feature-unmapped-area .feature-item {
+	margin-top: 10px;
+	display: block;
+}
+
+.features-mapped {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	background-color: #d5f4e6;
+}
+
+.feature-unmapped-area {
+	background-color: #ffffcc;
+	overflow: scroll;
+	margin-bottom: 10px;
 }

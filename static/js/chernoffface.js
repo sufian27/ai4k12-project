@@ -4,8 +4,8 @@
         .face(function(d) { return d.f; })
         .hair(function(d) { return d.h; })
         .mouth(function(d) { return d.m; })
-        .nosew(function(d) { return d.nw; })
-        .noseh(function(d) { console.log(d.nh); return d.nh; })
+        .nosew(function(d) { return d.nw; }) //exist
+        .noseh(function(d) { return d.nh; }) //exist
         .eyew(function(d) { return d.ew; })
         .eyeh(function(d) { return d.eh; })
         .brow(function(d) { return d.b; })
