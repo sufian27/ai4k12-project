@@ -1,8 +1,8 @@
 ﻿$(document).ready(function(){
     $(document).on('dblclick', '.compare-canvas img', function() {
         function chernoffFace3() {
-            console.log("==========================2");
-            console.log(centroid_for_face);
+            // console.log("==========================2");
+            // console.log(centroid_for_face);
             var width = 100, height = 100;
             var chernoff = d3.chernoff()
                 .face(function(d) { return d.f; })
@@ -30,7 +30,6 @@
                         d[facial] = centroid_for_face[key];
                     }
                 }
-                console.log(d);
                 return [d];
             }
 
@@ -58,16 +57,17 @@
         var face_img_list = $('#' + current_canvas_id + ' img');
         for (i = 0; i < face_img_list.length; i++) {
             var face_img = face_img_list.eq(i);
+            //extract number from a string
             var data_id = face_img.attr('id').replace(/[^\d]/g, '');
             datapointIDs.push(data_id);
         }
 
         var datapoints_by_var = getDatapoints(datapointIDs, dataset_face);
-        console.log("==========================0");
-        console.log(datapoints_by_var);
+        // console.log("==========================0");
+        // console.log(datapoints_by_var);
         var centroid_for_face = getCentroid(datapoints_by_var);
-        console.log("==========================1");
-        console.log(centroid_for_face);
+        // console.log("==========================1");
+        // console.log(centroid_for_face);
 
         face_img_list.addClass('hidden');
         d3.select('#' + current_canvas_id)
@@ -85,8 +85,8 @@
     function getDatapoints(id_list, dataset) {
         var datapoints_by_var = {};
         var variables = Object.keys(dataset[id_list[0]]);
-        console.log("==========================var");
-        console.log(variables);
+        // console.log("==========================var");
+        // console.log(variables);
         for (var i = 0; i < variables.length; i++) {
             var key = variables[i];
             datapoints_by_var[key] = [];

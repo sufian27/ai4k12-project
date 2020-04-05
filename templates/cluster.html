@@ -1,0 +1,63 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="dropdown dropright">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        k = {{ k }}
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">k = 2</a>
+        <a class="dropdown-item" href="#">k = 3</a>
+        <a class="dropdown-item" href="#">k = 4</a>
+        <a class="dropdown-item" href="#">k = 5</a>
+        <a class="dropdown-item" href="#">k = 6</a>
+        <a class="dropdown-item" href="#">k = 7</a>
+        <a class="dropdown-item" href="#">k = 8</a>
+        <a class="dropdown-item" href="#">k = 9</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript">
+    function readpara (para) {
+        return para;
+    }
+    var k = readpara( {{ k }} );
+    for (var i = 0; i < $('.dropdown-item').length; i++) {
+        var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
+        $('.dropdown-item').eq(i).attr('href','/cluster?example=' + example + '&k=' + k_value);
+    }
+// var width = 1900,
+//     height = 640
+
+// var border=0.5;
+// var bordercolor='grey';
+
+// var svg = d3.select("body").append("svg")
+//     .attr("width", width)
+//     .attr("height", height)
+//     .attr("border", border);
+    
+// var borderPath = svg.append("rect")
+//                 .attr("x", 0)
+//                 .attr("y", 0)
+//                 .attr("height", height)
+//                 .attr("width", width)
+//                 .style("stroke", bordercolor)
+//                 .style("fill", "none")
+//                 .style("stroke-width", border);
+// var distance = [];
+// d3.json("graph2-C.json", function(error, json) {
+//   if (error) throw error;
+
+// var force = d3.layout.force()
+//     .gravity(0.02)
+//     .distance(function(d) { 
+//         return d.target.distance*190+60;    
+//     })
+//     .charge(-140)
+//     .size([width, height]);  
+</script>
+{% endblock %}

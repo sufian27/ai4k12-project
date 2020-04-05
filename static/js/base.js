@@ -10,6 +10,7 @@
     	$(".var").attr("href", "/var?example=" + example);
         $(".dataset2face").attr("href", "/dataset2face?example=" + example);
         $(".compare").attr("href", "/compare?example=" + example);
+        $(".cluster").attr("href", "/cluster?example=" + example + "&k=" + 2);
     }
 
 });

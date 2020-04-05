@@ -2,6 +2,7 @@ import sqlite3, os
 import csv, json
 import yaml
 import base64
+from k_means_cluster import clustering
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g, make_response
 from flask_sqlalchemy import SQLAlchemy
 
@@ -121,7 +122,7 @@ def introduction():
     json_dataset = yaml.safe_load(json_object)["records"]
     dataset_stat = dataset_pre_analysis(json_dataset)
     dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-    
+
     db.session.add(User_Action('user made dataset selection {}'.format(example_index), session['user_id']))
     db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
     db.session.commit()
@@ -162,6 +163,23 @@ def compare():
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
         return render_template('compare.html', example = str(example_index), dataset_face = dataset_face, title='Smilarity Comparison')
+    else:
+        return 'Invalid Data'
+
+@app.route('/cluster', methods = ['GET', 'POST'])
+def cluster():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        k_value = request.args.get('k', default = 2, type = int)
+        print("=======================================================")
+        clustering(k_value)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+        return render_template('cluster.html', example = str(example_index), dataset_face = dataset_face, k = k_value, title='Automatic Clustering')
     else:
         return 'Invalid Data'
 
