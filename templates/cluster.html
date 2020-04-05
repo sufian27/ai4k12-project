@@ -16,6 +16,7 @@
         <a class="dropdown-item" href="#">k = 9</a>
     </div>
 </div>
+<div id="cluster-vis"></div>
 {% endblock %}
 
 {% block script %}
@@ -25,39 +26,84 @@
         return para;
     }
     var k = readpara( {{ k }} );
+    var json_cluster = readpara( {{ json_cluster | safe }} );
     for (var i = 0; i < $('.dropdown-item').length; i++) {
         var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
         $('.dropdown-item').eq(i).attr('href','/cluster?example=' + example + '&k=' + k_value);
     }
-// var width = 1900,
-//     height = 640
-
-// var border=0.5;
-// var bordercolor='grey';
-
-// var svg = d3.select("body").append("svg")
-//     .attr("width", width)
-//     .attr("height", height)
-//     .attr("border", border);
-    
-// var borderPath = svg.append("rect")
-//                 .attr("x", 0)
-//                 .attr("y", 0)
-//                 .attr("height", height)
-//                 .attr("width", width)
-//                 .style("stroke", bordercolor)
-//                 .style("fill", "none")
-//                 .style("stroke-width", border);
-// var distance = [];
-// d3.json("graph2-C.json", function(error, json) {
-//   if (error) throw error;
-
-// var force = d3.layout.force()
-//     .gravity(0.02)
-//     .distance(function(d) { 
-//         return d.target.distance*190+60;    
-//     })
-//     .charge(-140)
-//     .size([width, height]);  
 </script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script>
+    var width = 1000;
+    var height = 500;
+    var border = 0.5;
+    var bordercolor='grey';
+    var svg = d3.select("#cluster-vis").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("border", border);
+    
+    var borderPath = svg.append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("height", height)
+                    .attr("width", width)
+                    .style("stroke", bordercolor)
+                    .style("fill", "none")
+                    .style("stroke-width", border);
+
+    var distance = [];
+
+    // d3.json(json_cluster, function(error, json) {
+    //     if (error) throw error;
+
+    var json = json_cluster;
+    console.log(json);
+    var force = d3.layout.force()
+        .gravity(0.07)
+        .distance(function(d) { 
+            // return d.target.distance*190+60;
+            return d.target.distance * 50 + 50;
+        })
+        .charge(-140)
+        .size([width, height]);
+
+        force
+            .nodes(json.nodes)
+            .links(json.links)
+            .start();
+
+    var link = svg.selectAll(".link")
+        .data(json.links)
+        .enter().append("line")
+        .attr("class", "link")
+        .attr("id", function(d) { return d.group;});
+
+    var node = svg.selectAll(".node")
+        .data(json.nodes)
+        .enter().append("g")
+        .attr("class", "node")
+        .attr("id", function(d) {return d.name})
+        .attr("class", function(d) {return d.group})
+        .call(force.drag);
+
+    node.append("image")
+        .attr("xlink:href", function(d) { return d.pic;})
+        .attr("x", -15)
+        .attr("y", -15)
+        .attr("width", 30)
+        .attr("height", 30);
+
+    force.on("tick", function() {
+        link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+        node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    });
+    // });
+</script>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 {% endblock %}

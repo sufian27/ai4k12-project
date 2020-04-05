@@ -3,6 +3,7 @@ import csv, json
 import yaml
 import base64
 from k_means_cluster import clustering
+from cluster_vis import json4cluster
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g, make_response
 from flask_sqlalchemy import SQLAlchemy
 
@@ -175,12 +176,16 @@ def cluster():
         k_value = request.args.get('k', default = 2, type = int)
         json_object = get_db_data_json(example_index)
         json_dataset = yaml.safe_load(json_object)["records"]
-        print("=======================================================")
         dataset_array, centroids, labels = clustering(k_value, json_dataset)
-        print(labels)
+        # print("================================")
+        # print(dataset_array)
+        # print(centroids)
+        # print(labels)
+        json_cluster = json4cluster(dataset_array, centroids, labels, example_index)
+
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-        return render_template('cluster.html', example = str(example_index), dataset_face = dataset_face, k = k_value, title='Automatic Clustering')
+        return render_template('cluster.html', example = str(example_index), dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
     else:
         return 'Invalid Data'
 
