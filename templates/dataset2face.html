@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block script %}
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
 <script>
 	function readpara (para) {
 		return para;
@@ -37,15 +38,23 @@
 	}
 	document.getElementById("data_table").innerHTML = content;
 
-    //default selection
+    //default selection of json_mapping and datapoint_face for chernoff face generation
     getLocalData = localStorage.getItem('mappingRule');
 	var json_mapping = JSON.parse(getLocalData);
     var example = readpara( {{ example }} );
     var dataset_face = readpara( {{ dataset_face | safe }});
     var data_id = 0;
     var datapoint_face = dataset_face[data_id];
+	d3.select("#face")
+		.call(chernoffFace());
+	$("#data_table .data-id").click( function() {
+    	data_id = parseInt($(this).text()) - 1;
+    	datapoint_face = dataset_face[data_id];
+    	d3.select("#face svg").remove();
+    	d3.select("#face")
+    		.call(chernoffFace());
+    });
 
 </script>
-<script src="{{ url_for('static', filename = 'js/face.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/view_all_faces.js') }}"></script>
 {% endblock %}

@@ -16,6 +16,7 @@
 {% endblock %}
 
 {% block script %}
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
 <script>
 	// alert("inner script");
 	function readpara (para) {
@@ -28,6 +29,7 @@
 	var json_dataset = JSON.parse(getLocalData);
 	getLocalData = localStorage.getItem('mappingRule');
 	var json_mapping = JSON.parse(getLocalData);
+	var datapoint_face = json_dataset[0]; //default datapoint for chernoffface.js
 	// var variables = Object.keys(json_dataset[0]);
 
 	var current_id = 0;

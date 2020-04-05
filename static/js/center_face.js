@@ -1,57 +1,5 @@
 ﻿$(document).ready(function(){
     $(document).on('dblclick', '.compare-canvas img', function() {
-        function chernoffFace3() {
-            // console.log("==========================2");
-            // console.log(centroid_for_face);
-            var width = 100, height = 100;
-            var chernoff = d3.chernoff()
-                .face(function(d) { return d.f; })
-                .hair(function(d) { return d.h; })
-                .mouth(function(d) { return d.m; })
-                .nosew(function(d) { return d.nw; })
-                .noseh(function(d) { return d.nh; })
-                .eyew(function(d) { return d.ew; })
-                .eyeh(function(d) { return d.eh; })
-                .brow(function(d) { return d.b; })
-                .eyeRadius(function(d) { return d.er; })
-                .browVertical(function(d) { return d.bv; })
-                .browSlant(function(d) { return d.bs; })
-                .browLength(function(d) { return d.bl; })
-                .mouthSize(function(d) { return d.ms; })
-                .mouthVertical(function(d) { return d.mv; })
-                .mouthCurve(function(d) { return d.mc; });
-            
-            function data() {
-                var d = {};
-                var facial = "";
-                for (key in centroid_for_face) {
-                    facial = json_mapping[key];
-                    if (facial != "0") {
-                        d[facial] = centroid_for_face[key];
-                    }
-                }
-                return [d];
-            }
-
-            function drawFace(selection) {
-                var svg = selection.append("svg")
-                    .attr("width", width)
-                    .attr("height", height);
-                var face = svg.selectAll("g.chernoff")
-                    .data(data())
-                    .enter().append("g")
-                    .attr("class", "chernoff")
-                    .call(chernoff);
-            }
-
-            function draw(selection) {
-                selection
-                    .call(drawFace)
-            }
-
-            return draw;
-        }
-
         var current_canvas_id = $(this).parent('.compare-canvas').attr('id');
         var datapointIDs = [];
         var face_img_list = $('#' + current_canvas_id + ' img');
@@ -69,9 +17,10 @@
         // console.log("==========================1");
         // console.log(centroid_for_face);
 
+        datapoint_face = centroid_for_face;
         face_img_list.addClass('hidden');
         d3.select('#' + current_canvas_id)
-            .call(chernoffFace3())
+            .call(chernoffFace())
 
     });
 
