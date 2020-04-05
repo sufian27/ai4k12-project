@@ -19,6 +19,8 @@
 
         datapoint_face = centroid_for_face;
         face_img_list.addClass('hidden');
+        $('#' + current_canvas_id).attr('ondrop','console.log("disable ondrop");')
+        $('#' + current_canvas_id).attr('ondragover', 'console.log("disable ondragover");')
         d3.select('#' + current_canvas_id)
             .call(chernoffFace())
 
@@ -28,6 +30,8 @@
         var current_canvas_id = $(this).parent('.compare-canvas').attr('id');
         var face_img_list = $('#' + current_canvas_id + ' img');
         d3.select('#' + current_canvas_id + ' svg').remove();
+        $('#' + current_canvas_id).attr('ondrop', 'dropChild(event)')
+        $('#' + current_canvas_id).attr('ondragover', 'allowDrop(event)')
         face_img_list.removeClass('hidden');
     });
 
