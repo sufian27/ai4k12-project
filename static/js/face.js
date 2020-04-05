@@ -17,28 +17,8 @@ $(document).ready( function() {
             .mouthSize(function(d) { return d.ms; })
             .mouthVertical(function(d) { return d.mv; })
             .mouthCurve(function(d) { return d.mc; });
-
-        function value_transfer(datapoint) {
-        	var datapoint_new = {};
-
-        	datapoint_new["fixed_acidity"] = (datapoint["fixed_acidity"] - 3.8) / (14.2 - 3.8);
-        	datapoint_new["volatile_acidity"] = (datapoint["volatile_acidity"] - 0.08) / (1.1 - 0.08);
-        	datapoint_new["citric_acid"] = (datapoint["volatile_acidity"] - 0) / (1.66 - 0);
-        	datapoint_new["residual_sugar"] = (datapoint["residual_sugar"] - 0.6) / (65.8 - 0.6);
-        	datapoint_new["chlorides"] = (datapoint["chlorides"] - 0.009) / (0.346 - 0.009);
-        	datapoint_new["free_sulfur_dioxide"] = (datapoint["free_sulfur_dioxide"] - 2) / (289 - 2);
-        	datapoint_new["total_sulfur_dioxide"] = (datapoint["total_sulfur_dioxide"] - 9) / (440 - 9);
-        	datapoint_new["density"] = (datapoint["density"] - 0.994) / (1.001 - 0.994);
-        	datapoint_new["pH"] = (datapoint["pH"] - 2.87) / (3.69 - 2.87);
-        	datapoint_new["sulphates"] = (datapoint["sulphates"] - 0.27) / (0.84 - 0.27);
-        	datapoint_new["alcohol"] = (datapoint["alcohol"] - 8.6) / (12.8 - 8.6);
-        	datapoint_new["quality"] = (datapoint["quality"] - 4) / (8 - 4);
-
-        	return datapoint_new;
-        }
         
         function data() {
-        	// var data_new = value_transfer(datapoint);
         	var d = {};
         	var facial = "";
         	for (key in datapoint_face) {
@@ -47,44 +27,6 @@ $(document).ready( function() {
         			d[facial] = datapoint_face[key];
         		}
         	}
-        	// console.log(new_data);
-        	// for (key in new_data) {
-        	// 	console.log(key);
-        	// 	console.log(json_mapping[key]);
-        	// 	console.log(new_data[key]);
-
-        		// switch(json_mapping[key]) {
-        		// 	case 'er':
-	         //  			output = document.getElementById("area");
-	         //  			output.innerHTML = new_data[key].toFixed(2);
-	         //            break;
-	         //        case 'bs':
-	         //            output = document.getElementById("perimeter");
-	         //            output.innerHTML = new_data[key].toFixed(2);
-	         //            break;
-	         //        case 'bl':
-	         //            output = document.getElementById("compactness");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'bv':
-	         //            output = document.getElementById("klength");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'ms':
-	         //            output = document.getElementById("kwidth");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'mv':
-	         //            output = document.getElementById("asymmetry");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //        case 'mc':
-	         //            output = document.getElementById("glength");
-	         //            output.innerHTML = new_data[key].toFixed(3);
-	         //            break;
-	         //         default:
-	         //         	break;
-        		// }
         	return [d];
         }
 
