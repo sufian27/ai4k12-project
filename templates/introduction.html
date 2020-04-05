@@ -27,20 +27,7 @@
 		$(this).attr("href", "/var?example=" + example);
 	});
 
-    //default mapping rule
-    var data_id = 0;
-    var datapoint_face = dataset_face[data_id];
-    var json_mapping = {};
-    var variables_face = Object.keys(datapoint_face);
-    var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc"];
-    for (i = 0; i < variables_face.length; i++) {
-        if (i < facial_feature.length) {
-            json_mapping[variables_face[i]] = facial_feature[i];
-        } else {
-            json_mapping[variables_face[i]] = "0";
-        }
-    }
-    var str_mapping = JSON.stringify(json_mapping);
-    localStorage.setItem('mappingRule', str_mapping);
+	//note: what are needed for most pages: json_dataset, dataset_face(in case some original variables are not numeric), json_mapping, example index
 </script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}

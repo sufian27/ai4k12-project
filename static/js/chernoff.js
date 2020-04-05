@@ -33,22 +33,24 @@
             pupilSize = 1+4*a,
             pupilHeight = 4-a*4;
 
-        let er_f = 0.5,
-            bv_f = 0.5,
-            bs_f = 0.5,
-            bl_f = 0.5,
-            ms_f = 0.5,
-            mv_f = 0.5,
-            mc_f = 0.5;
+        let er_f_default = 0,
+            bv_f_default = 0,
+            bs_f_default = 0,
+            bl_f_default = 0,
+            ms_f_default = 0,
+            mv_f_default = 0,
+            mc_f_default = 0,
+            nw_f_default = 0,
+            nh_f_default = 0;
 
-        let facef = 0.5, // 0 - 1
-            hairf = 0, // -1 - 1
-            mouthf = 0, // -1 - 1
-            nosehf = 0.5, // 0 - 1
-            nosewf = 0.5, // 0 - 1
-            eyehf = 0.5, // 0 - 1
-            eyewf = 0.5, // 0 - 1
-            browf = 0, // -1 - 1
+        let facef_default = 0.5, // 0 - 1
+            hairf_default = 0, // -1 - 1
+            mouthf_default = 0, // -1 - 1
+            //nosehf = 0.5, // 0 - 1
+            //nosewf = 0.5, // 0 - 1
+            eyehf_default = 0.5, // 0 - 1
+            eyewf_default = 0.5, // 0 - 1
+            browf_default = 0, // -1 - 1
 
             line = d3.svg.line()
                 .interpolate("cardinal-closed")
@@ -70,20 +72,26 @@
         }
 
         function __chernoff(d) {
-            let er_var = (typeof(er_f) === "function" ? er_f(d) : er_f) * 8 + 10,
-                bv_var = (typeof(bv_f) === "function" ? bv_f(d) : bv_f) * 25 - 25,
-                bs_var = (typeof(bs_f) === "function" ? bs_f(d) : bs_f) * 11,
-                bl_var = (typeof(bl_f) === "function" ? bl_f(d) : bl_f) * 12 + 10,
-                ms_var = (typeof(ms_f) === "function" ? ms_f(d) : ms_f) * 20 + 10, //LK
-                mv_var = (typeof(mv_f) === "function" ? mv_f(d) : mv_f) * 30 + 10, //WK
-                mc_var = (typeof(mc_f) === "function" ? mc_f(d) : mc_f) * -1 * 35 + 25; //LKG
+            let er_var = (typeof(er_f) === "function" && !isNaN(er_f(d)) ? er_f(d) : er_f_default) * 8 + 10,
+                bv_var = (typeof(bv_f) === "function" && !isNaN(bv_f(d)) ? bv_f(d) : bv_f_default) * 25 - 25,
+                bs_var = (typeof(bs_f) === "function" && !isNaN(bs_f(d)) ? bs_f(d) : bs_f_default) * 11,
+                bl_var = (typeof(bl_f) === "function" && !isNaN(bl_f(d)) ? bl_f(d) : bl_f_default) * 12 + 10,
+                ms_var = (typeof(ms_f) === "function" && !isNaN(ms_f(d)) ? ms_f(d) : ms_f_default) * 20 + 10, //LK
+                mv_var = (typeof(mv_f) === "function" && !isNaN(mv_f(d)) ? mv_f(d) : mv_f_default) * 30 + 10, //WK
+                mc_var = (typeof(mc_f) === "function" && !isNaN(mc_f(d)) ? mc_f(d) : mc_f_default) * -1 * 35 + 25, //LKG
+                nh_var = (typeof(nh_f) === "function" && !isNaN(nh_f(d)) ? nh_f(d) : nh_f_default) * 20,
+                nw_var = (typeof(nw_f) === "function" && !isNaN(nw_f(d)) ? nw_f(d) : nw_f_default) * 15;
+
+            // console.log(nh_f(d));
+            // console.log(!isNaN(nh_f(d)));
+            // console.log(nh_f);
 
             let ele = d3.select(this),
                 facevar = (typeof(facef) === "function" ? facef(d) : facef) * 30,
                 hairvar = (typeof(hairf) === "function" ? hairf(d) : hairf) * 80,
                 mouthvar = (typeof(mouthf) === "function" ? mouthf(d) : mouthf) * 7,
-                nosehvar = (typeof(nosehf) === "function" ? nosehf(d) : nosehf) * 10,
-                nosewvar = (typeof(nosewf) === "function" ? nosewf(d) : nosewf) * 10,
+                //nosehvar = (typeof(nosehf) === "function" ? nosehf(d) : nosehf) * 10,
+                //nosewvar = (typeof(nosewf) === "function" ? nosewf(d) : nosewf) * 10,
                 eyehvar = (typeof(eyehf) === "function" ? eyehf(d) : eyehf) * 10,
                 eyewvar = (typeof(eyewf) === "function" ? eyewf(d) : eyewf) * 10,
                 browvar = (typeof(browf) === "function" ? browf(d) : browf) * 3;
@@ -100,9 +108,7 @@
 
             // ele.selectAll("path.mouth2").data([mouth]).enter().append("rect").attr("x",50).attr("y",50).attr("width",50*ms_var/25).attr("height",50);
 
-            let nose = [{x: 70, y: 110-nosehvar},
-                        {x: 70+nosewvar, y: 110+nosehvar},
-                        {x: 70-nosewvar, y: 110+nosehvar}];
+
 
             //////////////////// MY CODE BELOW (Zhaoxiong) /////////////
             ele.append('circle')
@@ -115,12 +121,27 @@
             //    yoffset = 110+mv_var; //130+mv_var
 
             let xoffset = 50,
-                yoffset = 50+mv_var; //130+mv_var
+                yoffset = 50; //130+mv_var
 
-            let mouth = [{x: xoffset, y: yoffset+mc_var-mouthOpensize},
-                        {x: xoffset+ms_var, y: yoffset},
-                        {x: xoffset, y: yoffset+mc_var},
-                        {x: xoffset-ms_var, y: yoffset}]; //mouthSize = Zaiqiao
+            // let nose = [{x: 70, y: 110-nosehvar},
+            //             {x: 70+nosewvar, y: 110+nosehvar},
+            //             {x: 70-nosewvar, y: 110+nosehvar}];
+
+            //for nose added by Xiaofei
+            let nose = [{x: xoffset, y: yoffset-0.5*nh_var-10},
+                        {x: xoffset+2+nw_var, y: yoffset+0.5*nh_var+5},
+                        {x: xoffset-2-nw_var, y: yoffset+0.5*nh_var+5}];
+
+            ele.selectAll("path.nose").data([nose]).enter()
+                .append("path")
+                .attr("class", "nose")
+                .attr('fill', '#267326')
+                .attr("d", line);
+
+            let mouth = [{x: xoffset, y: yoffset+mc_var+mv_var-mouthOpensize},
+                        {x: xoffset+ms_var, y: yoffset+mv_var},
+                        {x: xoffset, y: yoffset+mc_var+mv_var},
+                        {x: xoffset-ms_var, y: yoffset+mv_var}]; //mouthSize = Zaiqiao
 
             ele.selectAll("path.mouth").data([mouth]).enter()
                 .append("path")
@@ -215,18 +236,6 @@
             return chernoff;
         };
 
-        chernoff.noseh = function(x) {
-            if(!arguments.length) return nosehf;
-            nosehf = x;
-            return chernoff;
-        };
-
-        chernoff.nosew = function(x) {
-            if(!arguments.length) return nosewf;
-            nosewf = x;
-            return chernoff;
-        };
-
         chernoff.eyeh = function(x) {
             if(!arguments.length) return eyehf;
             eyehf = x;
@@ -267,6 +276,17 @@
         chernoff.mouthSize = function(x) {
             if(!arguments.length) return ms_f;
             ms_f = x;
+            return chernoff;
+        };
+        chernoff.noseh = function(x) {
+            if(!arguments.length) return nh_f;
+            nh_f = x;
+            return chernoff;
+        };
+
+        chernoff.nosew = function(x) {
+            if(!arguments.length) return nw_f;
+            nw_f = x;
             return chernoff;
         };
         chernoff.mouthVertical = function(x) {

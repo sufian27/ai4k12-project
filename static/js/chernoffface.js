@@ -5,17 +5,17 @@
         .hair(function(d) { return d.h; })
         .mouth(function(d) { return d.m; })
         .nosew(function(d) { return d.nw; })
-        .noseh(function(d) { return d.nh; })
+        .noseh(function(d) { console.log(d.nh); return d.nh; })
         .eyew(function(d) { return d.ew; })
         .eyeh(function(d) { return d.eh; })
         .brow(function(d) { return d.b; })
-        .eyeRadius(function(d) { return d.er; })
-        .browVertical(function(d) { return d.bv; })
-        .browSlant(function(d) { return d.bs; })
-        .browLength(function(d) { return d.bl; })
-        .mouthSize(function(d) { return d.ms; })
-        .mouthVertical(function(d) { return d.mv; })
-        .mouthCurve(function(d) { return d.mc; });
+        .eyeRadius(function(d) { return d.er; }) //exist
+        .browVertical(function(d) { return d.bv; }) //exist
+        .browSlant(function(d) { return d.bs; }) //exist
+        .browLength(function(d) { return d.bl; }) //exist
+        .mouthSize(function(d) { return d.ms; }) //exist
+        .mouthVertical(function(d) { return d.mv; }) //exist
+        .mouthCurve(function(d) { return d.mc; }); //exist
     
     function data() {
         var d = {};
@@ -26,6 +26,9 @@
                 d[facial] = datapoint_face[key];
             }
         }
+        // console.log("=========================");
+        // console.log(datapoint_face);
+        // console.log(d);
         return [d];
     }
 

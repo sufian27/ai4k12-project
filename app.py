@@ -6,6 +6,8 @@ from k_means_cluster import clustering
 from cluster_vis import json4cluster
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, g, make_response
 from flask_sqlalchemy import SQLAlchemy
+#important note: what are needed for most pages: json_dataset, dataset_face(in case some original variables are not numeric), json_mapping, example index, page title
+# for some pages, centroids and value for k are also needed
 
 #init dataset database
 conn = sqlite3.connect("datasets.db", check_same_thread=False) #todo: We need to serialize if multiple write operations later

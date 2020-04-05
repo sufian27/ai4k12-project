@@ -5,7 +5,12 @@ body {
 
 path.mouth {
     opacity: 1;
-    /*fill: #e25c6e;*/
+    stroke: none;
+    stroke-width: 8;
+}
+
+path.nose {
+    opacity: 1;
     stroke: none;
     stroke-width: 8;
 }
