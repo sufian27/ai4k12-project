@@ -31,17 +31,16 @@ function dropFeature(ev) {
     // console.log(data);
     var data_element = document.getElementById(data);
     var target_id = ev.target.id;
-    // console.log(target_id);
-    if ($('#'+'target_id').hasClass('dataset-feature')) {
+    console.log(target_id);
+    console.log(ev.target.tagName);
+    if (ev.target.tagName == 'SPAN') {
         ev.target.after(data_element);
-        $('.feature-unmapped-area').append($('#' + target_id));
+        $('.feature-unmapped-area').append($('#' + target_id));        
     } else if (target_id == 'unmapped-area') {
         ev.target.appendChild(data_element);
     } else {
         var x = $('#' + target_id).children('.dataset-feature').length;
-        // console.log("================================================");
-        // console.log(x);
-        if(x>0){
+        if (x > 0) {
             $('.feature-unmapped-area').append($('#' + target_id).children('.dataset-feature'));
         }
         ev.target.appendChild(data_element);

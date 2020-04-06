@@ -4,10 +4,8 @@
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#mappingModal">Make your own emoji!</button>
 
-<div class="row" id="all_faces">
-	<div><a class="btn">View all Faces</a></div>
-	<div id="face_table" class="hidden"></div>
-</div>
+
+<button type="button" class="btn btn-outline-success" id="all_faces">View all Faces</button>
 
 <!-- Modal -->
 <div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -15,9 +13,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Customize your emoji</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
+        </button> -->
       </div>
       <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div></div>
       <div class="modal-footer">
@@ -28,12 +26,15 @@
   </div>
 </div>
 
-<div class="row">
+<div id="face_table" class="hidden"></div>
+<div class="row" id="single-face">
+	<div id="face" class="col-md-2 col-xs-2 col-sm-2 col-lg-2"></div>
 	<div style="overflow:scroll; height:400px;" class="col-md-10 col-xs-10 col-sm-10 col-lg-10">
 		<table id="data_table"></table>
 	</div>
-	<div id="face" class="col-md-2 col-xs-2 col-sm-2 col-lg-2"></div>
 </div>
+
+
 {% endblock %}
 
 {% block script %}

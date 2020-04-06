@@ -21,35 +21,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 db = SQLAlchemy(app)
 from models import User, User_Action
-from helpers import get_db_data_json, create_table_from_csv
+from helpers import get_db_data_json, create_table_from_csv, dataset_pre_analysis, dataset_preprocess
 db.create_all()
 # json_object = get_db_data_json(1) #todo: store the dataset as a global variable that all the webpage can access (try session?)
-
-def dataset_pre_analysis(json_dataset):
-    variables = json_dataset[0].keys()
-    dataset_by_var = {}
-    for i in variables:
-        dataset_by_var[i] = []
-    for datapoint in json_dataset:
-        for var in variables:
-            dataset_by_var[var].append(datapoint[var])
-    stat_by_var = {}
-    for var in variables:
-        stat_by_var[var] = {}
-        stat_by_var[var]["max"] = max(dataset_by_var[var])
-        stat_by_var[var]["min"] = min(dataset_by_var[var])
-    return stat_by_var
-
-def dataset_preprocess(json_dataset, dataset_stat):
-    variables = json_dataset[0].keys()
-    for datapoint in json_dataset:
-        for var in variables:
-            try:
-                datapoint[var] = (float(datapoint[var]) - float(dataset_stat[var]["min"]))/(float(dataset_stat[var]["max"]) - float(dataset_stat[var]["min"]))
-            except ValueError:
-                del datapoint[var]
-    return json_dataset
-
 
 @app.before_request
 def before_request(): #set global user

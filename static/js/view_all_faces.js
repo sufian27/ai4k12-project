@@ -7,9 +7,10 @@ $(document).ready( function() {
         image_stored = JSON.parse(image_stored);
     }
 
-    $("#all_faces .btn").click( function() {
-        $("#data_table").toggleClass("hidden");
-        $("#face").toggleClass("hidden");
+    $("#all_faces").click( function() {
+        // $("#data_table").toggleClass("hidden");
+        // $("#face").toggleClass("hidden");
+        $('#single-face').toggleClass('hidden');
         $("#face_table").toggleClass("hidden");
         $(this).text(function(i, text){
             return text === "View all Faces" ? "View the Table" : "View all Faces";

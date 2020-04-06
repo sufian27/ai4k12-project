@@ -61,18 +61,14 @@
         var json_mapping_new = {}
         for (i in facial_feature) {
             var x = $('#' + facial_feature[i]).children('.dataset-feature').length;
-            console.log(facial_feature[i]);
-            console.log(x);
             if(x == 1) {
                 var dataset_feature = $('#' + facial_feature[i]).children('.dataset-feature').attr('id');
-                console.log(dataset_feature);
                 json_mapping_new[dataset_feature] = facial_feature[i];
             } else if (x > 1) {
                 alert('Something went wrong with the mapping rule!');
             }
         }
         var y = $('#unmapped-area').children('.dataset-feature').length;
-        console.log('unmapped: ' + y);
         if(y > 0) {
             for (i = 0; i < y; i++) {
                 var dataset_feature = $('#unmapped-area').children('.dataset-feature').eq(i).attr('id');
@@ -83,8 +79,6 @@
         json_mapping = json_mapping_new;
         var str_mapping = JSON.stringify(json_mapping_new);
         localStorage.setItem('mappingRule', str_mapping);
-
-        console.log(json_mapping_new);
     });
 
 });
