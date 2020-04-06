@@ -72,6 +72,8 @@
         }
 
         function __chernoff(d) {
+
+            //modified by Xiaofei
             let er_var = (typeof(er_f) === "function" && !isNaN(er_f(d)) ? er_f(d) : er_f_default) * 8 + 10,
                 bv_var = (typeof(bv_f) === "function" && !isNaN(bv_f(d)) ? bv_f(d) : bv_f_default) * 25 - 25,
                 bs_var = (typeof(bs_f) === "function" && !isNaN(bs_f(d)) ? bs_f(d) : bs_f_default) * 11,
@@ -81,10 +83,6 @@
                 mc_var = (typeof(mc_f) === "function" && !isNaN(mc_f(d)) ? mc_f(d) : mc_f_default) * -1 * 35 + 25, //LKG
                 nh_var = (typeof(nh_f) === "function" && !isNaN(nh_f(d)) ? nh_f(d) : nh_f_default) * 20,
                 nw_var = (typeof(nw_f) === "function" && !isNaN(nw_f(d)) ? nw_f(d) : nw_f_default) * 15;
-
-            // console.log(nh_f(d));
-            // console.log(!isNaN(nh_f(d)));
-            // console.log(nh_f);
 
             let ele = d3.select(this),
                 facevar = (typeof(facef) === "function" ? facef(d) : facef) * 30,
