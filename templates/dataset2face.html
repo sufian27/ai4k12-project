@@ -47,17 +47,21 @@
 	var getLocalData = localStorage.getItem('localDataset');
 	var json_dataset = JSON.parse(getLocalData);
 	var variables = Object.keys(json_dataset[0]);
-	var content = "<tr>" + '<td>' + "ID" +"</td>";	
+	var content = "<tr>" + '<td>' + "id" +"</td>";	
 	for (i=0; i<variables.length; i++) {
-		content += "<td>" + variables[i] + "</td>";
+		if (variables[i] != 'id') {
+			content += "<td>" + variables[i] + "</td>";
+		}
 	}
 	content += "</tr>";
 
 	for (i=0; i<json_dataset.length; i++) {
-		content += "<tr>";
-		content += "<td class='data-id btn'>" + (i + 1) + "</td>";
+		content += "<tr id = '" + i + "' class = 'datapoint pointer-cursor'>";
+		content += "<td>" + json_dataset[i]["id"] + "</td>";
         for (j = 0; j < variables.length; j++) {
-        	content += '<td>' + json_dataset[i][variables[j]] + "</td>";
+        	if (variables[j] != "id") {
+        		content += '<td>' + json_dataset[i][variables[j]] + "</td>";
+        	}
         }
         content += '</tr>';
 	}
@@ -72,8 +76,9 @@
     var datapoint_face = dataset_face[data_id];
 	d3.select("#face")
 		.call(chernoffFace());
-	$("#data_table .data-id").click( function() {
-    	data_id = parseInt($(this).text()) - 1;
+	$("#data_table .datapoint").click( function() {
+    	// data_id = parseInt($(this).text()) - 1;
+    	data_id = parseInt($(this).attr('id'));
     	datapoint_face = dataset_face[data_id];
     	d3.select("#face svg").remove();
     	d3.select("#face")

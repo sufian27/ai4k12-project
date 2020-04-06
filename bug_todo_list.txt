@@ -3,7 +3,6 @@
 2) another static view of clustering result
 3) regenerate images for example 1 2 3 and comment the process of download images for different users
 4) k nearest and vote
-5) move the data id column to the first column
 6) a button to reselect example easily
 
 

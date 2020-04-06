@@ -2,20 +2,27 @@
     //default mapping rule
     var data_id = 0;
     var datapoint_face = dataset_face[data_id];
-    var variables_face = Object.keys(datapoint_face);
+    var variables_numeric = Object.keys(datapoint_face);
+    var variables_forface = [];
+    for (var i = 0; i < variables_numeric.length; i++) {
+        if (variables_numeric[i] != 'id') {
+            variables_forface.push(variables_numeric[i]);
+        }
+    }
+
     var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc", "nw", "nh"];
     var facial_full = {"er": "Eye Radius", "bs": "Brow Slant", "bl": "Brow Length", "bv": "Brow Vertical", "ms": "Mouth Size", "mv": "Mouth Vertical", "mc": "Mouth Curve", "nw": "Nose Width", "nh": "Nose Height"}
 
     if (localStorage.getItem("mappingRule") === null) {
         var json_mapping = {};
         var json_mapping_face = {};
-        for (i = 0; i < variables_face.length; i++) {
+        for (i = 0; i < variables_forface.length; i++) {
             if (i < facial_feature.length) {
-                json_mapping[variables_face[i]] = facial_feature[i];
-                json_mapping_face[facial_feature[i]] = variables_face[i];
+                json_mapping[variables_forface[i]] = facial_feature[i];
+                json_mapping_face[facial_feature[i]] = variables_forface[i];
             } else {
-                json_mapping[variables_face[i]] = "0";
-                // json_mapping_face["unmapped" + i] =  variables_face[i];
+                json_mapping[variables_forface[i]] = "0";
+                // json_mapping_face["unmapped" + i] =  variables_forface[i];
             }
         }
         var str_mapping = JSON.stringify(json_mapping);
@@ -41,7 +48,7 @@
 
         for (i in facial_feature) {
             if (facial_feature[i] in json_mapping_face) {
-                mapping_modal = '<span id = "' + json_mapping_face[facial_feature[i]] + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[facial_feature[i]] + '</span>';
+                mapping_modal = '<span id = "' + json_mapping_face[facial_feature[i]] + '" class = "dataset-feature pointer-cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[facial_feature[i]] + '</span>';
                 $('#' + facial_feature[i]).append(mapping_modal);
                 // id_generate = id_generate + 1;
             }
@@ -49,7 +56,7 @@
 
         for (i in json_mapping) {
             if (json_mapping[i] == "0") {
-                mapping_modal = '<span id = "' + i + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + i + '</span>'
+                mapping_modal = '<span id = "' + i + '" class = "dataset-feature pointer-cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + i + '</span>'
                 $('.modal-body .feature-unmapped-area').append(mapping_modal);
                 // id_generate = id_generate + 1;
             }
