@@ -6,6 +6,9 @@
 
 {% block script %}
 <script>
+	var factor_mapping = {
+
+	};
 	var getLocalData = localStorage.getItem('localDataset');
 	var json_dataset = JSON.parse(getLocalData);
 	var variables = Object.keys(json_dataset[0]);

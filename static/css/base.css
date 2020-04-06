@@ -1,3 +1,18 @@
+.title {
+	margin-top: 20px;
+}
+
+.intro-card {
+	margin-left: 20px;
+}
+
+.next-btn {
+	position: fixed 50px !important;
+	bottom: 50px !important;
+	right: 50px !important;
+	color: #28a745 !important;
+}
+
 .float-right {
 	float: right;
 }

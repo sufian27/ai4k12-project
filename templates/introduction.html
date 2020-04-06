@@ -1,10 +1,21 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-<img src="{{ url_for('static', filename = 'img/example' + example + '/intro.jpg') }}" width="50%">
-<div id="test"></div>
-<div id="test2"></div>
-<a class="btn btn-primary" role="button">Next</a>
+<div class="row">
+	<img src="{{ url_for('static', filename = 'img/example' + example + '/intro.jpg') }}" class="col-5">
+	<div class="col-6">
+		<div class="intro-card card border-info mb-3">
+		  <div class="card-header">The Chemistry of Wine: Fermentation</div>
+		  <div class="card-body text-info">
+		    <!-- <h5 class="card-title"></h5> -->
+		    <p class="card-text">There are two basic ingredients needed to ferment the juice of grapes into wine: sugar and yeast. Sugar level increases as the grapes ripen on the vine.</p>
+		    <p class="card-text">The second ingredient needed for fermentation, yeast, consumes the sugar in the must, and as a byproduct, it releases three components: ethanol, CO2, and heat. The CO2 and heat escape, and the ethanol remains. The natural yeast dies off when grape juice reaches 4 to 5 percent alcohol by volume, before fermentation is complete. Then the winemaker adds an anaerobic cultured yeast in order to ferment the must completely.</p>
+		    <p class="card-text">Following fermentation, the winemaker will store the wine in various vessels. During that period, harsh acids in the wine convert into softer, more palatable acids.</p>
+		  </div>
+		</div>
+	</div>
+</div>
+<!-- <a class="btn btn-primary" role="button">Next</a> -->
 {% endblock %}
 
 {% block script %}

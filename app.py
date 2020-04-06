@@ -111,7 +111,7 @@ def var():
         return redirect(url_for('login'))
     if request.method == 'GET':
         example_index = request.args.get('example', default = 0, type = int)
-        return render_template('var.html', example = str(example_index), title='Variable')
+        return render_template('var.html', example = str(example_index), title='Factors')
     else:
         return 'Invalid Data'
 

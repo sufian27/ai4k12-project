@@ -29,28 +29,37 @@
 </head>
 
 <body>
-    {% if title %}
-    <h3>{{ title }} - SmileyCluster</h3>
-    <a href="/logout">logout</a>
-    {% else %}
-    <h3>Welcome to SmileyCluster</h3>
-    {% endif %}
-    <hr>
-    {% block content %}{% endblock %}
-
-    <footer id="toolbox">
-        {% if example %}
-        <div>
-            <ul>
-                <li>Introduction</li>
-                <li><a class="var">Factors</a></li>
-                <li><a class="dataset2face">Dataset</a></li>
-                <li><a class="compare">Play with Faces</a></li>
-                <li><a class="cluster">Cluster</a></li>
-            </ul>
-        </div>
+    <div class="container">
+        {% if title %}
+        <h3 class="title">{{ title }} - SmileyCluster</h3>
+        <a href="/logout">logout</a>
+        {% else %}
+        <h3 class="title">Welcome to SmileyCluster</h3>
         {% endif %}
-    </footer>
+                
+    </div>
+    <hr>
+    <div class="container">
+        {% block content %}{% endblock %}
+
+        <footer id="toolbox">
+            {% if example %}
+            <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; right: 250px; z-index: 1000;">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="intro">Intro</a></li>
+                    <li class="breadcrumb-item"><a class="var" href="/var?example=1" >Factors</a></li>
+                    <li class="breadcrumb-item"><a class="dataset2face" href="/var?example=1" >Emoji the Dataset</a></li>
+                    <li class="breadcrumb-item"><a class="compare" href="/var?example=1" >Plan with Emojis</a></li>
+                    <li class="breadcrumb-item"><a class="cluster" href="/var?example=1" >Cluster</a></li>
+                  </ol>
+                </nav>
+            </div>
+            <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="position: fixed; bottom: 50px; right: 120px;" >Toolbox</button>
+            <a role="button" class="btn btn-outline-success next-btn" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</a>
+            {% endif %}
+        </footer>
+    </div>
 
 {% block script %}
 {% endblock %}

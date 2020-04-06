@@ -6,11 +6,17 @@
         container.innerHTML= content; 
     }
     tool_reload();
+
     if(example > 0) {
+        $(".intro").attr("href", "/Introdcution?example=" + example);
     	$(".var").attr("href", "/var?example=" + example);
         $(".dataset2face").attr("href", "/dataset2face?example=" + example);
         $(".compare").attr("href", "/compare?example=" + example);
         $(".cluster").attr("href", "/cluster?example=" + example + "&k=" + 2);
+        var title = {{ title | safe }};
+        if (title == "Introdcution") {
+            $(".next-btn").attr("href", "/var?example=" + example);
+        }
     }
 
     $('.refresh').click( function() {
