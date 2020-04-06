@@ -13,6 +13,9 @@
         $(".cluster").attr("href", "/cluster?example=" + example + "&k=" + 2);
     }
 
+    $('.refresh').click( function() {
+        location.reload(true);
+    });
 });
 
 function allowDropFeature(ev) {
@@ -29,10 +32,10 @@ function dropFeature(ev) {
     var data_element = document.getElementById(data);
     var target_id = ev.target.id;
     // console.log(target_id);
-    if (target_id.includes("feature")) {
+    if ($('#'+'target_id').hasClass('dataset-feature')) {
         ev.target.after(data_element);
         $('.feature-unmapped-area').append($('#' + target_id));
-    } else if (target_id == 'unmapped') {
+    } else if (target_id == 'unmapped-area') {
         ev.target.appendChild(data_element);
     } else {
         var x = $('#' + target_id).children('.dataset-feature').length;

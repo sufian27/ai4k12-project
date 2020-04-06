@@ -2,24 +2,33 @@
     //default mapping rule
     var data_id = 0;
     var datapoint_face = dataset_face[data_id];
-    var json_mapping = {};
-    var json_mapping_face = {};
     var variables_face = Object.keys(datapoint_face);
     var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc", "nw", "nh"];
     var facial_full = {"er": "Eye Radius", "bs": "Brow Slant", "bl": "Brow Length", "bv": "Brow Vertical", "ms": "Mouth Size", "mv": "Mouth Vertical", "mc": "Mouth Curve", "nw": "Nose Width", "nh": "Nose Height"}
-    for (i = 0; i < variables_face.length; i++) {
-        if (i < facial_feature.length) {
-            json_mapping[variables_face[i]] = facial_feature[i];
-            json_mapping_face[facial_feature[i]] = variables_face[i];
-        } else {
-            json_mapping[variables_face[i]] = "0";
-            json_mapping_face["unmapped" + i] =  variables_face[i];
-        }
-    }
 
-    if (localStorage.getItem("infiniteScrollEnabled") === null) {
+    if (localStorage.getItem("mappingRule") === null) {
+        var json_mapping = {};
+        var json_mapping_face = {};
+        for (i = 0; i < variables_face.length; i++) {
+            if (i < facial_feature.length) {
+                json_mapping[variables_face[i]] = facial_feature[i];
+                json_mapping_face[facial_feature[i]] = variables_face[i];
+            } else {
+                json_mapping[variables_face[i]] = "0";
+                // json_mapping_face["unmapped" + i] =  variables_face[i];
+            }
+        }
         var str_mapping = JSON.stringify(json_mapping);
         localStorage.setItem('mappingRule', str_mapping);
+    } else {
+        var getLocalData = localStorage.getItem('mappingRule');
+        var json_mapping = JSON.parse(getLocalData);
+        var json_mapping_face = {};
+        for (key in json_mapping) {
+            if (json_mapping[key] != "0") {
+                json_mapping_face[json_mapping[key]] = key;
+            }
+        }
     }
 
     if ($('#mappingModal').length > 0) {
@@ -32,21 +41,51 @@
 
         for (i in facial_feature) {
             if (facial_feature[i] in json_mapping_face) {
-                mapping_modal = '<span id = "feature' + json_mapping_face[facial_feature[i]] + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[facial_feature[i]] + '</span>';
+                mapping_modal = '<span id = "' + json_mapping_face[facial_feature[i]] + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[facial_feature[i]] + '</span>';
                 $('#' + facial_feature[i]).append(mapping_modal);
                 // id_generate = id_generate + 1;
             }
         }
 
-        for (i in json_mapping_face) {
-            if (!(facial_feature.includes(i))) {
-                mapping_modal = '<span id = "feature' + json_mapping_face[i] + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[i] + '</span>'
+        for (i in json_mapping) {
+            if (json_mapping[i] == "0") {
+                mapping_modal = '<span id = "' + i + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + i + '</span>'
                 $('.modal-body .feature-unmapped-area').append(mapping_modal);
                 // id_generate = id_generate + 1;
             }
             
         }
     }
+
+    $('.update-mapping').click( function() {
+        var json_mapping_new = {}
+        for (i in facial_feature) {
+            var x = $('#' + facial_feature[i]).children('.dataset-feature').length;
+            console.log(facial_feature[i]);
+            console.log(x);
+            if(x == 1) {
+                var dataset_feature = $('#' + facial_feature[i]).children('.dataset-feature').attr('id');
+                console.log(dataset_feature);
+                json_mapping_new[dataset_feature] = facial_feature[i];
+            } else if (x > 1) {
+                alert('Something went wrong with the mapping rule!');
+            }
+        }
+        var y = $('#unmapped-area').children('.dataset-feature').length;
+        console.log('unmapped: ' + y);
+        if(y > 0) {
+            for (i = 0; i < y; i++) {
+                var dataset_feature = $('#unmapped-area').children('.dataset-feature').eq(i).attr('id');
+                json_mapping_new[dataset_feature] = "0";
+            }
+        }
+
+        json_mapping = json_mapping_new;
+        var str_mapping = JSON.stringify(json_mapping_new);
+        localStorage.setItem('mappingRule', str_mapping);
+
+        console.log(json_mapping_new);
+    });
 
 });
 
