@@ -65,24 +65,26 @@
 	padding-bottom: 20px;
 }
 
-.feature-item {
+.dataset-feature {
+	border: 2px solid #004d00;
+	border-radius: 10px;
 	font-size: 10px;
 	padding: 5px 5px;
 	margin-left: 5px;
 	margin-right: 5px;
 	background-color: #fff;
-	border: 2px solid #004d00;
-	border-radius: 10px;
 }
 
-.feature-unmapped-area .feature-item {
+.feature-unmapped-area .dataset-feature {
 	margin-top: 10px;
 	display: block;
 }
 
-.features-mapped {
+.facial-feature {
+	font-size: 10px;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	padding-left: 20px;
 	margin-bottom: 10px;
 	background-color: #d5f4e6;
 }

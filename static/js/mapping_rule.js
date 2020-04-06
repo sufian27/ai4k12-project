@@ -24,36 +24,29 @@
 
     if ($('#mappingModal').length > 0) {
         var mapping_modal = "";
+        // var id_generate = 0;
         for (i in facial_feature) {
-            mapping_modal = '<div class ="features-mapped" ondragover = "allowDrop(event)" ondrop = "dropChild(event)"><span class = "facial-feature feature-item">' + facial_full[facial_feature[i]] + '</span><span class = "dataset-feature feature-item pointer_cursor" draggable = "true" ondragstart = "drag(event)" >' + json_mapping_face[facial_feature[i]] + '</span></div>';
+            mapping_modal = '<div id = "' + facial_feature[i] + '" class = "facial-feature" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)">' + facial_full[facial_feature[i]] + '</div>';
             $('.modal-body .feature-mapped-area').append(mapping_modal);
+        }
+
+        for (i in facial_feature) {
+            if (facial_feature[i] in json_mapping_face) {
+                mapping_modal = '<span id = "feature' + json_mapping_face[facial_feature[i]] + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[facial_feature[i]] + '</span>';
+                $('#' + facial_feature[i]).append(mapping_modal);
+                // id_generate = id_generate + 1;
+            }
         }
 
         for (i in json_mapping_face) {
             if (!(facial_feature.includes(i))) {
-                mapping_modal = '<span class = "feature-item" draggable = "true" ondragstart = "drag(event)" >' + json_mapping_face[i] + '</span>'
-                console.log("===========================");
-                console.log(i);
-                console.log(json_mapping_face[i]);
+                mapping_modal = '<span id = "feature' + json_mapping_face[i] + '" class = "dataset-feature pointer_cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[i] + '</span>'
                 $('.modal-body .feature-unmapped-area').append(mapping_modal);
+                // id_generate = id_generate + 1;
             }
             
         }
     }
 
 });
-
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-function drag(ev) {
-    ev.dataTransfer.setData('span', ev.target.id);
-}
-
-function dropChild(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData('span');
-    var data_element = document.getElementById(data);
-    ev.target.appendChild(data_element);
-}
 

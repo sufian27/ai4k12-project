@@ -14,3 +14,33 @@
     }
 
 });
+
+function allowDropFeature(ev) {
+    ev.preventDefault();
+}
+function dragFeature(ev) {
+    ev.dataTransfer.setData('span', ev.target.id);
+}
+
+function dropFeature(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData('span');
+    // console.log(data);
+    var data_element = document.getElementById(data);
+    var target_id = ev.target.id;
+    // console.log(target_id);
+    if (target_id.includes("feature")) {
+        ev.target.after(data_element);
+        $('.feature-unmapped-area').append($('#' + target_id));
+    } else if (target_id == 'unmapped') {
+        ev.target.appendChild(data_element);
+    } else {
+        var x = $('#' + target_id).children('.dataset-feature').length;
+        // console.log("================================================");
+        // console.log(x);
+        if(x>0){
+            $('.feature-unmapped-area').append($('#' + target_id).children('.dataset-feature'));
+        }
+        ev.target.appendChild(data_element);
+    }    
+}

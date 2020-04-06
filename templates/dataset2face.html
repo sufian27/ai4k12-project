@@ -19,7 +19,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4"></div></div>
+      <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div id = "unmapped" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
