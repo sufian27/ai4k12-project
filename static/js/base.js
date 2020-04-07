@@ -13,15 +13,15 @@
         $(".dataset2face").attr("href", "/dataset2face?example=" + example);
         $(".compare").attr("href", "/compare?example=" + example);
         $(".cluster").attr("href", "/cluster?example=" + example + "&k=" + 2);
-        var title = {{ title | safe }};
-        if (title == "Introdcution") {
-            $(".next-btn").attr("href", "/var?example=" + example);
-        }
+        // var title = {{ title | safe }};
+        // if (title == "Introdcution") {
+        //     $(".next-btn").attr("href", "/var?example=" + example);
+        // }
     }
 
-    $('.refresh').click( function() {
-        location.reload(true);
-    });
+    // $('.refresh').click( function() {
+    //     location.reload(true);
+    // });
 });
 
 function allowDropFeature(ev) {

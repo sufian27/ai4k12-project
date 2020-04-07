@@ -2,12 +2,25 @@
 
 {% block content %}
 <div id="variables"></div>
+
 {% endblock %}
 
 {% block script %}
 <script>
 	var factor_mapping = {
-
+		"total_sulfur_dioxide": "Total sulfur dioxide",
+		"alcohol": "Alcohol",
+		"chlorides": "Chlorides",
+		"density": "Density",
+		"sulphates": "Sulphates",
+		"citric_acid": "Citric acid",
+		"free_sulfur_dioxide": "Free sulfur dioxide",
+		"residual_sugar": "Residual sugar",
+		"volatile_acidity": "Volatile acidity",
+		"pH": "pH",
+		"fixed_acidity": "Fixed acidity",
+		"quality": "Quality",
+		"id": "id"
 	};
 	var getLocalData = localStorage.getItem('localDataset');
 	var json_dataset = JSON.parse(getLocalData);

@@ -11,29 +11,33 @@
     }
 
     var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc", "nw", "nh"];
-    var facial_full = {"er": "Eye Radius", "bs": "Brow Slant", "bl": "Brow Length", "bv": "Brow Vertical", "ms": "Mouth Size", "mv": "Mouth Vertical", "mc": "Mouth Curve", "nw": "Nose Width", "nh": "Nose Height"}
+    var facial_full = {"er": "Eye Radius", "bs": "Brow Slant", "bl": "Brow Length", "bv": "Brow Vertical", "ms": "Mouth Size", "mv": "Mouth Vertical", "mc": "Mouth Curve", "nw": "Nose Width", "nh": "Nose Height"};
+
+    var json_mapping_temp = {"alcohol": "er", "density": "bs", "total_sulfur_dioxide": "bl", "free_sulfur_dioxide": "bv", "fixed_acidity": "ms", "residual_sugar": "mv", "quality": "mc", "volatile_acidity": "nw", "pH": "nh", "chlorides": "0", "sulphates": "0", "citric_acid": "0"};
+
 
     if (localStorage.getItem("mappingRule") === null) {
-        var json_mapping = {};
+        //default mapping rule generation
+        // var json_mapping_temp = {};
         var json_mapping_face = {};
-        for (i = 0; i < variables_forface.length; i++) {
-            if (i < facial_feature.length) {
-                json_mapping[variables_forface[i]] = facial_feature[i];
-                json_mapping_face[facial_feature[i]] = variables_forface[i];
-            } else {
-                json_mapping[variables_forface[i]] = "0";
-                // json_mapping_face["unmapped" + i] =  variables_forface[i];
-            }
-        }
-        var str_mapping = JSON.stringify(json_mapping);
+        // for (i = 0; i < variables_forface.length; i++) {
+        //     if (i < facial_feature.length) {
+        //         json_mapping_temp[variables_forface[i]] = facial_feature[i];
+        //         json_mapping_face[facial_feature[i]] = variables_forface[i];
+        //     } else {
+        //         json_mapping_temp[variables_forface[i]] = "0";
+        //         // json_mapping_face["unmapped" + i] =  variables_forface[i];
+        //     }
+        // }
+        var str_mapping = JSON.stringify(json_mapping_temp);
         localStorage.setItem('mappingRule', str_mapping);
     } else {
         var getLocalData = localStorage.getItem('mappingRule');
-        var json_mapping = JSON.parse(getLocalData);
+        var json_mapping_temp = JSON.parse(getLocalData);
         var json_mapping_face = {};
-        for (key in json_mapping) {
-            if (json_mapping[key] != "0") {
-                json_mapping_face[json_mapping[key]] = key;
+        for (key in json_mapping_temp) {
+            if (json_mapping_temp[key] != "0") {
+                json_mapping_face[json_mapping_temp[key]] = key;
             }
         }
     }
@@ -54,8 +58,8 @@
             }
         }
 
-        for (i in json_mapping) {
-            if (json_mapping[i] == "0") {
+        for (i in json_mapping_temp) {
+            if (json_mapping_temp[i] == "0") {
                 mapping_modal = '<span id = "' + i + '" class = "dataset-feature pointer-cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + i + '</span>'
                 $('.modal-body .feature-unmapped-area').append(mapping_modal);
                 // id_generate = id_generate + 1;
@@ -83,9 +87,9 @@
             }
         }
 
-        json_mapping = json_mapping_new;
-        var str_mapping = JSON.stringify(json_mapping_new);
-        localStorage.setItem('mappingRule', str_mapping);
+        // json_mapping = json_mapping_new;
+        // var str_mapping = JSON.stringify(json_mapping_new);
+        // localStorage.setItem('mappingRule', str_mapping);
     });
 
 });

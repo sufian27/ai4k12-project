@@ -125,7 +125,7 @@ def dataset2face():
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-        return render_template('dataset2face.html', example = str(example_index), dataset_face = dataset_face, title='Dataset to Face')
+        return render_template('dataset2face.html', example = str(example_index), dataset_face = dataset_face, title='Dataset to Emojis')
     else:
         return 'Invalid Data'
 
@@ -140,6 +140,20 @@ def compare():
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
         return render_template('compare.html', example = str(example_index), dataset_face = dataset_face, title='Smilarity Comparison')
+    else:
+        return 'Invalid Data'
+
+@app.route('/plot', methods = ['GET', 'POST'])
+def plot():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+        return render_template('plot.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Plot Emojis')
     else:
         return 'Invalid Data'
 

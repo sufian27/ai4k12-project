@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<button type="button" class="btn btn-success overlay-btn">Overlay</button>
+<button type="button" class="btn btn-info center-btn">Center</button>
+
+<div id="face_plot">
+  <div class="row">
+    <div class="col-2">9</div><div class="col-10 quality-row" id="quality9" ></div>
+  </div>
+  <div class="row">
+    <div class="col-2">8</div><div class="col-10 quality-row" id="quality8" ></div>
+  </div>
+  <div class="row">
+    <div class="col-2">7</div><div class="col-10 quality-row" id="quality7" ></div>
+  </div>
+  <div class="row">
+    <div class="col-2">6</div><div class="col-10 quality-row" id="quality6" ></div>
+  </div>
+  <div class="row">
+    <div class="col-2">5</div><div class="col-10 quality-row" id="quality5" ></div>
+  </div>
+  <div class="row">
+    <div class="col-2">4</div><div class="col-10 quality-row" id="quality4" ></div>
+  </div>
+  <div class="row">
+    <div class="col-2">3</div><div class="col-10 quality-row" id="quality3" ></div>
+  </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
+<script>
+    function readpara (para) {
+        return para;
+    }
+
+    function getDatapoints(id_list, dataset) {
+        var datapoints_by_var = {};
+        var variables = Object.keys(dataset[id_list[0]]);
+        // console.log("==========================var");
+        // console.log(variables);
+        for (var i = 0; i < variables.length; i++) {
+            var key = variables[i];
+            datapoints_by_var[key] = [];
+        }
+        for (var i = 0; i < id_list.length; i++) {
+            for (var j = 0; j < variables.length; j++) {
+                var key = variables[j];
+                var id = id_list[i];
+                datapoints_by_var[key].push(dataset[id][key]);
+            }
+        }
+        return datapoints_by_var;
+    }
+
+    function getCentroid(dataset_by_var) {
+        var center = {};
+        var variables = Object.keys(dataset_by_var);
+        for (var i = 0; i < variables.length; i++) {
+            var key = variables[i];
+            var num = dataset_by_var[key].length;
+            center[key] = dataset_by_var[key].reduce(function(a,b) { return a + b}, 0);
+            center[key] = center[key] / num;
+        }
+        return center;
+    }
+    
+    var getLocalData = localStorage.getItem('localDataset');
+    var json_dataset = JSON.parse(getLocalData);
+    var variables = Object.keys(json_dataset[0]);
+
+
+    //default selection of json_mapping and datapoint_face for chernoff face generation
+    getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping_temp = JSON.parse(getLocalData);
+    var example = readpara( {{ example }} );
+    var dataset_face = readpara( {{ dataset_face | safe }});
+    var data_id = 0;
+    var datapoint_face = dataset_face[data_id];
+
+    for (i = 0; i < json_dataset.length; i++) {
+        var content = $("<span id = 'data" + i + "'></span>");
+        var quality_level = json_dataset[i]["quality"];
+        console.log(i);
+        console.log(quality_level);
+        console.log(content);
+        $('#quality' + quality_level).append(content);
+    }
+
+    for (i = 0; i < dataset_face.length; i++) {
+        datapoint_face = dataset_face[i];
+        d3.select("#data" + i)
+            .call(chernoffFace());
+    }
+
+    var quality_map = {};
+
+    $('.overlay-btn').click( function() {
+      var img_src = '/static/image/example1/';
+      for(var i = 3; i < 10; i++) {
+        quality_map[i] = []; 
+        var quality_row = $('#quality' + i);
+        quality_row.css('position', 'relative');
+        var num = quality_row.children('span').length;
+        for (var j = 0; j < num; j++) {
+          var data_index = quality_row.children('span').eq(j).attr('id').substr(4);
+          quality_map[i].push(data_index);
+          d3.select("#data" + data_index + " svg").remove();
+          var overlay_face = $('<img src = "' + img_src + data_index + '.png" class = "overlay">');
+          overlay_face.css('opacity', 1/num);
+          quality_row.append(overlay_face);
+        }
+      }
+    });
+
+    $('.center-btn').click( function() {
+      for (i = 3; i < 10; i++) {
+        var quality_row = $('#quality' + i);
+        var datapointIDs = quality_map[i];
+        var face_img_list = $('#quality' + i + ' img');
+        var datapoints_by_var = getDatapoints(datapointIDs, dataset_face);
+        var centroid_for_face = getCentroid(datapoints_by_var);
+        datapoint_face = centroid_for_face;
+        face_img_list.addClass('hidden');
+        d3.select('#quality' + i)
+            .call(chernoffFace())
+      }
+    });
+</script>
+<script src="{{ url_for('static', filename = 'js/view_all_faces.js') }}"></script>
+{% endblock %}

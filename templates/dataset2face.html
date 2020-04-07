@@ -69,7 +69,7 @@
 
     //default selection of json_mapping and datapoint_face for chernoff face generation
     getLocalData = localStorage.getItem('mappingRule');
-	var json_mapping = JSON.parse(getLocalData);
+	var json_mapping_temp = JSON.parse(getLocalData);
     var example = readpara( {{ example }} );
     var dataset_face = readpara( {{ dataset_face | safe }});
     var data_id = 0;

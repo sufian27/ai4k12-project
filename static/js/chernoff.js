@@ -80,7 +80,7 @@
                 bl_var = (typeof(bl_f) === "function" && !isNaN(bl_f(d)) ? bl_f(d) : bl_f_default) * 12 + 10,
                 ms_var = (typeof(ms_f) === "function" && !isNaN(ms_f(d)) ? ms_f(d) : ms_f_default) * 20 + 10, //LK
                 mv_var = (typeof(mv_f) === "function" && !isNaN(mv_f(d)) ? mv_f(d) : mv_f_default) * 30 + 10, //WK
-                mc_var = (typeof(mc_f) === "function" && !isNaN(mc_f(d)) ? mc_f(d) : mc_f_default) * -1 * 35 + 25, //LKG
+                mc_var = (typeof(mc_f) === "function" && !isNaN(mc_f(d)) ? (1 - mc_f(d)) : (1 - mc_f_default)) * -1 * 35 + 25, //LKG
                 nh_var = (typeof(nh_f) === "function" && !isNaN(nh_f(d)) ? nh_f(d) : nh_f_default) * 20,
                 nw_var = (typeof(nw_f) === "function" && !isNaN(nw_f(d)) ? nw_f(d) : nw_f_default) * 15;
 

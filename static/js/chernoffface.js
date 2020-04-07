@@ -21,7 +21,7 @@
         var d = {};
         var facial = "";
         for (key in datapoint_face) {
-            facial = json_mapping[key];
+            facial = json_mapping_temp[key];
             if (facial != "0") {
                 d[facial] = datapoint_face[key];
             }
