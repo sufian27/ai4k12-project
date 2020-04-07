@@ -1,6 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Modal -->
+<div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Customize your emoji</h5>
+<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary update-mapping refresh" data-dismiss="modal">Save & Close</button>
+        <button type="button" class="btn btn-primary update-mapping">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
 	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
 		<div class="row">
@@ -71,7 +90,11 @@
 		$(this).before(compare_template);
 	});
 
+	$(".next-btn").click( function() {
+		$(this).attr("href", "/cluster?example=" + example);
+	});
 </script>
 <script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}

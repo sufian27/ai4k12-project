@@ -20,6 +20,7 @@
 
 {% block script %}
 <script>
+	$('.mapping-btn').addClass('hidden');
 	function readpara (para) {
 		return para;
 	}
@@ -34,7 +35,8 @@
 	localStorage.setItem('localDataset', str_dataset);
 
 	var example = readpara( {{ example }} );
-	$(".btn").click( function() {
+
+	$(".next-btn").click( function() {
 		$(this).attr("href", "/var?example=" + example);
 	});
 

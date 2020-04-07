@@ -1,3 +1,8 @@
+#face_plot .row {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
 .quality-row {
 	overflow: scroll;
 	/*position: relative;*/
@@ -11,13 +16,6 @@
 
 .intro-card {
 	margin-left: 20px;
-}
-
-.next-btn {
-	position: fixed 50px !important;
-	bottom: 50px !important;
-	right: 50px !important;
-	color: #28a745 !important;
 }
 
 .float-right {

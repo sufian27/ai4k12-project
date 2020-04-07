@@ -1,6 +1,25 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
+<!-- Modal -->
+<div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Customize your emoji</h5>
+<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary update-mapping refresh" data-dismiss="modal">Save & Close</button>
+        <button type="button" class="btn btn-primary update-mapping">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="dropdown dropright">
     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
         k = {{ k }}
@@ -16,6 +35,8 @@
         <a class="dropdown-item" href="#">k = 9</a>
     </div>
 </div>
+
+<a role="button" class="btn btn-info view-all-btn" style="float: right;">View All</a>
 <button type="button" class="btn btn-warning Center-btn" style="float: right;">Center Face</button>
 <button type="button" class="btn btn-success overlay-btn" style="float: right;">Overlay</button>
 <div id="cluster-vis"></div>
@@ -27,10 +48,16 @@
 <script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
 <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
 <script type="text/javascript">
+
+    $(".next-btn").click( function() {
+        $(this).attr("href", "/plot?example=" + example);
+    });
+
     function readpara (para) {
         return para;
     }
     var k = readpara( {{ k }} );
+    $('.view-all-btn').attr("href", '/cluster?example=' + example + '&k=' + k);
     var json_cluster = readpara( {{ json_cluster | safe }} );
     var dataset_face = readpara( {{ dataset_face | safe }} );
     var getLocalData = localStorage.getItem('mappingRule');
@@ -138,7 +165,7 @@
 
         for (var i = 0; i < k; i++) {
             var x = $('#static-view' + i).children('img').length;
-            $('#static-view'+ i).children('img').css('opacity', 0.1);
+            $('#static-view'+ i).children('img').css('opacity', x > 7 ? 0.2 : 1/x);
         }
 
         console.log("---");
@@ -187,4 +214,5 @@
     }
 
 </script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}

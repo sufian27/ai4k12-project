@@ -30,5 +30,9 @@
 		variables_content += "<div>" + variables[i] + "</div>";
 	}
 	document.getElementById("variables").innerHTML = variables_content;
+
+	$(".next-btn").click( function() {
+		$(this).attr("href", "/dataset2face?example=" + example);
+	});
 </script>
 {% endblock %}

@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#mappingModal">Make your own emoji!</button>
-
-
 <button type="button" class="btn btn-outline-success" id="all_faces">View all Faces</button>
 
 <!-- Modal -->
@@ -85,6 +81,9 @@
     		.call(chernoffFace());
     });
 
+  $(".next-btn").click( function() {
+    $(this).attr("href", "/compare?example=" + example);
+  });
 </script>
 <script src="{{ url_for('static', filename = 'js/view_all_faces.js') }}"></script>
 {% endblock %}

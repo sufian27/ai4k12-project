@@ -14,9 +14,6 @@
         $(".compare").attr("href", "/compare?example=" + example);
         $(".cluster").attr("href", "/cluster?example=" + example + "&k=" + 2);
         // var title = {{ title | safe }};
-        // if (title == "Introdcution") {
-        //     $(".next-btn").attr("href", "/var?example=" + example);
-        // }
     }
 
     // $('.refresh').click( function() {

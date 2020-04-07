@@ -36,8 +36,12 @@
         {% else %}
         <h3 class="title">Welcome to SmileyCluster</h3>
         {% endif %}
-                
+
+        {% if dataset_face %}
+        <button type="button" class="btn btn-primary float-right mapping-btn" data-toggle="modal" data-target="#mappingModal">How emojis are generated?</button>
+        {% endif %}      
     </div>
+
     <hr>
     <div class="container">
         {% block content %}{% endblock %}
