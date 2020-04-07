@@ -16,24 +16,35 @@
         <a class="dropdown-item" href="#">k = 9</a>
     </div>
 </div>
+<button type="button" class="btn btn-warning Center-btn" style="float: right;">Center Face</button>
+<button type="button" class="btn btn-success overlay-btn" style="float: right;">Overlay</button>
 <div id="cluster-vis"></div>
+<div id="static-view"></div>
 {% endblock %}
 
 {% block script %}
-<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="{{ url_for('static', filename='js/chernoff.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
 <script type="text/javascript">
     function readpara (para) {
         return para;
     }
     var k = readpara( {{ k }} );
     var json_cluster = readpara( {{ json_cluster | safe }} );
+    var dataset_face = readpara( {{ dataset_face | safe }} );
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping_temp = JSON.parse(getLocalData);
+    var example = readpara( {{ example }} );
+    var dataset_face = readpara( {{ dataset_face | safe }});
+    var data_id = 0;
+    var datapoint_face = dataset_face[data_id];
+    var cluster_result = {};
     for (var i = 0; i < $('.dropdown-item').length; i++) {
         var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
         $('.dropdown-item').eq(i).attr('href','/cluster?example=' + example + '&k=' + k_value);
     }
-</script>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script>
+
     var width = 1000;
     var height = 500;
     var border = 0.5;
@@ -60,7 +71,7 @@
     var json = json_cluster;
     console.log(json);
     var force = d3.layout.force()
-        .gravity(0.1)
+        .gravity(0.2)
         .distance(function(d) { 
             // return d.target.distance*190+60;
             return d.target.distance * 50 + 50;
@@ -102,8 +113,78 @@
         node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     });
     // });
+
+    $('.overlay-btn').click( function() {
+        // alert("test");
+        $('#cluster-vis').addClass('hidden');
+
+        for (var i = 0; i < k; i++) {
+            var cluster_box = $('<div style = "width: 100px; height: 100px; position: relative;" id = "static-view' + i +'"></div>');
+            $('#static-view').append(cluster_box);
+            cluster_result[i] = [];
+        }
+        
+        for (var i = 0; i < json_cluster["nodes"].length; i++) {
+            var data_id = parseInt(json_cluster["nodes"][i]["name"].substr(2));
+            var cluster_id = json_cluster["nodes"][i]["group"];
+            var pic_src = json_cluster["nodes"][i]["pic"];
+            
+            if (data_id > 0) {
+                var img_ele = $('<img class = "overlay" src = "' + pic_src +'">');
+                $('#static-view' + cluster_id).append(img_ele);
+                cluster_result[cluster_id].push(data_id);
+            }
+        }
+
+        for (var i = 0; i < k; i++) {
+            var x = $('#static-view' + i).children('img').length;
+            $('#static-view'+ i).children('img').css('opacity', 0.1);
+        }
+
+        console.log("---");
+        console.log(cluster_result);
+    });
+
+    $('.center-btn').click( function() {
+        $('#static-view').children('div').children('img').addClass('hidden');
+        for (var i = 0; i < k; i++) {
+            var datapoints = getDatapoints(cluster_result[i], dataset_face);
+            datapoint_face = getCentroid(datapoints);
+            d3.select("#static-view" + i)
+                .call(chernoffFace());
+        }
+    });
+
+    function getDatapoints(id_list, dataset) {
+        var datapoints_by_var = {};
+        var variables = Object.keys(dataset[id_list[0]]);
+        // console.log("==========================var");
+        // console.log(variables);
+        for (var i = 0; i < variables.length; i++) {
+            var key = variables[i];
+            datapoints_by_var[key] = [];
+        }
+        for (var i = 0; i < id_list.length; i++) {
+            for (var j = 0; j < variables.length; j++) {
+                var key = variables[j];
+                var id = id_list[i];
+                datapoints_by_var[key].push(dataset[id][key]);
+            }
+        }
+        return datapoints_by_var;
+    }
+
+    function getCentroid(dataset_by_var) {
+        var center = {};
+        var variables = Object.keys(dataset_by_var);
+        for (var i = 0; i < variables.length; i++) {
+            var key = variables[i];
+            var num = dataset_by_var[key].length;
+            center[key] = dataset_by_var[key].reduce(function(a,b) { return a + b}, 0);
+            center[key] = center[key] / num;
+        }
+        return center;
+    }
+
 </script>
-    
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 {% endblock %}

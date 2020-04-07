@@ -74,7 +74,7 @@
         function __chernoff(d) {
 
             //modified by Xiaofei
-            let er_var = (typeof(er_f) === "function" && !isNaN(er_f(d)) ? er_f(d) : er_f_default) * 8 + 10,
+            let er_var = (typeof(er_f) === "function" && !isNaN(er_f(d)) ? er_f(d) : er_f_default) * 21 + 5,
                 bv_var = (typeof(bv_f) === "function" && !isNaN(bv_f(d)) ? bv_f(d) : bv_f_default) * 25 - 25,
                 bs_var = (typeof(bs_f) === "function" && !isNaN(bs_f(d)) ? bs_f(d) : bs_f_default) * 11,
                 bl_var = (typeof(bl_f) === "function" && !isNaN(bl_f(d)) ? bl_f(d) : bl_f_default) * 12 + 10,

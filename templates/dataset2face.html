@@ -67,13 +67,13 @@
 	}
 	document.getElementById("data_table").innerHTML = content;
 
-    //default selection of json_mapping and datapoint_face for chernoff face generation
-    getLocalData = localStorage.getItem('mappingRule');
-	var json_mapping_temp = JSON.parse(getLocalData);
-    var example = readpara( {{ example }} );
-    var dataset_face = readpara( {{ dataset_face | safe }});
-    var data_id = 0;
-    var datapoint_face = dataset_face[data_id];
+  //default selection of json_mapping and datapoint_face for chernoff face generation
+  getLocalData = localStorage.getItem('mappingRule');
+  var json_mapping_temp = JSON.parse(getLocalData);
+  var example = readpara( {{ example }} );
+  var dataset_face = readpara( {{ dataset_face | safe }});
+  var data_id = 0;
+  var datapoint_face = dataset_face[data_id];
 	d3.select("#face")
 		.call(chernoffFace());
 	$("#data_table .datapoint").click( function() {

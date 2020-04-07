@@ -3,6 +3,7 @@
 {% block content %}
 <button type="button" class="btn btn-success overlay-btn">Overlay</button>
 <button type="button" class="btn btn-info center-btn">Center</button>
+<button type="button" class="btn btn-warning unknow">Unknow Datapoint</button>
 
 <div id="face_plot">
   <div class="row">
@@ -70,7 +71,7 @@
         }
         return center;
     }
-    
+
     var getLocalData = localStorage.getItem('localDataset');
     var json_dataset = JSON.parse(getLocalData);
     var variables = Object.keys(json_dataset[0]);
