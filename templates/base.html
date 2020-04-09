@@ -29,28 +29,31 @@
 </head>
 
 <body>
-    {% if title %}
-    <h3>{{ title }} - SmileyCluster</h3>
-    <a href="/logout">logout</a>
-    {% else %}
-    <h3>Welcome to SmileyCluster</h3>
-    {% endif %}
-    <hr>
-    {% block content %}{% endblock %}
-
-    <footer id="toolbox">
-        {% if example %}
-        <div>
-            <ul>
-                <li>Introduction</li>
-                <li><a class="var">Factors</a></li>
-                <li><a class="dataset2face">Dataset</a></li>
-                <li><a class="compare">Play with Faces</a></li>
-                <li><a class="cluster">Cluster</a></li>
-            </ul>
-        </div>
+    <div class="container">
+        {% if title %}
+        <h3>{{ title }} - SmileyCluster</h3>
+        <a href="/logout">logout</a>
+        {% else %}
+        <h3>Welcome to SmileyCluster</h3>
         {% endif %}
-    </footer>
+    </div>
+        <hr>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+        <footer id="toolbox">
+            {% if example %}
+            <div>
+                <ul>
+                    <li>Introduction</li>
+                    <li><a class="var">Factors</a></li>
+                    <li><a class="dataset2face">Dataset</a></li>
+                    <li><a class="compare">Play with Faces</a></li>
+                    <li><a class="cluster">Cluster</a></li>
+                </ul>
+            </div>
+            {% endif %}
+        </footer>
 
 {% block script %}
 {% endblock %}

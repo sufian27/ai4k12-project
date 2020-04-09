@@ -111,7 +111,12 @@ def var():
         return redirect(url_for('login'))
     if request.method == 'GET':
         example_index = request.args.get('example', default = 0, type = int)
-        return render_template('var.html', example = str(example_index), title='Variable')
+        create_table_from_csv(example_index)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+        return render_template('var.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Variable')
     else:
         return 'Invalid Data'
 
@@ -125,7 +130,7 @@ def dataset2face():
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-        return render_template('dataset2face.html', example = str(example_index), dataset_face = dataset_face, title='Dataset to Face')
+        return render_template('dataset2face.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Dataset to Face')
     else:
         return 'Invalid Data'
 
@@ -139,7 +144,7 @@ def compare():
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-        return render_template('compare.html', example = str(example_index), dataset_face = dataset_face, title='Smilarity Comparison')
+        return render_template('compare.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Smilarity Comparison')
     else:
         return 'Invalid Data'
 
@@ -158,10 +163,9 @@ def cluster():
         # print(centroids)
         # print(labels)
         json_cluster = json4cluster(dataset_array, centroids, labels, example_index)
-
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-        return render_template('cluster.html', example = str(example_index), dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
+        return render_template('cluster.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
     else:
         return 'Invalid Data'
 

@@ -90,12 +90,12 @@ def get_values_str(reader, row):
 #             fields_str += fields[i] + ' real, '
 #     return fields_str
 
-def dataset_pre_analysis(json_dataset):
-    variables = json_dataset[0].keys()
+def dataset_pre_analysis(dataset_face):
+    variables = dataset_face[0].keys()
     dataset_by_var = {}
     for i in variables:
         dataset_by_var[i] = []
-    for datapoint in json_dataset:
+    for datapoint in dataset_face:
         for var in variables:
             dataset_by_var[var].append(datapoint[var])
     stat_by_var = {}
@@ -105,12 +105,12 @@ def dataset_pre_analysis(json_dataset):
         stat_by_var[var]["min"] = min(dataset_by_var[var])
     return stat_by_var
 
-def dataset_preprocess(json_dataset, dataset_stat):
-    variables = json_dataset[0].keys()
-    for datapoint in json_dataset:
+def dataset_preprocess(dataset_face, dataset_stat):
+    variables = dataset_face[0].keys()
+    for datapoint in dataset_face:
         for var in variables:
             try:
                 datapoint[var] = (float(datapoint[var]) - float(dataset_stat[var]["min"]))/(float(dataset_stat[var]["max"]) - float(dataset_stat[var]["min"]))
             except ValueError:
                 del datapoint[var]
-    return json_dataset
+    return dataset_face

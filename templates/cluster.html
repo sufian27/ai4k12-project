@@ -60,7 +60,7 @@
     var json = json_cluster;
     console.log(json);
     var force = d3.layout.force()
-        .gravity(0.07)
+        .gravity(0.2)
         .distance(function(d) { 
             // return d.target.distance*190+60;
             return d.target.distance * 50 + 50;

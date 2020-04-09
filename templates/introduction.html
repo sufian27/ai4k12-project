@@ -12,17 +12,16 @@
 	function readpara (para) {
 		return para;
 	}
-	var dataset = readpara( {{ json_data | tojson | safe }} );
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
 	var dataset_face = readpara( {{ dataset_face | safe }} );
-	var full_json_dataset = JSON.parse(dataset);
+	var example = readpara( {{ example }} );
+
+	// var full_json_dataset = JSON.parse(dataset);
 	// var json_dataset = full_json_dataset.records.slice(0, 210)
-	var json_dataset = full_json_dataset.records;
+	// var json_dataset = full_json_dataset.records;
 	console.log(json_dataset.length);
 	var variables = Object.keys(json_dataset[0]);
-	var str_dataset = JSON.stringify(json_dataset);
-	localStorage.setItem('localDataset', str_dataset);
-
-	var example = readpara( {{ example }} );
 	$(".btn").click( function() {
 		$(this).attr("href", "/var?example=" + example);
 	});

@@ -26,9 +26,10 @@
 	var example_id = readpara( {{ example | safe }} );
 	var user_id = readpara( {{ g.user.id | safe }} );
 	var dataset_face = readpara( {{ dataset_face | safe }} );
-	var getLocalData = localStorage.getItem('localDataset');
-	var json_dataset = JSON.parse(getLocalData);
-	getLocalData = localStorage.getItem('mappingRule');
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
+
+	var getLocalData = localStorage.getItem('mappingRule');
 	var json_mapping = JSON.parse(getLocalData);
 	var datapoint_face = json_dataset[0]; //default datapoint for chernoffface.js
 	// var variables = Object.keys(json_dataset[0]);
