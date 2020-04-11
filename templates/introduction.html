@@ -2,6 +2,10 @@
 
 {% block content %}
 <img src="{{ url_for('static', filename = 'img/example' + example + '/intro.jpg') }}" width="50%">
+<form id="user_data">
+	<input type="text" id="user_input" name="user_input">
+	<button type="submit">Submit</button>
+</form>
 <div id="test"></div>
 <div id="test2"></div>
 <a class="btn btn-primary" role="button">Next</a>
@@ -24,6 +28,39 @@
 	var variables = Object.keys(json_dataset[0]);
 	$(".btn").click( function() {
 		$(this).attr("href", "/var?example=" + example);
+	});
+
+	const user_data = document.getElementById("user_data");
+
+	user_data.addEventListener("submit", function (e) {
+		e.preventDefault();
+
+        var data = {
+            val: document.getElementById("user_input").value
+        };
+
+        console.log(this.value);
+        fetch(`${window.origin}/intro`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(data),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log(`Looks like there was a problem. Status code: ${response.status}`);
+                return;
+                }
+            response.json().then(function (data) {
+            console.log(data);
+            });
+        })
+        .catch(function (error) {
+            console.log("Fetch error: " + error);
+        });
 	});
 
 	//note: what are needed for most pages: json_dataset, dataset_face(in case some original variables are not numeric), json_mapping, example index
