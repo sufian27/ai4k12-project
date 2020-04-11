@@ -1,11 +1,4 @@
 $(document).ready( function() {
-    var image_stored = localStorage.getItem('images_stored');
-    if (image_stored == null) {
-        image_stored = false;
-        localStorage.setItem("images_stored",image_stored);
-    } else {
-        image_stored = JSON.parse(image_stored);
-    }
 
     $("#all_faces").click( function() {
         // $("#data_table").toggleClass("hidden");
@@ -64,10 +57,6 @@ $(document).ready( function() {
                 return data_id * 1000;
             })(data_id));
 
-            if (data_id == (dataset_face.length - 1)) {
-                image_stored = true;
-                localStorage.setItem("images_stored",image_stored);
-            }
             // codes to download png image
             // var link = document.createElement('a');
             // link.download = data_id + '.png';

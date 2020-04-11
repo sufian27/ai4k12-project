@@ -21,7 +21,7 @@
 
 {% block script %}
 <script src="{{ url_for('static', filename='js/chernoff.js') }}"></script>
-<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script> -->
 <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
 <script type="text/javascript">
     function readpara (para) {
@@ -37,7 +37,7 @@
     var datapoint_face = dataset_face[0];
     for (var i = 0; i < $('.dropdown-item').length; i++) {
         var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
-        $('.dropdown-item').eq(i).attr('href','/cluster?example=' + example + '&k=' + k_value);
+        $('.dropdown-item').eq(i).attr('href','/cluster2?example=' + example + '&k=' + k_value);
     }
 
     var width = 1000;
@@ -68,32 +68,34 @@
     console.log(json);
 
     var chernoff = d3.chernoff()
-        .face(function(d) { return d.f; })
-        .hair(function(d) { return d.h; })
-        .mouth(function(d) { return d.m; })
-        .nosew(function(d) { return d.nw; }) //exist
-        .noseh(function(d) { return d.nh; }) //exist
-        .eyew(function(d) { return d.ew; })
-        .eyeh(function(d) { return d.eh; })
-        .brow(function(d) { return d.b; })
-        .eyeRadius(function(d) { return d.er; }) //exist
-        .browVertical(function(d) { return d.bv; }) //exist
-        .browSlant(function(d) { return d.bs; }) //exist
-        .browLength(function(d) { return d.bl; }) //exist
-        .mouthSize(function(d) { return d.ms; }) //exist
-        .mouthVertical(function(d) { return d.mv; }) //exist
-        .mouthCurve(function(d) { return d.mc; }); //exist
+        .face(function(d) { dp = dataParse(d.data); return dp.f; })
+        .hair(function(d) { dp = dataParse(d.data); return dp.h; })
+        .mouth(function(d) { dp = dataParse(d.data); return dp.m; })
+        .nosew(function(d) { dp = dataParse(d.data); return dp.nw; }) //exist
+        .noseh(function(d) { dp = dataParse(d.data); return dp.nh; }) //exist
+        .eyew(function(d) { dp = dataParse(d.data); return dp.ew; })
+        .eyeh(function(d) { dp = dataParse(d.data); return dp.eh; })
+        .brow(function(d) { dp = dataParse(d.data); return dp.b; })
+        .eyeRadius(function(d) { dp = dataParse(d.data); return dp.er; }) //exist
+        .browVertical(function(d) { dp = dataParse(d.data); return dp.bv; }) //exist
+        .browSlant(function(d) { dp = dataParse(d.data); return dp.bs; }) //exist
+        .browLength(function(d) { dp = dataParse(d.data); return dp.bl; }) //exist
+        .mouthSize(function(d) { dp = dataParse(d.data); return dp.ms; }) //exist
+        .mouthVertical(function(d) { dp = dataParse(d.data); return dp.mv; }) //exist
+        .mouthCurve(function(d) { dp = dataParse(d.data); return dp.mc; }); //exist
 
-    function data() {
-        var d = {};
+    function dataParse(data) {
+        console.log("---");
+        console.log(data);
+        var dp = {};
         var facial = "";
-        for (key in datapoint_face) {
+        for (key in data) {
             facial = json_mapping[key];
             if (facial != "0") {
-                d[facial] = datapoint_face[key];
+                dp[facial] = data[key];
             }
         }
-        return [d];
+        return [dp];
     }
 
     var force = d3.layout.force()
@@ -122,27 +124,28 @@
         // .attr("class", "node")
         .attr("id", function(d) {return d.name})
         .attr("class", function(d) {return d.group})
+        // .append("svg")
+        // .attr("width", 30)
+        // .attr("height", 30)
+        // .end()
         .call(force.drag);
 
     // node.append("image")
-    node.append("svg")
-        // .attr("xlink:href", function(d) { return d.pic;})
-        // .attr("x", -15)
-        // .attr("y", -15)
-        // .attr("width", 30)
-        // .attr("height", 30)
-        .attr('class', 'face')
-        .append("circle")
-        .attr("r",15)
-        .attr("x", -15)
-        .attr("y", -15)
-        .attr("fill","orange");
+    // node.append("circle")
+    //     .attr("r",15)
+    //     .attr("fill","orange");
 
-    // svg.selectAll("svg.face")
-    //     .data(data())
-    //     .enter().append("g")
-    //     .attr("class", "chernoff")
-    //     .call(chernoff);
+    node.append("svg")
+        .attr("width", 40)
+        .attr("height", 40)
+        .attr("x", -20)
+        .attr("y", -20)
+        .selectAll(function(d) { return '#face' + d.name})
+        .data(dataParse(function(d) {console.log(d.data); return d.data}))
+        .enter().append("g")
+        .attr("class", "chernoff")
+        .attr("id", function(d) { console.log('face' + d.name); return 'face' + d.name})
+        .call(chernoff);
 
     force.on("tick", function() {
         link.attr("x1", function(d) { return d.source.x; })

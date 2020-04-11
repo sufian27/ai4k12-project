@@ -1,0 +1,64 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="dropdown dropright">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        k = {{ k }}
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">k = 2</a>
+        <a class="dropdown-item" href="#">k = 3</a>
+        <a class="dropdown-item" href="#">k = 4</a>
+        <a class="dropdown-item" href="#">k = 5</a>
+        <a class="dropdown-item" href="#">k = 6</a>
+        <a class="dropdown-item" href="#">k = 7</a>
+        <a class="dropdown-item" href="#">k = 8</a>
+        <a class="dropdown-item" href="#">k = 9</a>
+    </div>
+</div>
+<div id="cluster-vis" class="row"></div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/chernoff.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
+<script type="text/javascript">
+    function readpara (para) {
+        return para;
+    }
+    var k = readpara( {{ k }} );
+    var json_cluster = readpara( {{ json_cluster | safe }} );
+    var json_object = readpara( {{ json_data | tojson | safe }} );
+    var json_dataset = JSON.parse(json_object).records;
+    var dataset_face = readpara( {{ dataset_face | safe }});
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping = JSON.parse(getLocalData);
+    var datapoint_face = dataset_face[0];
+    for (var i = 0; i < $('.dropdown-item').length; i++) {
+        var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
+        $('.dropdown-item').eq(i).attr('href','/cluster2?example=' + example + '&k=' + k_value);
+    }
+
+    // generate the overaly of clusters
+    var cluster_box = "";
+    for ( var i = 0; i < k; i ++ ) {
+        cluster_box = $('<div class="compare-canvas" id = "cluster' + i + '" style = "height: 150px; width: 150px;"></div>');
+        $('#cluster-vis').append(cluster_box);
+    }
+
+    for ( var j = 0; j < (json_cluster['nodes'].length - k); j ++ ) {
+        var cluster_box_id = "#cluster" + json_cluster['nodes'][j]['group'];
+        var datapoint_id = parseInt(json_cluster['nodes'][j]['data']['id']) - 1;
+        var face_place = $('<span class = "overlay" id = "overlay' + datapoint_id + '" ></span>');
+        $(cluster_box_id).append(face_place);
+        datapoint_face = dataset_face[datapoint_id];
+        d3.select("#overlay" + datapoint_id)
+            .call(chernoffFace())
+
+        $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.5);
+    }
+
+</script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
+{% endblock %}

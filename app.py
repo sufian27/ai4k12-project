@@ -155,7 +155,7 @@ def compare():
     else:
         return 'Invalid Data'
 
-@app.route('/cluster', methods = ['GET', 'POST'])
+@app.route('/cluster2', methods = ['GET', 'POST'])
 def cluster():
     if g.user == None:
         return redirect(url_for('login'))
@@ -173,7 +173,7 @@ def cluster():
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
         json_cluster = json4cluster(dataset_array, centroids, labels, example_index, dataset_face)
 
-        return render_template('cluster.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
+        return render_template('cluster2.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
     else:
         return 'Invalid Data'
 
