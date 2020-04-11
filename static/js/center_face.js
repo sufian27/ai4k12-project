@@ -32,6 +32,9 @@
             var face_span_list = $('#' + current_canvas_id + ' span');
             $('#' + current_canvas_id + ' > svg').remove();
             face_span_list.removeClass('hidden');
+            $('.selected-block').removeClass('selected-block');
+            $(this).parent('.compare-block').addClass('selected-block');
+
         } else {
             var datapointIDs = [];
             if ($(this).children('span').length > 1) {
@@ -49,7 +52,11 @@
                 datapoint_face = centroid_for_face;
                 face_span_list.addClass('hidden');
                 d3.select('#' + current_canvas_id)
-                    .call(chernoffFace())      
+                    .call(chernoffFace()); 
+                $('#' + current_canvas_id + ' > svg').attr('class', 'center');   
+            }
+            if($(this).parent('.compare-block').hasClass('selected-block')) {
+                $(this).parent('.compare-block').removeClass('selected-block');
             }
         }
     });

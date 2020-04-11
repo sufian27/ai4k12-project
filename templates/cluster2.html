@@ -16,7 +16,10 @@
         <a class="dropdown-item" href="#">k = 9</a>
     </div>
 </div>
-<div id="cluster-vis" class="row"></div>
+<div class="row">
+    <div id="cluster-vis" class="col-8"></div>
+    <div class="center-face-overlay col-2"></div>
+</div>
 {% endblock %}
 
 {% block script %}
@@ -29,6 +32,7 @@
     }
     var k = readpara( {{ k }} );
     var json_cluster = readpara( {{ json_cluster | safe }} );
+    console.log(json_cluster);
     var json_object = readpara( {{ json_data | tojson | safe }} );
     var json_dataset = JSON.parse(json_object).records;
     var dataset_face = readpara( {{ dataset_face | safe }});
@@ -49,15 +53,33 @@
 
     for ( var j = 0; j < (json_cluster['nodes'].length - k); j ++ ) {
         var cluster_box_id = "#cluster" + json_cluster['nodes'][j]['group'];
-        var datapoint_id = parseInt(json_cluster['nodes'][j]['data']['id']) - 1;
+        var datapoint_id = parseInt(json_cluster['nodes'][j]['name'].substr(2));
         var face_place = $('<span class = "overlay" id = "overlay' + datapoint_id + '" ></span>');
         $(cluster_box_id).append(face_place);
         datapoint_face = dataset_face[datapoint_id];
         d3.select("#overlay" + datapoint_id)
             .call(chernoffFace())
-
-        $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.5);
+        if ($(cluster_box_id + ' span').length > 1) {
+            $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.5);
+        }
     }
+
+    $(document).on('click', ".center", function() {
+        var cluster_id = $(this).parent('.compare-canvas').attr('id');
+        if ($(this).hasClass('gone')) {
+            $('.center-face-overlay .' + cluster_id).remove();
+            $(this).removeClass('gone');
+        } else {
+            var center = $(this).clone();
+            var center_span = $('<span class = "overlay ' + cluster_id + '"></span>');
+            $('.center-face-overlay').append(center_span);
+            $('.' + cluster_id).append(center);
+            $(this).addClass('gone');
+            if($('.center-face-overlay').children('span').length > 1) {
+                $('.center-face-overlay .center').attr('opacity', 0.5);
+            }
+        }
+    });
 
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>

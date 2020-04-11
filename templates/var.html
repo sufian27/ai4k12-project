@@ -6,6 +6,9 @@
 
 {% block script %}
 <script>
+	function readpara (para) {
+		return para;
+	}
 	var json_object = readpara( {{ json_data | tojson | safe }} );
 	var json_dataset = JSON.parse(json_object).records;
 	var variables = Object.keys(json_dataset[0]);

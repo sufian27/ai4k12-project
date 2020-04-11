@@ -26,6 +26,10 @@
 	background-color: #d5f4e6;
 }
 
+.compare-block .compare-canvas {
+	border: 3px solid #d5f4e6;
+}
+
 .compare-index {
 	margin-left: 10px;
 	padding-left: 10px;
@@ -101,6 +105,10 @@
 	background-color: #ffffcc;
 	overflow: scroll;
 	margin-bottom: 10px;
+}
+
+.center-face-overlay {
+	height: 150px;
 }
 
 /*.modal-dialog {
