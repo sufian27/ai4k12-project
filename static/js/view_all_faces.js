@@ -31,34 +31,34 @@ $(document).ready( function() {
                 d3.select(face_place_id)
                     .call(chernoffFace());
 
-                if (!image_stored) {
-                    //codes to transfer the canvas as a png image:
-                    var svgtag = face_place_id + " svg";
-                    var svg_face = document.querySelector(svgtag);
-                    var svgData = new XMLSerializer().serializeToString(svg_face);
-                    var canvas = document.createElement("canvas");
-                    var svgSize = svg_face.getBoundingClientRect();
-                    canvas.width = svgSize.width;
-                    canvas.height = svgSize.height;
-                    var ctx = canvas.getContext("2d");
-                    var img = document.createElement("img");
-                    img.setAttribute( "src", "data:image/svg+xml;base64," + btoa( svgData ) );
+                // if (!image_stored) {
+                //     //codes to transfer the canvas as a png image:
+                //     var svgtag = face_place_id + " svg";
+                //     var svg_face = document.querySelector(svgtag);
+                //     var svgData = new XMLSerializer().serializeToString(svg_face);
+                //     var canvas = document.createElement("canvas");
+                //     var svgSize = svg_face.getBoundingClientRect();
+                //     canvas.width = svgSize.width;
+                //     canvas.height = svgSize.height;
+                //     var ctx = canvas.getContext("2d");
+                //     var img = document.createElement("img");
+                //     img.setAttribute( "src", "data:image/svg+xml;base64," + btoa( svgData ) );
                     
-                    img.onload = function() {
-                        ctx.drawImage(img, 0, 0);
-                        var imgUrl = canvas.toDataURL( "image/png" );
-                        imgUrl = imgUrl.substring(22);
-                        var imgData = {};
-                        imgData[data_id] = imgUrl; //codes from https://blog.csdn.net/weixin_41679938/java/article/details/89400287
-                        imgData["example"] = example;
-                        var senddata = JSON.stringify(imgData);
-                        var xhr = new XMLHttpRequest();
-                        var uploadcanvas = "/uploadcanvas";
-                        xhr.open("POST", uploadcanvas, true);
-                        xhr.setRequestHeader('content-type', 'application/json');
-                        xhr.send(JSON.stringify(senddata));
-                    }
-                }                
+                //     img.onload = function() {
+                //         ctx.drawImage(img, 0, 0);
+                //         var imgUrl = canvas.toDataURL( "image/png" );
+                //         imgUrl = imgUrl.substring(22);
+                //         var imgData = {};
+                //         imgData[data_id] = imgUrl; //codes from https://blog.csdn.net/weixin_41679938/java/article/details/89400287
+                //         imgData["example"] = example;
+                //         var senddata = JSON.stringify(imgData);
+                //         var xhr = new XMLHttpRequest();
+                //         var uploadcanvas = "/uploadcanvas";
+                //         xhr.open("POST", uploadcanvas, true);
+                //         xhr.setRequestHeader('content-type', 'application/json');
+                //         xhr.send(JSON.stringify(senddata));
+                //     }
+                // }                
 
             })(data_id),(function(data_id){
                 return data_id * 1000;

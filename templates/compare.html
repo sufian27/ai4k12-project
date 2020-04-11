@@ -4,8 +4,9 @@
 <div class="row">
 	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
 		<div class="row">
-			<div class="col compare-block">
-				<div class="compare-canvas" id = "canvas0" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div>
+			<div class="col compare-block selected-block" id="block0">
+				<!-- <div class="compare-canvas" id = "canvas0" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div> -->
+				<div class="compare-canvas" id = "canvas0" ></div>
 				<div class="compare-index"></div>				
 			</div>
 			<button type="button" class="btn btn-primary add-btn float-left">+</button>			
@@ -62,9 +63,71 @@
     	}
 	});
 
+	$(document).on('click', 'button.close-btn', function() {
+    	var id = $(this).parent(".badge")
+    		.clone()
+    		.children() //select all the children
+    		.remove()   //remove all the children
+    		.end()  //again go back to selected element
+    		.text();
+    	current_id = parseInt(id) - 1;
+    	if (!$("#overlay" + current_id).hasClass('hidden')) {
+			var block_id = $( '#overlay' + current_id ).parent('.compare-canvas').attr('id').substr(6);
+			$( '#overlay' + current_id ).remove();
+			$( '#tag' + current_id ).remove();
+			$( '#wrap' + current_id ).removeClass('gone');
+	        if ( $('#canvas' + block_id).children('span').length == 1 ) {
+	        	$('#canvas' + block_id).children('span').children('svg').attr('opacity', 1);
+	        } else if ( $('#canvas' + block_id).children('span').length == 0 && ($('.compare-block').length > 1)) {
+	        	if ($('#block' + block_id).hasClass('selected-block')) {
+	        		$('#block' + block_id).remove();
+	        		var new_selected = $('.compare-block').length - 1;
+	        		$('.compare-block').eq(new_selected).addClass('selected-block');
+	        	} else {
+	        		$('#block' + block_id).remove();
+	        	}
+
+	        }
+    	}
+	
+	});
+
+	$(document).on('click', ".conbox", function() {
+		var svg_id = $(this).children('svg').attr('id');
+        current_id = svg_id.substr(5);
+		if ($(this).hasClass('gone')) {
+			// d3.select('#overlay' + current_id + ' svg').remove();
+			$( '#overlay' + current_id ).remove();
+			$( '#tag' + current_id ).remove();
+			$(this).removeClass('gone');
+	        if ($('.selected-block .compare-canvas').children('span').length == 1) {
+	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 1);
+	        }			
+		} else {
+	        datapoint_face = dataset_face[current_id];
+	        $('.selected-block .compare-canvas').append($('<span id = "overlay' + current_id + '"></span>'))
+	        $('#overlay' + current_id).addClass('overlay');
+	        d3.select('#overlay' + current_id)
+	        	.call(chernoffFace())
+	        // $('.selected-block .compare-canvas').children('svg')
+	        // $('.selected-block .compare-canvas').children('svg').addClass('overlay');
+	        if ($('.selected-block .compare-canvas').children('span').length > 1) {
+	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 0.5);
+	        }
+	        var elem = $('.selected-block .compare-index');
+	        addTag(elem, current_id);
+	        $(this).addClass('gone');
+	        console.log($('.selected-block .compare-canvas').children('span').length);     
+	    }
+	});
+
 	$(".add-btn").click(function () {
 		var current_num = $('.compare-block').length;
+		$('.compare-block').removeClass('selected-block');
 		var compare_template = $('.compare-block').eq(0).clone();
+		var block_id = $('.compare-block').length;
+		compare_template.attr('id', 'block' + block_id);
+		compare_template.addClass('selected-block');
 		compare_template.children(".compare-canvas").children().remove();
 		compare_template.children(".compare-index").children().remove();
 		compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);

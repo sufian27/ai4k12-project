@@ -2,13 +2,17 @@ function allowDrop(ev) {
     ev.preventDefault();
 }
 function drag(ev) {
-    ev.dataTransfer.setData('Img', ev.target.id);
-    current_id = parseInt(ev.target.id.substr(4)) + 1;
+    if (ev.target.classList.contains('draggable')) {
+        selectedElement = ev.target;
+        current_id = parseInt(ev.target.id.substr(4)) + 1;
+    }
+    // ev.dataTransfer.setData('text/plain', ev.target.id);    
 }
 function dropChild(ev) {
     ev.preventDefault();
-    var data = ev.dataTransfer.getData('img');
+    var data = ev.dataTransfer.getData('text');
     var data_element = document.getElementById(data);
+    alert(data);
     if(typeof(data_element) != 'undefined' && data_element != null) {
         data_element.width = "100";
         if (ev.target.className == 'compare-canvas') {
@@ -27,12 +31,14 @@ function dropChild(ev) {
         var canvas_id_val = parseInt(canvas_id.substr(6));
         // $(".compare-canvas img").css('top', 0 );
         // $(".compare-canvas img").css('left', 100*canvas_id_val );
-        $(".compare-canvas img").addClass("overlay");
+        $(".compare-canvas span").addClass("overlay");
         
-        $("#" + canvas_id).children("img").css('opacity', 1/(x+1));
+        $("#" + canvas_id).children("span").css('opacity', 1/(x+1));
 
         fade(current_id);
         addTags(elem, current_id);
+    } else {
+        alert('fail');
     }
 }
 
@@ -52,4 +58,14 @@ function addTags(elem, face_id) {
 	id_tag.appendChild(text);
 	id_tag.appendChild(close);
 	elem.appendChild(id_tag);
+}
+
+function addTag(elem, face_id) {
+    var id = parseInt(face_id) + 1;
+    var id_tag = $('<span id = "tag' + face_id + '" >' + id + '</span>');
+    var close = $('<button>x</button>');
+    id_tag.addClass("badge");
+    close.addClass("close-btn");
+    id_tag.append(close);
+    elem.append(id_tag);
 }
