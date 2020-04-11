@@ -109,8 +109,9 @@ def dataset_preprocess(dataset_face, dataset_stat):
     variables = dataset_face[0].keys()
     for datapoint in dataset_face:
         for var in variables:
-            try:
-                datapoint[var] = (float(datapoint[var]) - float(dataset_stat[var]["min"]))/(float(dataset_stat[var]["max"]) - float(dataset_stat[var]["min"]))
-            except ValueError:
-                del datapoint[var]
+            if var != "id":
+                try:
+                    datapoint[var] = (float(datapoint[var]) - float(dataset_stat[var]["min"]))/(float(dataset_stat[var]["max"]) - float(dataset_stat[var]["min"]))
+                except ValueError:
+                    del datapoint[var]
     return dataset_face

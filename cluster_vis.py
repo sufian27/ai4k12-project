@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.cluster import KMeans
 import math
 
-def json4cluster(dataset, centroids, labels, example):
+def json4cluster(dataset, centroids, labels, example, dataset_face):
 	json_cluster = {}
 	json_cluster["nodes"] = []
 	json_cluster["links"] = []
@@ -21,8 +21,9 @@ def json4cluster(dataset, centroids, labels, example):
 		distance = distanceCal(dataset[i], centroids[labels[i]])
 		distance_list.append(distance)
 		node["distance"] = distance
-		pic_src = "/static/image/example" + str(example) + "/" + str(i) + ".png";
-		node["pic"] = pic_src
+		# pic_src = "/static/image/example" + str(example) + "/" + str(i) + ".png";
+		# node["pic"] = pic_src
+		node["data"] = dataset_face[i]
 		json_cluster["nodes"].append(node)
 
 		link = {}

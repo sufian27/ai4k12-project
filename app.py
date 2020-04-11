@@ -162,9 +162,10 @@ def cluster():
         # print(dataset_array)
         # print(centroids)
         # print(labels)
-        json_cluster = json4cluster(dataset_array, centroids, labels, example_index)
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+        json_cluster = json4cluster(dataset_array, centroids, labels, example_index, dataset_face)
+
         return render_template('cluster.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
     else:
         return 'Invalid Data'

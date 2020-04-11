@@ -20,24 +20,31 @@
 {% endblock %}
 
 {% block script %}
-<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="{{ url_for('static', filename='js/chernoff.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
 <script type="text/javascript">
     function readpara (para) {
         return para;
     }
     var k = readpara( {{ k }} );
     var json_cluster = readpara( {{ json_cluster | safe }} );
+    var json_object = readpara( {{ json_data | tojson | safe }} );
+    var json_dataset = JSON.parse(json_object).records;
+    var dataset_face = readpara( {{ dataset_face | safe }});
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping = JSON.parse(getLocalData);
+    var datapoint_face = dataset_face[0];
     for (var i = 0; i < $('.dropdown-item').length; i++) {
         var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
         $('.dropdown-item').eq(i).attr('href','/cluster?example=' + example + '&k=' + k_value);
     }
-</script>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script>
+
     var width = 1000;
     var height = 500;
     var border = 0.5;
     var bordercolor='grey';
+    
     var svg = d3.select("#cluster-vis").append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -59,6 +66,36 @@
 
     var json = json_cluster;
     console.log(json);
+
+    var chernoff = d3.chernoff()
+        .face(function(d) { return d.f; })
+        .hair(function(d) { return d.h; })
+        .mouth(function(d) { return d.m; })
+        .nosew(function(d) { return d.nw; }) //exist
+        .noseh(function(d) { return d.nh; }) //exist
+        .eyew(function(d) { return d.ew; })
+        .eyeh(function(d) { return d.eh; })
+        .brow(function(d) { return d.b; })
+        .eyeRadius(function(d) { return d.er; }) //exist
+        .browVertical(function(d) { return d.bv; }) //exist
+        .browSlant(function(d) { return d.bs; }) //exist
+        .browLength(function(d) { return d.bl; }) //exist
+        .mouthSize(function(d) { return d.ms; }) //exist
+        .mouthVertical(function(d) { return d.mv; }) //exist
+        .mouthCurve(function(d) { return d.mc; }); //exist
+
+    function data() {
+        var d = {};
+        var facial = "";
+        for (key in datapoint_face) {
+            facial = json_mapping[key];
+            if (facial != "0") {
+                d[facial] = datapoint_face[key];
+            }
+        }
+        return [d];
+    }
+
     var force = d3.layout.force()
         .gravity(0.2)
         .distance(function(d) { 
@@ -82,17 +119,30 @@
     var node = svg.selectAll(".node")
         .data(json.nodes)
         .enter().append("g")
-        .attr("class", "node")
+        // .attr("class", "node")
         .attr("id", function(d) {return d.name})
         .attr("class", function(d) {return d.group})
         .call(force.drag);
 
-    node.append("image")
-        .attr("xlink:href", function(d) { return d.pic;})
+    // node.append("image")
+    node.append("svg")
+        // .attr("xlink:href", function(d) { return d.pic;})
+        // .attr("x", -15)
+        // .attr("y", -15)
+        // .attr("width", 30)
+        // .attr("height", 30)
+        .attr('class', 'face')
+        .append("circle")
+        .attr("r",15)
         .attr("x", -15)
         .attr("y", -15)
-        .attr("width", 30)
-        .attr("height", 30);
+        .attr("fill","orange");
+
+    // svg.selectAll("svg.face")
+    //     .data(data())
+    //     .enter().append("g")
+    //     .attr("class", "chernoff")
+    //     .call(chernoff);
 
     force.on("tick", function() {
         link.attr("x1", function(d) { return d.source.x; })
@@ -102,8 +152,7 @@
         node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     });
     // });
+
 </script>
-    
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}

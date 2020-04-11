@@ -26,13 +26,34 @@
 
     });
 
-    $(document).on('dblclick', '.compare-canvas svg', function() {
-        var current_canvas_id = $(this).parent('.compare-canvas').attr('id');
-        var face_img_list = $('#' + current_canvas_id + ' img');
-        d3.select('#' + current_canvas_id + ' svg').remove();
-        $('#' + current_canvas_id).attr('ondrop', 'dropChild(event)')
-        $('#' + current_canvas_id).attr('ondragover', 'allowDrop(event)')
-        face_img_list.removeClass('hidden');
+    $(document).on('dblclick', '.compare-canvas', function() {
+        console.log($(this));
+        if ($(this).children('span').hasClass('hidden')) {
+            var current_canvas_id = $(this).attr('id');
+            var face_span_list = $('#' + current_canvas_id + ' span');
+            $('#' + current_canvas_id + ' > svg').remove();
+            face_span_list.removeClass('hidden');
+        } else {
+            if ($(this).children('span').length > 1) {
+                var current_canvas_id = $(this).attr('id');
+                var datapointIDs = [];
+                var face_span_list = $('#' + current_canvas_id + ' span');
+                for (i = 0; i < face_span_list.length; i++) {
+                    var face_span = face_span_list.eq(i);
+                    //extract number from a string
+                    var data_id = face_span.attr('id').replace(/[^\d]/g, '');
+                    datapointIDs.push(data_id);
+                }
+
+                var datapoints_by_var = getDatapoints(datapointIDs, dataset_face);
+                var centroid_for_face = getCentroid(datapoints_by_var);
+
+                datapoint_face = centroid_for_face;
+                face_span_list.addClass('hidden');
+                d3.select('#' + current_canvas_id)
+                    .call(chernoffFace())      
+            }
+        }
     });
 
     function getDatapoints(id_list, dataset) {
