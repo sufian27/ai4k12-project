@@ -22,7 +22,8 @@
         var face_place_id = "#wrap" + data_id;
         d3.select(face_place_id)
             .call(chernoffFace())
-        $(face_place_id + ' svg').attr('id', "#face" + data_id);
+        $(face_place_id + ' svg').attr('id', "face" + data_id);
+        $(face_place_id + ' svg').attr('class', 'hover-face');
         // console.log('===');
         // console.log(data_id);
         // console.log(dataset_face[data_id]['id']);

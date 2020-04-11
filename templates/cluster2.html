@@ -39,6 +39,7 @@
     var getLocalData = localStorage.getItem('mappingRule');
     var json_mapping = JSON.parse(getLocalData);
     var datapoint_face = dataset_face[0];
+    var center_face_list = {};
     for (var i = 0; i < $('.dropdown-item').length; i++) {
         var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
         $('.dropdown-item').eq(i).attr('href','/cluster2?example=' + example + '&k=' + k_value);

@@ -76,6 +76,8 @@
   var datapoint_face = dataset_face[data_id];
 	d3.select("#face")
 		.call(chernoffFace());
+  $('#face svg').attr('id', "face" + data_id);
+  $('#face svg').attr('class', 'hover-face');
 	$("#data_table .datapoint").click( function() {
     	// data_id = parseInt($(this).text()) - 1;
     	data_id = parseInt($(this).attr('id'));
@@ -83,7 +85,9 @@
     	d3.select("#face svg").remove();
     	d3.select("#face")
     		.call(chernoffFace());
-    });
+      $('#face svg').attr('id', "face" + data_id);
+      $('#face svg').attr('class', 'hover-face');
+  });
 
 </script>
 <script src="{{ url_for('static', filename = 'js/view_all_faces.js') }}"></script>

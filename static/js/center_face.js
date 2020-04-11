@@ -48,12 +48,17 @@
                 }
                 var datapoints_by_var = getDatapoints(datapointIDs, dataset_face);
                 var centroid_for_face = getCentroid(datapoints_by_var);
+                var datapoints_by_var_original = getDatapoints(datapointIDs, json_dataset);
+                var centroid_original = getCentroid(datapoints_by_var_original);
 
                 datapoint_face = centroid_for_face;
                 face_span_list.addClass('hidden');
                 d3.select('#' + current_canvas_id)
                     .call(chernoffFace()); 
-                $('#' + current_canvas_id + ' > svg').attr('class', 'center');   
+                var center_id = 'center' + datapointIDs[0];
+                $('#' + current_canvas_id + ' > svg').attr('id', center_id);   
+                $('#' + current_canvas_id + ' > svg').attr('class', 'center');
+                center_face_list[center_id] = centroid_original;
             }
             if($(this).parent('.compare-block').hasClass('selected-block')) {
                 $(this).parent('.compare-block').removeClass('selected-block');

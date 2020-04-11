@@ -23,6 +23,8 @@ $(document).ready( function() {
                 var face_place_id = "#id" + data_id;
                 d3.select(face_place_id)
                     .call(chernoffFace());
+                $(face_place_id + ' svg').attr('id', "face" + data_id);
+                $(face_place_id + ' svg').attr('class', 'hover-face');
 
                 // if (!image_stored) {
                 //     //codes to transfer the canvas as a png image:

@@ -179,6 +179,7 @@
 
             // Eyebrows //
             ele.append('rect')
+                .attr("class", "leyebrow")
                 .attr('x', -eyeSpacing - bl_var / 2 - browSpacing)
                 // .attr('transform', `translate(68, ${-1*eyeVertical+bv_var+74}) rotate(${bs_var})`)
                 .attr('transform', `translate(48, ${-1*eyeVertical+bv_var+14}) rotate(${bs_var})`)
@@ -190,6 +191,7 @@
 
 
             ele.append('rect')
+                .attr("class", "reyebrow")
                 .attr('x', eyeSpacing - bl_var / 2 + browSpacing)
                 // .attr('transform', ``)
                 // .attr('transform', `rotate(-20 * (Math.PI / 180))`)

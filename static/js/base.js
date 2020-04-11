@@ -16,8 +16,54 @@
     $('.refresh').click( function() {
         location.reload(true);
     });
+
 });
 
+$(document).on('mouseover', "g.chernoff", function(e) {
+    var mousePos = mousePosition(e);
+    var  xOffset = 20;
+    var  yOffset = 25;
+    $("#tooltip").css("display","block").css("position","absolute").css("top",(mousePos.y - yOffset) + "px").css("left",(mousePos.x + xOffset) + "px");
+    if ($(this).parent('svg').hasClass('hover-face')) {
+        var datapoint_id = $(this).parent('svg').attr('id').substr(4);
+        var datapoint = json_dataset[datapoint_id];
+        if (parseInt(datapoint_id) == (parseInt(datapoint['id']) - 1)) {
+            var id = parseInt(datapoint_id) + 1;
+        } else {
+            var id = datapoint['id'];
+        }
+        var id_line = $('<div>id: ' + id + '</div>');
+        $("#tooltip").append(id_line);
+    } else if ($(this).parent('svg').hasClass('center')) {
+        var datapoint_id = $(this).parent('svg').attr('id');
+        var datapoint = center_face_list[datapoint_id];
+        var id_line = $('<div>Center Face</div>');
+        $("#tooltip").append(id_line);
+    }
+    for (dataset_feature in json_mapping) {
+        var facial_short = json_mapping[dataset_feature];
+        var facial_feature = facial_full[facial_short];
+        var datapoint_value = datapoint[dataset_feature];
+        var feature_line = $('<p>' + facial_feature + ' - ' + dataset_feature + ': ' + datapoint_value + '</p>');
+        $("#tooltip").append(feature_line);
+    }
+});
+
+$(document).on('mouseout', "g.chernoff", function(e) {
+     $("#tooltip").empty();
+     $("#tooltip").css("display","none");
+});
+
+function mousePosition(ev){ 
+    ev = ev || window.event; 
+    if(ev.pageX || ev.pageY){ 
+        return {x:ev.pageX, y:ev.pageY}; 
+    } 
+    return { 
+        x:ev.clientX + document.body.scrollLeft - document.body.clientLeft, 
+        y:ev.clientY + document.body.scrollTop - document.body.clientTop 
+    }; 
+}
 
 function allowDropFeature(ev) {
     ev.preventDefault();

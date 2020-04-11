@@ -33,6 +33,7 @@
 	var getLocalData = localStorage.getItem('mappingRule');
 	var json_mapping = JSON.parse(getLocalData);
 	var datapoint_face = json_dataset[0]; //default datapoint for chernoffface.js
+	var center_face_list = {};
 	// var variables = Object.keys(json_dataset[0]);
 
 	var current_id = 0;
@@ -94,7 +95,7 @@
 
 	$(document).on('click', ".conbox", function() {
 		var svg_id = $(this).children('svg').attr('id');
-        current_id = svg_id.substr(5);
+        current_id = svg_id.substr(4);
 		if ($(this).hasClass('gone')) {
 			// d3.select('#overlay' + current_id + ' svg').remove();
 			$( '#overlay' + current_id ).remove();
