@@ -21,6 +21,11 @@
     {% if example %}
     <script type="text/javascript">example = {{ example }};</script>
     {% endif %}
+
+    {% if title %}
+    <script type="text/javascript">var title = '{{ title | safe }}';</script>
+    {% endif %}
+    
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
     {% if title %}
@@ -47,11 +52,12 @@
         <hr>
     <div class="container">
         <div id="tooltip" class="tip"></div>
+
         {% block content %}{% endblock %}
 
         <footer id="toolbox">
             {% if example %}
-            <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; right: 200px; z-index: 1000;">
+            <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; left: 200px; z-index: 1000;">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a class="intro" href="/intro?example=" >Intro</a></li>
@@ -62,8 +68,7 @@
                   </ol>
                 </nav>
             </div>
-            <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="position: fixed; bottom: 50px; right: 120px;" >Toolbox</button>
-            <a role="button" class="btn btn-outline-success next-btn" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</a>
+            <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="position: fixed; bottom: 50px; left: 50px;" >Toolbox</button>
             {% endif %}
         </footer>
     </div>

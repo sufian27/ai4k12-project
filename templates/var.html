@@ -17,6 +17,33 @@
   </div>
 </div>
 <div id="variables"></div>
+
+<button type="button" class="btn btn-outline-success next-btn" data-toggle="modal" data-target="#exampleModal" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Brainstorming</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="var-question" class="user-answer">
+            <label for="message-text" class="col-form-label">
+                {% if example == '2' %}
+                How do you think these factors may influence each other?
+                {% endif %}
+            </label>
+            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block script %}
@@ -29,10 +56,29 @@
 	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var variables = Object.keys(json_dataset[0]);
 	var variables_content = "";
-	for (i=0; i<variables.length; i++) {
-		variables_content += "<div>" + variables[i] + "</div>";
+	var var_explain = {};
+	var q_num = 0;
+	if (example == 1) {
+		var_explain = {"test": variables};
+	} else if (example == 2) {
+		var_explain = {
+			"id": "The abbreviation of the terrestrial site.",
+			"Mammal_Richness": "The number of species of small mammals collected from traps in a month",
+			"Beetles_Richness": "The number of species of beetles collected from traps in a month.",
+			"Mean_Ann_Precip_mm": "The average amount of annual precipitation.",
+			"Mean_Canopy_Height_m": "Mean canopy height consists of the mean height of all canopy surface points.",
+			"Mean_Temp_degC": "The average temperature.",
+			"Elevation_m": "The Elevation of the terrain surface.",
+			"Longitude": "",
+			"Latitude": ""
+		};
 	}
-	document.getElementById("variables").innerHTML = variables_content;
+
+	for (key in var_explain) {
+		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key] + '">' + key + '</button></div>');
+		$('#variables').append(new_line);
+	}
+
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}

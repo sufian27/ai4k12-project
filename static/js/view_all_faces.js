@@ -3,7 +3,8 @@ $(document).ready( function() {
     $("#all_faces").click( function() {
         // $("#data_table").toggleClass("hidden");
         // $("#face").toggleClass("hidden");
-        $('#single-face').toggleClass('hidden');
+        $('#data_table').toggleClass('hidden');
+        $('#face').toggleClass('invisible');
         $("#face_table").toggleClass("hidden");
         $(this).text(function(i, text){
             return text === "View all Faces" ? "View the Table" : "View all Faces";

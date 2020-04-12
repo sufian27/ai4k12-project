@@ -6,6 +6,11 @@
         container.innerHTML= content; 
     }
     tool_reload();
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
     if(example > 0) {
     	$("#toolbox .intro").attr("href", "/intro?example=" + example);
         $("#toolbox .var").attr("href", "/var?example=" + example);
@@ -18,6 +23,62 @@
         location.reload(true);
     });
 
+});
+
+
+$(document).on('submit', '.user-answer', function(e) {
+    e.preventDefault();
+    var data = {
+        val: document.getElementById("user_input").value
+    };
+    console.log('---');
+    console.log(this.value);
+    console.log($(this).attr('id'));
+    fetch(`${window.origin}/intro`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        cache: "no-cache",
+        headers: new Headers({
+            "content-type": "application/json"
+        })
+    })
+    .then(function (response) {
+        if (response.status !== 200) {
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+            }
+        response.json().then(function (data) {
+            console.log('===');
+            console.log(data);
+        });
+    })
+    .catch(function (error) {
+        console.log("Fetch error: " + error);
+    });
+
+    $("#user_input").val("");
+    $('#exampleModal').modal('hide');
+
+    //to change the steps on the page
+    if (q_num > 0) {
+        var q_id = parseInt($(this).attr('id').replace(/[^\d]/g, ''));
+        var card_id = steps[q_id - 1];
+        if (q_id == steps.length) {
+            $('.next-page-btn').removeClass('hidden');
+        } else {
+            var card_id_new = steps[q_id];
+            $('#' + card_id).addClass('hidden');
+            $('#' + card_id_new).removeClass('hidden');
+        }
+    }
+
+    if (title == 'Introduction') {
+        location.href = "/var?example=" + example;
+    } else if (title == 'Variable') {
+        location.href = "/dataset2face?example=" + example;
+    }
+    
 });
 
 $(document).on('mouseover', "g.chernoff", function(e) {

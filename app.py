@@ -103,11 +103,14 @@ def introduction():
         example_index = request.args.get('example', default = 0, type = int)
         create_table_from_csv(example_index)
         json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
 
         db.session.add(User_Action('user made dataset selection {}'.format(example_index), session['user_id']))
         db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('introduction.html', json_data = json_object, example = str(example_index), title='Introduction') #render next page with passing json object
+        return render_template('introduction.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Introduction') #render next page with passing json object
 
 @app.route('/var', methods = ['GET', 'POST'])
 def var():
@@ -134,7 +137,7 @@ def dataset2face():
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-        return render_template('dataset2face.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Dataset to Face')
+        return render_template('dataset2face.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Dataset_to_Face')
     else:
         return 'Invalid Data'
 
@@ -148,7 +151,7 @@ def compare():
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
-        return render_template('compare.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Smilarity Comparison')
+        return render_template('compare.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Smilarity_Comparison')
     else:
         return 'Invalid Data'
 
@@ -161,16 +164,13 @@ def cluster():
         k_value = request.args.get('k', default = 2, type = int)
         json_object = get_db_data_json(example_index)
         json_dataset = yaml.safe_load(json_object)["records"]
-        dataset_array, centroids, labels = clustering(k_value, json_dataset)
-        # print("================================")
-        # print(dataset_array)
-        # print(centroids)
-        # print(labels)
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+        # dataset_array, centroids, labels = clustering(k_value, json_dataset)
+        dataset_array, centroids, labels = clustering(k_value, dataset_face)
         json_cluster = json4cluster(dataset_array, centroids, labels, example_index, dataset_face)
 
-        return render_template('cluster2.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
+        return render_template('cluster2.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic_Clustering')
     else:
         return 'Invalid Data'
 
