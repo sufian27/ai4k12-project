@@ -7,10 +7,11 @@
     }
     tool_reload();
     if(example > 0) {
-    	$(".var").attr("href", "/var?example=" + example);
-        $(".dataset2face").attr("href", "/dataset2face?example=" + example);
-        $(".compare").attr("href", "/compare?example=" + example);
-        $(".cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2);
+    	$("#toolbox .intro").attr("href", "/intro?example=" + example);
+        $("#toolbox .var").attr("href", "/var?example=" + example);
+        $("#toolbox .dataset2face").attr("href", "/dataset2face?example=" + example);
+        $("#toolbox .compare").attr("href", "/compare?example=" + example);
+        $("#toolbox .cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2);
     }
 
     $('.refresh').click( function() {

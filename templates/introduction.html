@@ -6,9 +6,6 @@
 	<input type="text" id="user_input" name="user_input">
 	<button type="submit">Submit</button>
 </form>
-<div id="test"></div>
-<div id="test2"></div>
-<a class="btn btn-primary" role="button">Next</a>
 {% endblock %}
 
 {% block script %}
@@ -18,7 +15,7 @@
 	}
 	var json_object = readpara( {{ json_data | tojson | safe }} );
 	var json_dataset = JSON.parse(json_object).records;
-	var dataset_face = readpara( {{ dataset_face | safe }} );
+	// var dataset_face = readpara( {{ dataset_face | safe }} );
 	var example = readpara( {{ example }} );
 
 	// var full_json_dataset = JSON.parse(dataset);
@@ -65,5 +62,4 @@
 
 	//note: what are needed for most pages: json_dataset, dataset_face(in case some original variables are not numeric), json_mapping, example index
 </script>
-<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}

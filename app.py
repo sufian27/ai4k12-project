@@ -103,14 +103,11 @@ def introduction():
         example_index = request.args.get('example', default = 0, type = int)
         create_table_from_csv(example_index)
         json_object = get_db_data_json(example_index)
-        json_dataset = yaml.safe_load(json_object)["records"]
-        dataset_stat = dataset_pre_analysis(json_dataset)
-        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
 
         db.session.add(User_Action('user made dataset selection {}'.format(example_index), session['user_id']))
         db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('introduction.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Introduction') #render next page with passing json object
+        return render_template('introduction.html', json_data = json_object, example = str(example_index), title='Introduction') #render next page with passing json object
 
 @app.route('/var', methods = ['GET', 'POST'])
 def var():
