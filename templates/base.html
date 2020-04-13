@@ -46,18 +46,38 @@
         {% endif %}
 
         {% if dataset_face %}
+        {% if title != 'Introduction' %}
         <button type="button" class="btn btn-primary float-right mapping-btn" data-toggle="modal" data-target="#mappingModal">How emojis are generated?</button>
+        {% endif %}
         {% endif %} 
     </div>
         <hr>
     <div class="container">
-        <div id="tooltip" class="tip"></div>
-
+        <div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Customize your emoji</h5>
+              </div>
+              <form id="mapping-form">
+                  <div class="modal-body row">
+                    <div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div>
+                    <div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary update-mapping refresh">Save & Close</button>
+                    <!-- <button type="button" class="btn btn-primary update-mapping">Save changes</button> -->
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div id="variables"></div>
         {% block content %}{% endblock %}
 
         <footer id="toolbox">
             {% if example %}
-            <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; left: 200px; z-index: 1000;">
+            <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; left: 140px; z-index: 1000;">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a class="intro" href="/intro?example=" >Intro</a></li>

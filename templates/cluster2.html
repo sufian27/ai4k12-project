@@ -1,21 +1,6 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-<!-- Modal -->
-<div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Customize your emoji</h5>
-      </div>
-      <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary update-mapping refresh" data-dismiss="modal">Save & Close</button>
-        <button type="button" class="btn btn-primary update-mapping">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="dropdown dropright">
     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -56,9 +41,15 @@
     var json_mapping = JSON.parse(getLocalData);
     var datapoint_face = dataset_face[0];
     var center_face_list = {};
+    var unmapped_list = [];
+    for (key in json_mapping) {
+        if (json_mapping[key] == '0') {
+            unmapped_list.push(key);
+        }
+    }
     for (var i = 0; i < $('.dropdown-item').length; i++) {
         var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
-        $('.dropdown-item').eq(i).attr('href','/cluster2?example=' + example + '&k=' + k_value);
+        $('.dropdown-item').eq(i).attr('href','/cluster2?example=' + example + '&k=' + k_value + '&unmapped=' + unmapped_list);
     }
 
     // generate the overaly of clusters
@@ -77,7 +68,7 @@
         d3.select("#overlay" + datapoint_id)
             .call(chernoffFace())
         if ($(cluster_box_id + ' span').length > 1) {
-            $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.5);
+            $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.4);
         }
     }
 
@@ -93,7 +84,7 @@
             $('.' + cluster_id).append(center);
             $(this).addClass('gone');
             if($('.center-face-overlay').children('span').length > 1) {
-                $('.center-face-overlay .center').attr('opacity', 0.5);
+                $('.center-face-overlay .center').attr('opacity', 0.4);
             }
         }
     });

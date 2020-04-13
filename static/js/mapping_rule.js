@@ -1,4 +1,5 @@
 ﻿$(document).ready(function() {
+    console.log('mapping');
     //default mapping rule
     var data_id = 0;
     var datapoint_face = dataset_face[data_id];
@@ -83,10 +84,31 @@
             }
         }
 
-        json_mapping = json_mapping_new;
-        var str_mapping = JSON.stringify(json_mapping_new);
-        localStorage.setItem('mappingRule', str_mapping);
+        if (json_mapping == json_mapping_new) {
+            $('#exampleModal').modal('hide'); 
+        } else {
+            json_mapping = json_mapping_new;
+            var str_mapping = JSON.stringify(json_mapping_new);
+            localStorage.setItem('mappingRule', str_mapping);
+            $('#exampleModal').modal('hide');  
+            var current_loc = window.location.href;
+            if ( current_loc.includes("unmapped=") ) {
+                console.log('include');
+                var unmapped_list = [];
+                var getLocalData = localStorage.getItem('mappingRule');
+                var mapping = JSON.parse(getLocalData);
+                for (key in mapping) {
+                    if (mapping[key] == '0') {
+                        unmapped_list.push(key);
+                    }
+                } 
+                window.location.href = "/cluster2?example=" + example + "&k=" + k + "&unmapped=" + unmapped_list;
+            } else {
+                location.reload(true);
+            }
+        }
     });
 
 });
+
 

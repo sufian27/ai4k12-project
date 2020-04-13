@@ -1,4 +1,5 @@
 ﻿$(document).ready(function() {
+    console.log('base');
     // alert("base");
     function tool_reload() {
         var container = $("#toolbox");
@@ -12,16 +13,25 @@
     })
 
     if(example > 0) {
+        if (localStorage.getItem("mappingRule") === null) {          
+            var unmapped_list = [];
+        } else {
+            var unmapped_list = [];
+            var getLocalData = localStorage.getItem('mappingRule');
+            var mapping = JSON.parse(getLocalData);
+            for (key in mapping) {
+                if (mapping[key] == '0') {
+                    unmapped_list.push(key);
+                }
+            }  
+        }
+
     	$("#toolbox .intro").attr("href", "/intro?example=" + example);
         $("#toolbox .var").attr("href", "/var?example=" + example);
         $("#toolbox .dataset2face").attr("href", "/dataset2face?example=" + example);
         $("#toolbox .compare").attr("href", "/compare?example=" + example);
-        $("#toolbox .cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2);
+        $("#toolbox .cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
     }
-
-    $('.refresh').click( function() {
-        location.reload(true);
-    });
 
 });
 
@@ -80,6 +90,7 @@ $(document).on('submit', '.user-answer', function(e) {
     }
     
 });
+
 
 $(document).on('mouseover', "g.chernoff", function(e) {
     var mousePos = mousePosition(e);

@@ -95,6 +95,7 @@ def introduction():
 
     if request.method == "POST": #handle asynchronous request for log data
         req = request.get_json()
+        print(req)
         db.session.add(User_Action('user response: {}'.format(req['val']), session['user_id']))
         db.session.commit()
         res = make_response(jsonify(req), 200)
@@ -131,7 +132,7 @@ def var():
 def dataset2face():
     if g.user == None:
         return redirect(url_for('login'))
-    if request.method == 'GET':
+    if request.method == "GET":
         example_index = request.args.get('example', default = 0, type = int)
         json_object = get_db_data_json(example_index)
         json_dataset = yaml.safe_load(json_object)["records"]
@@ -162,12 +163,15 @@ def cluster():
     if request.method == 'GET':
         example_index = request.args.get('example', default = 0, type = int)
         k_value = request.args.get('k', default = 2, type = int)
+        unmapped = request.args.getlist('unmapped')
+        unmapped_list = [str(x) for x in unmapped]
+        unmapped_list = unmapped_list[0].split(',')
         json_object = get_db_data_json(example_index)
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
         # dataset_array, centroids, labels = clustering(k_value, json_dataset)
-        dataset_array, centroids, labels = clustering(k_value, dataset_face)
+        dataset_array, centroids, labels = clustering(k_value, dataset_face, unmapped_list)
         json_cluster = json4cluster(dataset_array, centroids, labels, example_index, dataset_face)
 
         return render_template('cluster2.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic_Clustering')

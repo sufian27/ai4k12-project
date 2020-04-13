@@ -2,27 +2,6 @@
 
 {% block content %}
 
-<!-- Modal -->
-<div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Customize your emoji</h5>
-<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
-      </div>
-      <div class="modal-body row"><div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div><div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary update-mapping refresh" data-dismiss="modal">Save & Close</button>
-        <button type="button" class="btn btn-primary update-mapping">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- <div class="row" id="single-face"> -->
 <div class="row">
   <div style="overflow:scroll; height: 450px;" class="col-md-9 col-xs-9 col-sm-9 col-lg-9" id="table">
     <table id="data_table" class="table table-sm"></table>
@@ -34,7 +13,7 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-outline-success" id="all_faces" style="position: fixed; bottom: 50px; left: 120px; color: #28a745;" >View all Faces</button>
+<button type="button" class="btn btn-outline-success" id="all_faces" style="position: fixed; bottom: 50px; left: 160px; color: #28a745;" >View all Faces</button>
 <a role="button" class="btn btn-outline-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</a>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

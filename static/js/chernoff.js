@@ -74,10 +74,10 @@
         function __chernoff(d) {
 
             //modified by Xiaofei
-            let er_var = (typeof(er_f) === "function" && !isNaN(er_f(d)) ? er_f(d) : er_f_default) * 8 + 10,
+            let er_var = (typeof(er_f) === "function" && !isNaN(er_f(d)) ? er_f(d) : er_f_default) * 15 + 7,
                 bv_var = (typeof(bv_f) === "function" && !isNaN(bv_f(d)) ? bv_f(d) : bv_f_default) * 25 - 25,
-                bs_var = (typeof(bs_f) === "function" && !isNaN(bs_f(d)) ? bs_f(d) : bs_f_default) * 11,
-                bl_var = (typeof(bl_f) === "function" && !isNaN(bl_f(d)) ? bl_f(d) : bl_f_default) * 12 + 10,
+                bs_var = (typeof(bs_f) === "function" && !isNaN(bs_f(d)) ? bs_f(d) : bs_f_default) * 60,
+                bl_var = (typeof(bl_f) === "function" && !isNaN(bl_f(d)) ? bl_f(d) : bl_f_default) * 14 + 10,
                 ms_var = (typeof(ms_f) === "function" && !isNaN(ms_f(d)) ? ms_f(d) : ms_f_default) * 20 + 10, //LK
                 mv_var = (typeof(mv_f) === "function" && !isNaN(mv_f(d)) ? mv_f(d) : mv_f_default) * 30 + 10, //WK
                 mc_var = (typeof(mc_f) === "function" && !isNaN(mc_f(d)) ? mc_f(d) : mc_f_default) * -1 * 35 + 25, //LKG
