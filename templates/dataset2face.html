@@ -16,11 +16,11 @@
 <button type="button" class="btn btn-outline-success" id="all_faces" style="position: fixed; bottom: 50px; left: 160px; color: #28a745;" >View all Faces</button>
 <a role="button" class="btn btn-outline-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</a>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Initial Exploration</h5>
+        <h5 class="modal-title" id="qaLabel">Initial Exploration</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -117,7 +117,7 @@
     for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
       todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
     }
-    var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#exampleModal" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+    var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
     item.append(todotitle);
     item.append($(todoitem_content));
     item.append(answer);
@@ -129,8 +129,8 @@
   $('.next-q-btn').click(function () {
     var answer_id = title + '_' + $(this).attr('id');
     var question = $(this).parent('.card').children('.question').text();
-    $('#exampleModal form').attr('id', answer_id);
-    $('#exampleModal form label').text(question);
+    $('#qa form').attr('id', answer_id);
+    $('#qa form label').text(question);
   });
 
 

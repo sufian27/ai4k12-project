@@ -2,24 +2,49 @@
 
 {% block content %}
 
-<div class="dropdown dropright">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-        k = {{ k }}
-    </button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">k = 2</a>
-        <a class="dropdown-item" href="#">k = 3</a>
-        <a class="dropdown-item" href="#">k = 4</a>
-        <a class="dropdown-item" href="#">k = 5</a>
-        <a class="dropdown-item" href="#">k = 6</a>
-        <a class="dropdown-item" href="#">k = 7</a>
-        <a class="dropdown-item" href="#">k = 8</a>
-        <a class="dropdown-item" href="#">k = 9</a>
-    </div>
-</div>
 <div class="row">
-    <div id="cluster-vis" class="col-8"></div>
+    <div class="dropdown dropright">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            k = {{ k }}
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">k = 2</a>
+            <a class="dropdown-item" href="#">k = 3</a>
+            <a class="dropdown-item" href="#">k = 4</a>
+            <a class="dropdown-item" href="#">k = 5</a>
+            <a class="dropdown-item" href="#">k = 6</a>
+            <a class="dropdown-item" href="#">k = 7</a>
+            <a class="dropdown-item" href="#">k = 8</a>
+            <a class="dropdown-item" href="#">k = 9</a>
+        </div>
+    </div>
+    <!-- <button class="btn btn-outline-success btn-sm btn-expand">Expand</button> -->
+</div>
+
+<div class="row">
+    <div id="cluster-vis" class="col-4"></div>
     <div class="center-face-overlay col-2"></div>
+    <div class="col-4" id="todolist"></div>
+</div>
+<div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qaLabel">Explore the clustering results</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="user-answer">
+            <label for="message-text" class="col-form-label">
+            </label>
+            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -55,7 +80,7 @@
     // generate the overaly of clusters
     var cluster_box = "";
     for ( var i = 0; i < k; i ++ ) {
-        cluster_box = $('<div class="compare-canvas" id = "cluster' + i + '" style = "height: 150px; width: 150px;"></div>');
+        cluster_box = $('<div class = "row cluster-canvas"><div class="compare-canvas" id = "cluster' + i + '" style = "height: 150px; width: 150px;"></div></div>');
         $('#cluster-vis').append(cluster_box);
     }
 
@@ -72,22 +97,32 @@
         }
     }
 
-    $(document).on('click', ".center", function() {
-        var cluster_id = $(this).parent('.compare-canvas').attr('id');
-        if ($(this).hasClass('gone')) {
-            $('.center-face-overlay .' + cluster_id).remove();
-            $(this).removeClass('gone');
-        } else {
-            var center = $(this).clone();
-            var center_span = $('<span class = "overlay ' + cluster_id + '"></span>');
-            $('.center-face-overlay').append(center_span);
-            $('.' + cluster_id).append(center);
-            $(this).addClass('gone');
-            if($('.center-face-overlay').children('span').length > 1) {
-                $('.center-face-overlay .center').attr('opacity', 0.4);
-            }
+    var q_num = 0;
+    //for the q&a code
+    if (example == '2') {
+        var todolist = {
+            'Step1': ['Now all the sites are grouped into two different families, and we want to group similar ecological sites into a family.', 'Double click each family of ecological sites and view the emoji which represent the average of each family.', 'Click compare button next to the two emoji families.', ' What are the major difference between the two centers?'],
+            'Step2': ['View the emoji of sites with high annual precipitation.', 'View the emoji of sites with high average temperature.', 'What facial characteristics do the sites with warm and humid climate have?'],
+            'Step3': ['View the whole dataset with emoji.', 'What interesting findings do you have after viewing the whole dataset with emojis?']
+        };
+    }
+
+    var steps = Object.keys(todolist);
+    q_num = steps.length;
+
+    for (var j = 0; j < q_num; j ++ ) {
+        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
+        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
+        var todoitem_content = '';
+        for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
+            todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
         }
-    });
+        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+        item.append(todotitle);
+        item.append($(todoitem_content));
+        item.append(answer);
+        $('#todolist').append(item);
+    }
 
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>

@@ -68,7 +68,7 @@ $(document).on('submit', '.user-answer', function(e) {
     });
 
     $("#user_input").val("");
-    $('#exampleModal').modal('hide');
+    $('#qa').modal('hide');
 
     //to change the steps on the page
     if (q_num > 0) {
@@ -91,12 +91,14 @@ $(document).on('submit', '.user-answer', function(e) {
     
 });
 
+$(document).on('click', ".next-q-btn", function() {
+    var answer_id = title + '_' + $(this).attr('id');
+    var question = $(this).parent('.card').children('.question').text();
+    $('#qa form').attr('id', answer_id);
+    $('#qa form label').text(question);
+});
 
 $(document).on('mouseover', "g.chernoff", function(e) {
-    var mousePos = mousePosition(e);
-    var  xOffset = 20;
-    var  yOffset = 25;
-    $("#tooltip").css("display","block").css("position","absolute").css("top",(mousePos.y - yOffset) + "px").css("left",(mousePos.x + xOffset) + "px");
     if ($(this).parent('svg').hasClass('hover-face')) {
         var datapoint_id = $(this).parent('svg').attr('id').substr(4);
         var datapoint = json_dataset[datapoint_id];
@@ -106,20 +108,28 @@ $(document).on('mouseover', "g.chernoff", function(e) {
             var id = datapoint['id'];
         }
         var id_line = $('<div>id: ' + id + '</div>');
+        $('#tooltip').empty();
         $("#tooltip").append(id_line);
     } else if ($(this).parent('svg').hasClass('center')) {
         var datapoint_id = $(this).parent('svg').attr('id');
         var datapoint = center_face_list[datapoint_id];
         var id_line = $('<div>Center Face</div>');
+        $('#tooltip').empty();
         $("#tooltip").append(id_line);
+    } else {
+        $('#tooltip').empty();
     }
+
     for (dataset_feature in json_mapping) {
         var facial_short = json_mapping[dataset_feature];
         var facial_feature = facial_full[facial_short];
-        var datapoint_value = datapoint[dataset_feature];
-        var feature_line = $('<p>' + facial_feature + ' - ' + dataset_feature + ': ' + datapoint_value + '</p>');
+        var feature_line = $('<p>' + facial_feature + ' - ' + dataset_feature + ( ($(this).parent('svg').hasClass('hover-face')) || ($(this).parent('svg').hasClass('center')) ? (': ' + datapoint[dataset_feature]) : "" ) + '</p>');
         $("#tooltip").append(feature_line);
     }
+    var mousePos = mousePosition(e);
+    var  xOffset = 20;
+    var  yOffset = 25;
+    $("#tooltip").css("display","block").css("position","absolute").css("top",(mousePos.y - yOffset) + "px").css("left",(mousePos.x + xOffset) + "px");
 });
 
 $(document).on('mouseout', "g.chernoff", function(e) {

@@ -17,13 +17,62 @@
     if (localStorage.getItem("mappingRule") === null) {
         var json_mapping = {};
         var json_mapping_face = {};
-        for (i = 0; i < variables_forface.length; i++) {
-            if (i < facial_feature.length) {
-                json_mapping[variables_forface[i]] = facial_feature[i];
-                json_mapping_face[facial_feature[i]] = variables_forface[i];
-            } else {
-                json_mapping[variables_forface[i]] = "0";
-                // json_mapping_face["unmapped" + i] =  variables_forface[i];
+        if (example == '2') {
+            json_mapping = {
+                "Beetles_Richness": "er",
+                "Mean_Temp_degC": "bs",
+                "Mean_Canopy_Height_m": "bl",
+                "Mean_Ann_Precip_mm": "bv",
+                "Longitude": "ms",
+                "Latitude": "mc",
+                "Mammal_Richness": "nw",
+                "Elevation_m": "0"
+            };
+            json_mapping_face = {
+                "er": "Beetles_Richness", 
+                "bs": "Mean_Temp_degC", 
+                "bl": "Mean_Canopy_Height_m", 
+                "bv": "Mean_Ann_Precip_mm", 
+                "ms": "Longitude", 
+                "mc": "Latitude", 
+                "nw": "Mammal_Richness"
+            }
+        } else if (example == '1') {
+            json_mapping = {
+                "alcohol": "er",
+                "residual_sugar": "bs",
+                "pH": "bl",
+                "quality": "bv",
+                "total_sulfur_dioxide": "ms",
+                "free_sulfur_dioxide": "mv",
+                "fixed_acidity": "mc",
+                "volatile_acidity": "nw",
+                "density": "nh",
+                "chlorides": "0",
+                "sulphates": "0",
+                "citric_acid": "0"
+            }
+
+            json_mapping_face = {
+                "er": "alcohol", 
+                "bs": "residual_sugar", 
+                "bl": "pH", 
+                "bv": "quality", 
+                "ms": "total_sulfur_dioxide", 
+                "mv": "free_sulfur_dioxide", 
+                "mc": "fixed_acidity", 
+                "nw": "volatile_acidity", 
+                "nh": "density"
+            }
+        } else {
+            for (i = 0; i < variables_forface.length; i++) {
+                if (i < facial_feature.length) {
+                    json_mapping[variables_forface[i]] = facial_feature[i];
+                    json_mapping_face[facial_feature[i]] = variables_forface[i];
+                } else {
+                    json_mapping[variables_forface[i]] = "0";
+                    // json_mapping_face["unmapped" + i] =  variables_forface[i];
+                }
             }
         }
         var str_mapping = JSON.stringify(json_mapping);

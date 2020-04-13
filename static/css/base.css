@@ -1,3 +1,8 @@
+.modal-dialog {
+    /*margin-right: auto;*/
+    margin-right: 1.75rem !important;
+}
+
 #data_table thead {
 	max-width: 70px;
 	word-break: break-all;
@@ -164,6 +169,9 @@
 	height: 150px;
 }
 
+.cluster-canvas button {
+	height: 30px;
+}
 /*.modal-dialog {
 	max-width: 800px;
 }*/

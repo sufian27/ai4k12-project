@@ -27,13 +27,17 @@
     });
 
     $(document).on('dblclick', '.compare-canvas', function() {
+        var current_canvas_id = $(this).attr('id');
+        var current_cluster_id = current_canvas_id.substr(7);
         if ($(this).children('span').hasClass('hidden')) {
-            var current_canvas_id = $(this).attr('id');
             var face_span_list = $('#' + current_canvas_id + ' span');
             $('#' + current_canvas_id + ' > svg').remove();
             face_span_list.removeClass('hidden');
             $('.selected-block').removeClass('selected-block');
             $(this).parent('.compare-block').addClass('selected-block');
+            if ($('.cluster-canvas').length > 1) {
+                $(this).parent('.cluster-canvas').children('.overlay-btn').remove();
+            }
 
         } else {
             var datapointIDs = [];
@@ -55,13 +59,38 @@
                 face_span_list.addClass('hidden');
                 d3.select('#' + current_canvas_id)
                     .call(chernoffFace()); 
-                var center_id = 'center' + datapointIDs[0];
+                var center_id = 'center' + current_cluster_id;
                 $('#' + current_canvas_id + ' > svg').attr('id', center_id);   
                 $('#' + current_canvas_id + ' > svg').attr('class', 'center');
                 center_face_list[center_id] = centroid_original;
             }
             if($(this).parent('.compare-block').hasClass('selected-block')) {
                 $(this).parent('.compare-block').removeClass('selected-block');
+            }
+            if ($('.cluster-canvas').length > 1) {
+                var overlay_btn = $('<button type="button" class = "overlay-btn btn-outline-success btn-sm">Compare</button>');
+                $(this).parent('.cluster-canvas').append(overlay_btn);
+            }
+        }
+    });
+
+    //for the cluster2 page
+    $(document).on('click', '.overlay-btn', function() {
+        var cluster_id = $(this).parent('.cluster-canvas').children('.compare-canvas').attr('id');
+        var center_id = 'center' + cluster_id.substr(7);
+        if ($(this).hasClass('take-back')) {
+            $('.center-face-overlay .' + cluster_id).remove();
+            $(this).removeClass('take-back');
+            $(this).text('Compare');
+        } else {
+            var center = $('#' + center_id).clone();
+            var center_span = $('<span class = "overlay ' + cluster_id + '"></span>');
+            $('.center-face-overlay').append(center_span);
+            $('.' + cluster_id).append(center);
+            $(this).addClass('take-back');
+            $(this).text('Remove from overlay');
+            if($('.center-face-overlay').children('span').length > 1) {
+                $('.center-face-overlay .center').attr('opacity', 0.4);
             }
         }
     });
