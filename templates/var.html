@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div id="variables"></div>
 <button type="button" class="btn btn-outline-success next-btn" data-toggle="modal" data-target="#qa" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</button>
 
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
@@ -45,7 +46,7 @@
 		var_explain = {"test": variables};
 	} else if (example == 2) {
 		var_explain = {
-			"id": "The abbreviation of the terrestrial site.",
+			"id": "The abbreviation of the field site.",
 			"Mammal_Richness": "The number of species of small mammals collected from traps in a month",
 			"Beetles_Richness": "The number of species of beetles collected from traps in a month.",
 			"Mean_Ann_Precip_mm": "The average amount of annual precipitation.",

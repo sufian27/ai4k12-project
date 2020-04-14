@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="variables"></div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+	function readpara (para) {
+		return para;
+	}
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
+	var dataset_face = readpara( {{ dataset_face | safe }} );
+	var variables = Object.keys(json_dataset[0]);
+	var variables_content = "";
+	var var_explain = [];
+	var q_num = 0;
+	if (example == 1) {
+	} else if (example == 2) {
+		var_explain = [
+			
+		];
+	}
+
+	for (key in var_explain) {
+		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key] + '">' + key + '</button></div>');
+		$('#variables').append(new_line);
+	}
+
+</script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
+{% endblock %}

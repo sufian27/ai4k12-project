@@ -1,5 +1,5 @@
 ﻿function chernoffFace() {
-    var width = 100, height = 100;
+    var width = 100, height = 120;
     var chernoff = d3.chernoff()
         .face(function(d) { return d.f; })
         .hair(function(d) { return d.h; })

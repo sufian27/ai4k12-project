@@ -14,7 +14,7 @@
 </div>
 
 <button type="button" class="btn btn-outline-success" id="all_faces" style="position: fixed; bottom: 50px; left: 160px; color: #28a745;" >View all Faces</button>
-<a role="button" class="btn btn-outline-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</a>
+<a role="button" class="btn btn-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" href="#" >Next</a>
 
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -101,8 +101,8 @@
   } else if (example == '2') {
 
      var todolist = {
-      'Step1': ['View the emoji of sites with high beetle richness.', 'View the emoji of sites with high small mammal richness.', 'What facial features represent high beetle richness and high small mammal richness?'],
-      'Step2': ['View the emoji of sites with high annual precipitation.', 'View the emoji of sites with high average temperature.', 'What facial characteristics do the sites with warm and humid climate have?'],
+      'Step1': ['View the emoji of field sites with high beetle richness.', 'View the emoji of field sites with high small mammal richness.', 'What facial features represent high beetle richness and high small mammal richness?'],
+      'Step2': ['View the emoji of field sites with high annual precipitation.', 'View the emoji of field sites with high average temperature.', 'What facial characteristics do the field sites with warm and humid climate have?'],
       'Step3': ['View the whole dataset with emoji.', 'What interesting findings do you have after viewing the whole dataset with emojis?']
     };
   }
@@ -125,14 +125,6 @@
   }
 
   $('.next-page-btn').attr("href", "/compare?example=" + example);
-
-  $('.next-q-btn').click(function () {
-    var answer_id = title + '_' + $(this).attr('id');
-    var question = $(this).parent('.card').children('.question').text();
-    $('#qa form').attr('id', answer_id);
-    $('#qa form label').text(question);
-  });
-
 
 </script>
 <script src="{{ url_for('static', filename = 'js/view_all_faces.js') }}"></script>

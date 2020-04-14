@@ -26,6 +26,7 @@
     <div class="col-7" id="cluster-vis" ></div>
     <div class="col-3" id="todolist"></div>
 </div>
+<a role="button" class="btn btn-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" href="#" >Next</a>
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -113,9 +114,13 @@
     //for the q&a code
     if (example == '2') {
         var todolist = {
-            'Step1': ['Now all the sites are grouped into two different families, and we want to group similar ecological sites into a family.', 'Double click each family of ecological sites and view the emoji which represent the average of each family.', 'Click compare button next to the two emoji families.', ' What are the major difference between the two centers?'],
-            'Step2': ['View the emoji of sites with high annual precipitation.', 'View the emoji of sites with high average temperature.', 'What facial characteristics do the sites with warm and humid climate have?'],
-            'Step3': ['View the whole dataset with emoji.', 'What interesting findings do you have after viewing the whole dataset with emojis?']
+            'Step1': ['Now all the field sites are grouped into two different families, and we want to group similar field sites into a family.', 'There are still a lot of variations within each family. To make the pattern clearer, try to make k = 4 and see the results!', 'What is the difference between group different sits into 2 families and 4 families?'],
+            'Step2': ['Explore the four families of field sites.', 'What shared facial characteristics does the first family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the first family?'],
+            'Step3': ['What shared facial characteristics does the second family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the second family?'],
+            'Step4': ['What shared facial characteristics does the third family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the third family?'],
+            'Step5': ['What shared facial characteristics does the forth family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the forth family?'],
+            'Step6': ['Double click the overlay view of each family and you can see their average representation.', 'Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site family with high beetle richness and small mammal richness and the field site family with smaller beetles and small mammal richness?'],
+            'Step7': ['Within the field site family', 'Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site family with high beetle richness and high small mammal richness and the field site family with smaller beetles and small mammal richness?']
         };
     }
 
@@ -135,6 +140,8 @@
         item.append(answer);
         $('#todolist').append(item);
     }
+
+     $('.next-page-btn').attr("href", "/stem?example=" + example);
 
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>

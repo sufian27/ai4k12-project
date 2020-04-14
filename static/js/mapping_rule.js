@@ -23,8 +23,9 @@
                 "Mean_Temp_degC": "bs",
                 "Mean_Canopy_Height_m": "bl",
                 "Mean_Ann_Precip_mm": "bv",
-                "Longitude": "ms",
-                "Latitude": "mc",
+                // "Longitude": "ms",
+                "Longitude": "0",
+                "Latitude": "ms",
                 "Mammal_Richness": "nw",
                 "Elevation_m": "0"
             };
@@ -33,8 +34,8 @@
                 "bs": "Mean_Temp_degC", 
                 "bl": "Mean_Canopy_Height_m", 
                 "bv": "Mean_Ann_Precip_mm", 
-                "ms": "Longitude", 
-                "mc": "Latitude", 
+                // "ms": "Longitude", 
+                "ms": "Latitude", 
                 "nw": "Mammal_Richness"
             }
         } else if (example == '1') {

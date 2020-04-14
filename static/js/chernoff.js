@@ -24,7 +24,7 @@
         const a = 0.5;
 
         let eyeSpacing = 10+ a*12,
-            eyeVertical = -20+a*8,
+            eyeVertical = -30+a*8,
             eyeEccentricity = 1+a/2,
             eyeSlant = 5*a,
             browThickness = 1+5*a,
@@ -114,13 +114,13 @@
                 .attr('r',50)
                 .attr('fill', '#F3D681')
                 // .attr('transform', `translate(70,110)`);
-                .attr('transform', `translate(50,50)`);
+                .attr('transform', `translate(50, 60)`);
 
             //let xoffset = 70,
             //    yoffset = 110+mv_var; //130+mv_var
 
             let xoffset = 50,
-                yoffset = 50; //130+mv_var
+                yoffset = 60; //130+mv_var
 
             // let nose = [{x: 70, y: 110-nosehvar},
             //             {x: 70+nosewvar, y: 110+nosehvar},
@@ -155,7 +155,7 @@
 
             let leyex = 30,
                 reyex = 70,
-                eyey = 35;
+                eyey = 45;
 
             let leye = [{x: leyex, y: eyey-er_var}, {x: leyex+er_var, y: eyey},
                         {x: leyex, y: eyey+er_var}, {x: leyex-er_var, y: eyey}];
