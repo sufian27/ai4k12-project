@@ -114,13 +114,13 @@
     //for the q&a code
     if (example == '2') {
         var todolist = {
-            'Step1': ['Now all the field sites are grouped into two different families, and we want to group similar field sites into a family.', 'There are still a lot of variations within each family. To make the pattern clearer, try to make k = 4 and see the results!', 'What is the difference between group different sits into 2 families and 4 families?'],
+            'Step1': ['Now all the field sites are grouped into two different families, and we want to group similar field sites into a family.', 'There are still a lot of variations within each family. To make the pattern clearer, try to make k = 4 and see the results!', 'What is the difference between grouping sites into 2 families and 4 families?'],
             'Step2': ['Explore the four families of field sites.', 'What shared facial characteristics does the first family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the first family?'],
             'Step3': ['What shared facial characteristics does the second family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the second family?'],
             'Step4': ['What shared facial characteristics does the third family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the third family?'],
             'Step5': ['What shared facial characteristics does the forth family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the forth family?'],
-            'Step6': ['Double click the overlay view of each family and you can see their average representation.', 'Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site family with high beetle richness and small mammal richness and the field site family with smaller beetles and small mammal richness?'],
-            'Step7': ['Within the field site family', 'Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site family with high beetle richness and high small mammal richness and the field site family with smaller beetles and small mammal richness?']
+            'Step6': ['Double click the overlay view of each family and you can see their average representation.', 'Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site family with high species richness and the field site family with low species richness?'],
+            'Step7': ['Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site family with medium level of species richness?']
         };
     }
 
@@ -141,7 +141,7 @@
         $('#todolist').append(item);
     }
 
-     $('.next-page-btn').attr("href", "/stem?example=" + example);
+    $('.next-page-btn').attr("href", "/stem?example=" + example);
 
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>

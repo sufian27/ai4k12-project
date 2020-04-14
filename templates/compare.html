@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row">
-	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
+	<div class="col-md-5 col-xs-5 col-sm-5 col-lg-5">
 		<div class="row">
 			<div class="col compare-block selected-block" id="block0">
 				<!-- <div class="compare-canvas" id = "canvas0" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div> -->
@@ -14,6 +14,29 @@
 		</div>
 	</div>
 	<div id="face-browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
+	<div id="todolist" class="col-3"></div>
+</div>
+
+<a role="button" class="btn btn-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" href="#" >Next</a>
+<div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qaLabel">Initial testing of your ideas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="user-answer">
+            <label for="message-text" class="col-form-label">
+            </label>
+            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -136,6 +159,47 @@
 		// $('.compare-row').append(compare_template);
 		$(this).before(compare_template);
 	});
+
+	var q_num = 0;
+    //for the q&a code
+    if (example == '2') {
+        var todolist = {
+            'Step1': ['Find a field site with high beetle richness', 'Find a field site with low beetle richness', 'What is the difference between these two field sites?'],
+            'Step2': ['Try to find several more similar field sites to the first site you selected.', 'Try to find several more similar field sites to the second site you selected.', 'Double click on the overlay and you can see the average representation of each overlay', 'Do these sites support your previous ideas?']
+        };
+    }
+
+    var steps = Object.keys(todolist);
+    q_num = steps.length;
+
+    for (var j = 0; j < q_num; j ++ ) {
+        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
+        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
+        var todoitem_content = '';
+        for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
+            todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
+        }
+        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+        item.append(todotitle);
+        item.append($(todoitem_content));
+        item.append(answer);
+        $('#todolist').append(item);
+    }
+
+    if (localStorage.getItem("mappingRule") === null) {          
+        var unmapped_list = [];
+    } else {
+        var unmapped_list = [];
+        var getLocalData = localStorage.getItem('mappingRule');
+        var mapping = JSON.parse(getLocalData);
+        for (key in mapping) {
+            if (mapping[key] == '0') {
+                unmapped_list.push(key);
+            }
+        }  
+    }
+    
+    $('.next-page-btn').attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
 
 </script>
 <script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>

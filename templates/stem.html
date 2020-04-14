@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="variables"></div>
+<div id="stem"></div>
 
 {% endblock %}
 
@@ -10,25 +10,43 @@
 	function readpara (para) {
 		return para;
 	}
-	var json_object = readpara( {{ json_data | tojson | safe }} );
-	var json_dataset = JSON.parse(json_object).records;
-	var dataset_face = readpara( {{ dataset_face | safe }} );
-	var variables = Object.keys(json_dataset[0]);
-	var variables_content = "";
-	var var_explain = [];
+	var stem_content = [];
 	var q_num = 0;
 	if (example == 1) {
 	} else if (example == 2) {
-		var_explain = [
-			
+		stem_content = [
+			{
+				"pic": 'static/img/example' + example + '/stem1.jpg',
+				'Site Name': "Mountain Lake Biological Station (MLBS)",
+				"NLCD (National Land Cover Database) classes": "Deciduous Forest",
+				'Description': 'High species richness. High annual precipitation. Moderate temperature. High canopy height. Low latitude.'
+			},
+			{
+				"pic": 'static/img/example' + example + '/stem2.jpg',
+				'Site Name': "Healy - HEAL, Alaska",
+				"NLCD (National Land Cover Database) classes": "Dwarf Scrub, Evergreen Forest, Shrub/Shrub",
+				'Description': 'Low species richness. Low annual precipitation. Low temperature. Low canopy height. High latitude.'
+			},
+			{
+				"pic": 'static/img/example' + example + '/stem3.jpg',
+				'Site Name': "Lower Teakettle - TEAK, California",
+				"NLCD (National Land Cover Database) classes": "Evergreen Forest, Shrub/Shrub",
+				'Description': 'Low beetle richness. High small mammal richness. High annual precipitation. Low annual temperature. High canopy height. High latitude.'
+			},
+			{
+				"pic": 'static/img/example' + example + '/stem4.jpg',
+				'Site Name': "The Dakota Coteau Field School (DCFS)",
+				"NLCD (National Land Cover Database) classes": "Grassland/Herbaceous",
+				'Description': 'Low beetle richness. Medium small mammal richness. Medium annual precipitation. Low annual temperature. Low canopy height.'
+			},
 		];
 	}
 
-	for (key in var_explain) {
-		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key] + '">' + key + '</button></div>');
-		$('#variables').append(new_line);
+	for (var i in stem_content) {
+		var keys = Object.keys(stem_content[i]);
+		var new_line = $('<div class = "row stem-item" ><img src = "' + stem_content[i]['pic'] + '" width = "100%" class = "col-6"><div class = "col-6"><p>' + keys[1] + ': ' + stem_content[i][keys[1]] + '</p><p>' + keys[2] + ': ' + stem_content[i][keys[2]] + '</p><p>' + keys[3] + ': ' + stem_content[i][keys[3]] + '</p></div></div>');
+		$('#stem').append(new_line);
 	}
 
 </script>
-<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}

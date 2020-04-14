@@ -178,6 +178,16 @@ def cluster():
     else:
         return 'Invalid Data'
 
+@app.route('/stem', methods = ['GET', 'POST'])
+def stem():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        return render_template('stem.html', example = str(example_index), title='What we found')
+    else:
+        return 'Invalid Data'
+
 @app.route('/uploadcanvas', methods = ['GET', 'POST'])
 def testing():
     if request.method == 'POST':
