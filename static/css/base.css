@@ -75,6 +75,7 @@
 .compare-canvas {
 	height: 100px; 
 	width: 100px; 
+	margin-bottom: 10px;
 	/*background-color: #d5f4e6; */
 	z-index: 0; 
 	position: relative;
@@ -127,12 +128,16 @@
 }
 
 #cluster-vis {
-	margin-left: 50px;
+/*	margin-left: 50px;
 	margin-right: 50px;
 	padding-left: 50px;
-	padding-right: 50px;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-right: 50px;*/
+	margin-top: 20px;
+	/*padding-bottom: 20px;*/
+}
+
+#cluster-vis .row {
+	margin-bottom: 20px;
 }
 
 .dataset-feature {
@@ -166,11 +171,17 @@
 }
 
 .center-face-overlay {
+	margin-top: 20px;
 	height: 150px;
 }
 
 .cluster-canvas button {
 	height: 30px;
+}
+
+.expand-area {
+	overflow: scroll;
+	height: 170px;
 }
 /*.modal-dialog {
 	max-width: 800px;

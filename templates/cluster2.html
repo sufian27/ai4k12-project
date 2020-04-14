@@ -22,9 +22,9 @@
 </div>
 
 <div class="row">
-    <div id="cluster-vis" class="col-4"></div>
     <div class="center-face-overlay col-2"></div>
-    <div class="col-4" id="todolist"></div>
+    <div class="col-7" id="cluster-vis" ></div>
+    <div class="col-3" id="todolist"></div>
 </div>
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -80,7 +80,7 @@
     // generate the overaly of clusters
     var cluster_box = "";
     for ( var i = 0; i < k; i ++ ) {
-        cluster_box = $('<div class = "row cluster-canvas"><div class="compare-canvas" id = "cluster' + i + '" style = "height: 150px; width: 150px;"></div></div>');
+        cluster_box = $('<div class = "row"><div class = "col-3 cluster-canvas" style = "height: 170px;"><div class="compare-canvas" id = "cluster' + i + '" ></div></div><div class = "col-9 expand-area" id = "expand' + i + '"></div></div>');
         $('#cluster-vis').append(cluster_box);
     }
 
@@ -95,6 +95,18 @@
         if ($(cluster_box_id + ' span').length > 1) {
             $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.4);
         }
+        var placeholder = $("<span id = 'data" + datapoint_id + "'></span>");
+        var group_id = json_cluster['nodes'][j]['group'];
+        $("#expand" + group_id).append(placeholder);
+    }
+
+    for (i = 0; i < json_cluster["nodes"].length; i++) {
+        var datapoint_id = parseInt(json_cluster['nodes'][i]['name'].substr(2));
+        datapoint_face = dataset_face[datapoint_id];
+        d3.select("#data" + i)
+            .call(chernoffFace());
+        $("#data" + i + ' svg').attr('id', "face" + i);
+        $("#data" + i + ' svg').attr('class', 'hover-face');
     }
 
     var q_num = 0;

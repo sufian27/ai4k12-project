@@ -37,6 +37,7 @@
             $(this).parent('.compare-block').addClass('selected-block');
             if ($('.cluster-canvas').length > 1) {
                 $(this).parent('.cluster-canvas').children('.overlay-btn').remove();
+                $('#center' + current_cluster_id).parent('span').remove();
             }
 
         } else {
@@ -88,7 +89,7 @@
             $('.center-face-overlay').append(center_span);
             $('.' + cluster_id).append(center);
             $(this).addClass('take-back');
-            $(this).text('Remove from overlay');
+            $(this).text('Remove');
             if($('.center-face-overlay').children('span').length > 1) {
                 $('.center-face-overlay .center').attr('opacity', 0.4);
             }
