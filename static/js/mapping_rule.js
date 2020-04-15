@@ -26,7 +26,7 @@
                 // "Longitude": "ms",
                 "Longitude": "0",
                 "Latitude": "ms",
-                "Mammal_Richness": "nw",
+                "Small_Mammal_Richness": "nw",
                 "Elevation_m": "0"
             };
             json_mapping_face = {
@@ -36,7 +36,7 @@
                 "bv": "Mean_Ann_Precip_mm", 
                 // "ms": "Longitude", 
                 "ms": "Latitude", 
-                "nw": "Mammal_Richness"
+                "nw": "Small_Mammal_Richness"
             }
         } else if (example == '1') {
             json_mapping = {

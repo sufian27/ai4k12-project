@@ -1,4 +1,4 @@
-id,Latitude,Longitude,Elevation_m,Mean_Temp_degC,Mean_Ann_Precip_mm,Mean_Canopy_Height_m,Mammal_Richness,Beetles_Richness
+id,Latitude,Longitude,Elevation_m,Mean_Temp_degC,Mean_Ann_Precip_mm,Mean_Canopy_Height_m,Small_Mammal_Richness,Beetles_Richness
 ABBY,45.76243,-122.33033,363,8,2530,14.1,11,13
 BARR,71.28241,-156.61936,6,-12,110,0.3,1,0
 BART,44.06388,-71.28731,232,8,1056,23,9,2

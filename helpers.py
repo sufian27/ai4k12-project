@@ -42,7 +42,7 @@ def create_table_from_csv(dataset):
                 Longitude real, Elevation_m real, 
                 Mean_Temp_degC real, Mean_Ann_Precip_mm real, 
                 Mean_Canopy_Height_m real, 
-                Mammal_Richness real, Beetles_Richness real
+                Small_Mammal_Richness real, Beetles_Richness real
             ) '''
         elif dataset == 3:
             command = ''' CREATE TABLE IF NOT EXISTS breast_cancer (

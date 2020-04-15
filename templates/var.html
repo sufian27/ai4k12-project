@@ -57,22 +57,23 @@
 			"fixed_acidity": "Fixed acidity",
 			"quality": "Quality",
 			"id": "id"
+		};
 	} else if (example == 2) {
 		var_explain = {
-			"id": "The abbreviation of the field site.",
-			"Mammal_Richness": "The number of species of small mammals collected from traps in a month",
-			"Beetles_Richness": "The number of species of beetles collected from traps in a month.",
-			"Mean_Ann_Precip_mm": "The average amount of annual precipitation.",
-			"Mean_Canopy_Height_m": "Mean canopy height consists of the mean height of all canopy surface points.",
-			"Mean_Temp_degC": "The average temperature.",
-			"Elevation_m": "The Elevation of the terrain surface.",
-			"Longitude": "",
-			"Latitude": ""
+			"id": ["Field site ID", "The abbreviation of the field site's name."],
+			"Small_Mammal_Richness": ["Small Mammal Richness", "The number of species of small mammals collected from traps in a month"],
+			"Beetles_Richness": ["Beetles Richness","The number of species of beetles collected from traps in a month."],
+			"Mean_Ann_Precip_mm": ["Mean Annual Precipitation (mm)" ,"The average amount of annual precipitation."],
+			"Mean_Canopy_Height_m": ["Mean Canopy Height", "Mean canopy height consists of the mean height of all canopy surface points."],
+			"Mean_Temp_degC": ["Mean Temperature (degree Celsius)","The average temperature."],
+			"Elevation_m": ["Elevation (m)" ,"The Elevation of the terrain surface."],
+			"Longitude": ["Longitude"],
+			"Latitude": ["Latitude"]
 		};
 	}
 
 	for (key in var_explain) {
-		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key] + '">' + key + '</button></div>');
+		var new_line = $('<div>' + key + '<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key][1] + '">' + var_explain[key][0] + '</button></div>');
 		$('#variables').append(new_line);
 	}
 
