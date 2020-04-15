@@ -41,7 +41,7 @@
         } else if (example == '1') {
             json_mapping = {
                 "alcohol": "er",
-                "residual_sugar": "bs",
+                "residual_sugar": "0",
                 "pH": "bl",
                 "quality": "bv",
                 "total_sulfur_dioxide": "ms",
@@ -56,7 +56,7 @@
 
             json_mapping_face = {
                 "er": "alcohol", 
-                "bs": "residual_sugar", 
+                // "bs": "residual_sugar", 
                 "bl": "pH", 
                 "bv": "quality", 
                 "ms": "total_sulfur_dioxide", 
