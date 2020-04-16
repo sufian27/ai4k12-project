@@ -20,8 +20,7 @@ app.secret_key = os.urandom(24)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://admin:AI$K!2-db@ai4k12.ccww9pi9mcdx.us-east-1.rds.amazonaws.com:1433/ai4k12'
-print(app.config['SQLALCHEMY_DATABASE_URI'])
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 
 db = SQLAlchemy(app)
 from models import User, User_Action
