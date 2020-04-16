@@ -18,6 +18,8 @@
             <label for="message-text" class="col-form-label">
                 {% if example == '2' %}
                 How do you think these factors may influence each other?
+                {% elif example == '3' %}
+                What cell features do you think breast tumor has?
                 {% else %}
                 How do you think the chemical factors may influence each other? And how are they related to the quality of a wine?
                 {% endif %}
@@ -69,9 +71,22 @@
 			"Mean_Canopy_Height_m": ["Mean Canopy Height", "Mean canopy height consists of the mean height of all canopy surface points."],
 			"Mean_Temp_degC": ["Mean Temperature (degree Celsius)","The average temperature."],
 			"Elevation_m": ["Elevation (m)" ,"The Elevation of the terrain surface."],
-			"Longitude": ["Longitude"],
-			"Latitude": ["Latitude"]
+			"Longitude": ["Longitude", "Longitude is a geographic coordinate that specifies the east–west position of a point on the Earth's surface"],
+			"Latitude": ["Latitude", "Latitude is a measurement on a globe or map of location north or south of the Equator"]
 		};
+	} else {
+		var_explain = {
+			"clump_thickness": ["Clump thinkness"],
+			"uniformity_of_cell_size": ["Uniformity of cell size"],
+			"uniformity_of_cell_shape": ["Uniformity of cell shape"],
+			"marginal_adhesion": ["Marginal adhesion"],
+			"single_epithelial_cell_size": ["Single epithelial cell size"],
+			"bare_nuclei": ["Bare nuclei"],
+			"bland_chromatin": ["Bland chromatin"],
+			"normal_nucleoli": ["Normal nucleoli"],
+			"mitoses": ["Mitoses"],
+			"class": ["Class", "2 - benign, 4 - malignant"]
+		}
 	}
 
 	for (key in var_explain) {

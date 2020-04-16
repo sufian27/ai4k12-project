@@ -169,6 +169,12 @@
             'Step1-2': ['What ecological features does this field site have?'],
             'Step1-3': ['Find a field site with low beetle richness', 'What are the ecological features that differentiate these two field sites?']
         };
+    } else if (example == '3') {
+        var todolist = {
+            'Step1-1': ['Find a cell with small bare nuclei', 'What facial features does it have?'],
+            'Step1-2': ['What digitized image features does this cell have?'],
+            'Step1-3': ['Find a cell with large bare nuclei', 'What are the digitized image features that differentiate these two cells?']
+        };    	
     } else {
         var todolist = {
             'Step1-1': ['Find a wine with high quality', 'What facial features does it have?'],
@@ -213,6 +219,14 @@
 	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
 	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What ecological features do these differentiating facial features represent? Does this support your initial ideas?']
 	    		};
+    		} else if (example == '3') {
+	    		var todolist2 = {
+	    			'Step2-1': ['Similar cells could be considered as the same family of cells.', 'Try to find several cells which are similar to the first cell you selected.', 'Now you can see the combination emojis of the cells you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding digitized image features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several cells which are similar to the second cell you selected.', 'What facial features and what digitized image features do they share?'],
+	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What digitized features do these differentiating facial features represent? Does this support your initial ideas?']
+	    		};    			
     		} else {
 	    		var todolist2 = {
 	    			'Step2-1': ['Wines with similar chemical features could be considered as the same family of wines.', 'Try to find several wines which are similar to the first wine you selected.', 'Now you can see the combination emojis of the wines you just picked.', 'What similar facial features do they share?'],

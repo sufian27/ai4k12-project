@@ -10,6 +10,11 @@
                 <p>The left field site is Oak Ridge (ORNL) located in Tennessee. Its dominant NLCD (National Land Cover Database) classes include Deciduous Forest, Evergreen Forest and Pasture/Hay. The right one is Delta Junction field site (DEJU), which is mainly Evergreen Forest, Shrub/Shrub and Woody Wetlands.</p>
                 <p>However, both the beetle richness and small mammal richness of ORNL are much higher than richness of DEJU. What ecological factors do you think may cause the difference?</p>
             </div>
+            {% elif example == '3' %}
+            <div class="card-body text-info">
+                <p>How to diagnose breast cancer based on the digitized image of cells? Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. They describe characteristics of the cell nuclei present in the image.</p>
+                <p>What features do you think can be useful for breast tumor diagnosis?</p>
+            </div>            
             {% else %}
             <div class="card-header">The Chemistry of Wine: Fermentation</div>
             <div class="card-body text-info">
@@ -37,6 +42,8 @@
             <label for="message-text" class="col-form-label">
                 {% if example == '2' %}
                 What ecological factors do you think may cause the difference?
+                {% elif example == '3' %}
+                What features do you think can be useful for breast tumor diagnosis?
                 {% else %}
                 Do you know the common chemical factors are related to wine chemistry?
                 {% endif %}
