@@ -188,6 +188,11 @@
 	overflow: scroll;
 	height: 170px;
 }
+
+.stem-item {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 /*.modal-dialog {
 	max-width: 800px;
 }*/

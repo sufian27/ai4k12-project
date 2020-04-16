@@ -95,15 +95,7 @@ def add():
 def introduction():
     if g.user == None:
         return redirect(url_for('login'))
-
-    if request.method == "POST": #handle asynchronous request for log data
-        req = request.get_json()
-        print(req)
-        db.session.add(User_Action('user response: {}'.format(req['val']), session['user_id']))
-        db.session.commit()
-        res = make_response(jsonify(req), 200)
-        return res
-    else: 
+    if request.method == 'GET':
         example_index = request.args.get('example', default = 0, type = int)
         create_table_from_csv(example_index)
         json_object = get_db_data_json(example_index)
@@ -115,6 +107,8 @@ def introduction():
         db.session.add(User_Action('user at intro page', session['user_id'])) #log data 
         db.session.commit()
         return render_template('introduction.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Introduction') #render next page with passing json object
+    else:
+        return 'Invalid Data'
 
 @app.route('/var', methods = ['GET', 'POST'])
 def var():
@@ -188,6 +182,21 @@ def stem():
     if request.method == 'GET':
         example_index = request.args.get('example', default = 0, type = int)
         return render_template('stem.html', example = str(example_index), title='What we found')
+    else:
+        return 'Invalid Data'
+
+@app.route('/answer', methods = ['GET', 'POST'])
+def answer():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == "POST": #handle asynchronous request for log data
+        req = request.get_json()
+        print("------------------")
+        print(req)
+        db.session.add(User_Action('user response: {}'.format(req['val']), session['user_id']))
+        db.session.commit()
+        res = make_response(jsonify(req), 200)
+        return res
     else:
         return 'Invalid Data'
 

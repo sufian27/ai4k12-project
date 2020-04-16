@@ -39,12 +39,13 @@
 $(document).on('submit', '.user-answer', function(e) {
     e.preventDefault();
     var data = {
+        q_index : $(this).attr('id'),
         val: document.getElementById("user_input").value
     };
     console.log('---');
     console.log(this.value);
     console.log($(this).attr('id'));
-    fetch(`${window.origin}/intro`, {
+    fetch(`${window.origin}/answer`, {
         method: "POST",
         credentials: "include",
         body: JSON.stringify(data),

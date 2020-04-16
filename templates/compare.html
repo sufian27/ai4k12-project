@@ -165,15 +165,15 @@
     var steps = [];
     if (example == '2') {
         var todolist = {
-            'Step1': ['Find a field site with high beetle richness', 'What facial features does it have?'],
-            'Step2': ['What ecological features does this field site have?'],
-            'Step3': ['Find a field site with low beetle richness', 'What are the ecological features that differentiate these two field sites?']
+            'Step1-1': ['Find a field site with high beetle richness', 'What facial features does it have?'],
+            'Step1-2': ['What ecological features does this field site have?'],
+            'Step1-3': ['Find a field site with low beetle richness', 'What are the ecological features that differentiate these two field sites?']
         };
     } else {
         var todolist = {
-            'Step1': ['Find a wine with high quality', 'What facial features does it have?'],
-            'Step2': ['What chemical features does this wine have?'],
-            'Step3': ['Find a field site with low quality', 'What are the chemical features that differentiate these two different wines?']
+            'Step1-1': ['Find a wine with high quality', 'What facial features does it have?'],
+            'Step1-2': ['What chemical features does this wine have?'],
+            'Step1-3': ['Find a field site with low quality', 'What are the chemical features that differentiate these two different wines?']
         };    	
     }
 
@@ -189,7 +189,7 @@
 	        for (var i = 0; i < todo[steps[j]].length; i ++ ) {
 	            todoitem_content = todoitem_content + '<div class = "' + (i == todo[steps[j]].length - 1 ? 'selected question' : '') + '">' + todo[steps[j]][i] + '</div><hr>';
 	        }
-	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + '_' + steps[j] + '">Share my thoughts</button>');
 	        item.append(todotitle);
 	        item.append($(todoitem_content));
 	        item.append(answer);
@@ -207,19 +207,19 @@
     		$('.compare-index').empty();
     		if (example == '2') {
 	    		var todolist2 = {
-	    			'Step1-1': ['Similar field sites could be considered as the same family of field sites.', 'Try to find several field sites which are similar to the first site you selected.', 'Now you can see the combination emojis of the filed sites you just picked.', 'What similar facial features do they share?'],
-	    			'Step1-2': ['What corresponding ecological features do they share?'],
-	    			'Step2': ['Click the add button and try to find several field sites which are similar to the second site you selected.', 'What facial features and what ecological features do they share?'],
-	    			'Step3': ['Double click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
-	    			'Step4': ['What are the major facial features that differentiate these two center emojis?', 'What ecological features do these differentiating facial features represent? Does this support your initial ideas?']
+	    			'Step2-1': ['Similar field sites could be considered as the same family of field sites.', 'Try to find several field sites which are similar to the first site you selected.', 'Now you can see the combination emojis of the filed sites you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding ecological features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several field sites which are similar to the second site you selected.', 'What facial features and what ecological features do they share?'],
+	    			'Step2-4': ['Double click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What ecological features do these differentiating facial features represent? Does this support your initial ideas?']
 	    		};
     		} else {
 	    		var todolist2 = {
-	    			'Step1-1': ['Wines with similar chemical features could be considered as the same family of wines.', 'Try to find several wines which are similar to the first wine you selected.', 'Now you can see the combination emojis of the wines you just picked.', 'What similar facial features do they share?'],
-	    			'Step1-2': ['What corresponding chemical features do they share?'],
-	    			'Step2': ['Click the add button and try to find several wines which are similar to the second wine you selected.', 'What facial features and what chemical features do they share?'],
-	    			'Step3': ['Double click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
-	    			'Step4': ['What are the major facial features that differentiate these two center emojis?', 'What chemical features do these differentiating facial features represent? Does this support your initial ideas?']
+	    			'Step2-1': ['Wines with similar chemical features could be considered as the same family of wines.', 'Try to find several wines which are similar to the first wine you selected.', 'Now you can see the combination emojis of the wines you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding chemical features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several wines which are similar to the second wine you selected.', 'What facial features and what chemical features do they share?'],
+	    			'Step2-4': ['Double click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What chemical features do these differentiating facial features represent? Does this support your initial ideas?']
 	    		};
     		}
     		createTodo(todolist2);
