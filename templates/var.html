@@ -18,6 +18,8 @@
             <label for="message-text" class="col-form-label">
                 {% if example == '2' %}
                 How do you think these factors may influence each other?
+                {% else %}
+                How do you think the chemical factors may influence each other? And how are they related to the quality of a wine?
                 {% endif %}
             </label>
             <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
@@ -44,19 +46,19 @@
 	var q_num = 0;
 	if (example == 1) {
 		var_explain = {
-			"total_sulfur_dioxide": "Total sulfur dioxide",
-			"alcohol": "Alcohol",
-			"chlorides": "Chlorides",
-			"density": "Density",
-			"sulphates": "Sulphates",
-			"citric_acid": "Citric acid",
-			"free_sulfur_dioxide": "Free sulfur dioxide",
-			"residual_sugar": "Residual sugar",
-			"volatile_acidity": "Volatile acidity",
-			"pH": "pH",
-			"fixed_acidity": "Fixed acidity",
-			"quality": "Quality",
-			"id": "id"
+			// alcohol -> volatile acidity -> free sulfur dioxide -> fixed acidity -> total sulfur dioxide -> residual sugar -> density -> ph
+			"alcohol": ["Alcohol by volume", "Alcohol by volume, or ABV, is the amount of ethanol in a given volume of liquid, expressed as a percentage."],
+			"volatile_acidity": ["Volatile acidity", "Volatile acidity refers to the steam distillable acids present in wine, primarily acetic acid."],
+			"free_sulfur_dioxide": ["Free sulfur dioxide", "Free sulfur dioxide is a measure of the amount of SO2 that is not bound to other molecules. Sulfur Dioxide is used throughout all stages of the winemaking process to prevent oxidation and microbial growth."],
+			"fixed_acidity": ["Fixed acidity", "The predominant fixed acids found in wines are tartaric, malic, citric, and succinic. Their respective levels found in wine can vary greatly."],
+			"total_sulfur_dioxide": ["Total sulfur dioxide", "Total Sulfur Dioxide is the portion of SO2 that is free in the wine plus the portion that is bound to other chemicals in the wine such as aldehydes, pigments, or sugars."],
+			"residual_sugar": ["Residual sugar", "Residual Sugar is from natural grape sugars leftover in a wine after the alcoholic fermentation finishes."],
+			"density": ["Density", "Density is an important measurement in wine making. It is defined as mass per volume. When we take a deeper look at the components of wine, the main constituents affecting the density are alcohol, sugar, glycerol, and other dissolved solids."],
+			"pH": ["pH", "Winemakers use pH as a way to measure ripeness in relation to acidity. Low pH wines will taste tart and crisp, while higher pH wines are more susceptible to bacterial growth."],
+			// "chlorides": ["Chlorides",],
+			// "sulphates": ["Sulphates",],
+			// "citric_acid": ["Citric acid",],						
+			"quality": ["Quality", "Quality level based on the sensory data"]
 		};
 	} else if (example == 2) {
 		var_explain = {
