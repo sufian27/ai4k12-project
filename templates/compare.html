@@ -189,7 +189,7 @@
 	        for (var i = 0; i < todo[steps[j]].length; i ++ ) {
 	            todoitem_content = todoitem_content + '<div class = "' + (i == todo[steps[j]].length - 1 ? 'selected question' : '') + '">' + todo[steps[j]][i] + '</div><hr>';
 	        }
-	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + j + '">Share my thoughts</button>');
+	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
 	        item.append(todotitle);
 	        item.append($(todoitem_content));
 	        item.append(answer);
