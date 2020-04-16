@@ -40,15 +40,16 @@ def json4cluster(dataset, centroids, labels, example, dataset_face):
 		original = json_cluster["nodes"][i]["distance"]
 		json_cluster["nodes"][i]["distance"] = (float(original) - float(distance_min)) / float(distance_range)
 
-	for i in range(len(centroids)):
-		node = {}
-		node["name"] = str(i) + '_'
-		node["group"] = str(i)
-		node["distance"] = 0
-		pic_src = "/static/image/example" + str(example) + "/circle.png";
-		node["pic"] = pic_src
-		json_cluster["nodes"].append(node)
+	# for i in range(len(centroids)):
+	# 	node = {}
+	# 	node["name"] = str(i) + '_'
+	# 	node["group"] = str(i)
+	# 	node["distance"] = 0
+	# 	pic_src = "/static/image/example" + str(example) + "/circle.png";
+	# 	node["pic"] = pic_src
+	# 	json_cluster["nodes"].append(node)
 
+	json_cluster['nodes'] = sorted(json_cluster['nodes'], key = lambda x: x['distance'])
 	return json_cluster
 
 def distanceCal(data1, data2):

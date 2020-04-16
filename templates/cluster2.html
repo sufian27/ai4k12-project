@@ -85,7 +85,7 @@
         $('#cluster-vis').append(cluster_box);
     }
 
-    for ( var j = 0; j < (json_cluster['nodes'].length - k); j ++ ) {
+    for ( var j = (json_cluster['nodes'].length - 1); j > -1; j -- ) {
         var cluster_box_id = "#cluster" + json_cluster['nodes'][j]['group'];
         var datapoint_id = parseInt(json_cluster['nodes'][j]['name'].substr(2));
         var face_place = $('<span class = "overlay" id = "overlay' + datapoint_id + '" ></span>');
@@ -96,18 +96,23 @@
         if ($(cluster_box_id + ' span').length > 1) {
             $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.4);
         }
+    }
+
+    for ( var j = 0; j < json_cluster["nodes"].length; j ++ ) {
+        var datapoint_id = parseInt(json_cluster['nodes'][j]['name'].substr(2));
         var placeholder = $("<span id = 'data" + datapoint_id + "'></span>");
         var group_id = json_cluster['nodes'][j]['group'];
         $("#expand" + group_id).append(placeholder);
     }
 
-    for (i = 0; i < json_cluster["nodes"].length; i++) {
+    //to add emojis to show each cluster
+    for (var i = 0; i < json_cluster["nodes"].length; i++) {
         var datapoint_id = parseInt(json_cluster['nodes'][i]['name'].substr(2));
         datapoint_face = dataset_face[datapoint_id];
-        d3.select("#data" + i)
+        d3.select("#data" + datapoint_id)
             .call(chernoffFace());
-        $("#data" + i + ' svg').attr('id', "face" + i);
-        $("#data" + i + ' svg').attr('class', 'hover-face');
+        $("#data" + datapoint_id + ' svg').attr('id', "face" + datapoint_id);
+        $("#data" + datapoint_id + ' svg').attr('class', 'hover-face');
     }
 
     var q_num = 0;
@@ -151,7 +156,9 @@
         $('#todolist').append(item);
     }
 
-    $('.next-page-btn').attr("href", "/stem?example=" + example);
+    if (example == '2') {
+        $('.next-page-btn').attr("href", "/stem?example=" + example);
+    }
 
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
