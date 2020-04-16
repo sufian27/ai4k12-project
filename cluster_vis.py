@@ -32,13 +32,14 @@ def json4cluster(dataset, centroids, labels, example, dataset_face):
 		link["group"] = str(labels[i])
 		json_cluster["links"].append(link)
 	
-	distance_max = max(distance_list)
-	distance_min = min(distance_list)
-	distance_range = distance_max - distance_min
+	# distance calculation for d3 force
+	# distance_max = max(distance_list)
+	# distance_min = min(distance_list)
+	# distance_range = distance_max - distance_min
 
-	for i in range(len(dataset)):
-		original = json_cluster["nodes"][i]["distance"]
-		json_cluster["nodes"][i]["distance"] = (float(original) - float(distance_min)) / float(distance_range)
+	# for i in range(len(dataset)):
+	# 	original = json_cluster["nodes"][i]["distance"]
+	# 	json_cluster["nodes"][i]["distance"] = (float(original) - float(distance_min)) / float(distance_range)
 
 	# for i in range(len(centroids)):
 	# 	node = {}

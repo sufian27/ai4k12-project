@@ -13,6 +13,7 @@ def clustering(k, dataset, unmapped):
 	return dataset_array, centroids, labels
 
 def transfer_dataset(dataset, unmapped):
+	unmapped.append('id')
 	dataset_array = []
 	variables = dataset[0].keys()
 	for datapoint in dataset:
