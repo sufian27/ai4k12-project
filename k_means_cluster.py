@@ -10,7 +10,8 @@ def clustering(k, dataset, unmapped):
 	kmeans.fit(dataset_array)
 	centroids = kmeans.cluster_centers_
 	labels = kmeans.labels_
-	return dataset_array, centroids, labels
+	centroids_new, labels_new = fixedSeq(k, centroids, labels)
+	return dataset_array, centroids_new, labels_new
 
 def transfer_dataset(dataset, unmapped):
 	unmapped.append('id')
@@ -26,3 +27,20 @@ def transfer_dataset(dataset, unmapped):
 					del datapoint[var]
 		dataset_array.append(datapoint_array)
 	return dataset_array
+
+def fixedSeq(k, centroids, labels):
+	old_labels = {}
+	new_match = {}
+	for i in range(k):
+		old_labels[str(centroids[i])] = i
+	centroids_new = sorted(centroids, key=lambda x: x[0], reverse = True)
+	for i in range(k):
+		new_label = i
+		old_label = old_labels[str(centroids_new[i])]
+		new_match[old_label] = new_label
+	labels_new = []
+	for i in labels:
+		update = new_match[i]
+		labels_new.append(update)
+	return centroids_new, labels_new
+
