@@ -10,7 +10,7 @@
 				<div class="compare-canvas" id = "canvas0" ></div>
 				<div class="compare-index"></div>				
 			</div>
-			<button type="button" class="btn btn-primary add-btn float-left">+</button>			
+			<button type="button" class="btn btn-primary add-btn float-left hidden">+</button>			
 		</div>
 	</div>
 	<div id="face-browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
@@ -160,46 +160,70 @@
 		$(this).before(compare_template);
 	});
 
-	var q_num = 0;
     //for the q&a code
+    var q_num = 0;
+    var steps = [];
     if (example == '2') {
         var todolist = {
-            'Step1': ['Find a field site with high beetle richness', 'Find a field site with low beetle richness', 'What is the difference between these two field sites?'],
-            'Step2': ['Try to find several more similar field sites to the first site you selected.', 'Try to find several more similar field sites to the second site you selected.', 'Double click on the overlay and you can see the average representation of each overlay', 'Do these sites support your previous ideas?']
+            'Step1': ['Find a field site with high beetle richness', 'What facial features does it have?'],
+            'Step2': ['What ecological features does this field site have?'],
+            'Step3': ['Find a field site with low beetle richness', 'What are the ecological features that differentiate these two field sites?']
         };
     }
 
-    var steps = Object.keys(todolist);
-    q_num = steps.length;
-
-    for (var j = 0; j < q_num; j ++ ) {
-        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
-        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
-        var todoitem_content = '';
-        for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
-            todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
-        }
-        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
-        item.append(todotitle);
-        item.append($(todoitem_content));
-        item.append(answer);
-        $('#todolist').append(item);
+    function createTodo(todo) {
+    	$('#todolist').empty();
+    	$('#todolist').removeClass('hidden');
+    	steps = Object.keys(todo);
+    	q_num = steps.length;
+	    for (var j = 0; j < q_num; j ++ ) {
+	        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
+	        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
+	        var todoitem_content = '';
+	        for (var i = 0; i < todo[steps[j]].length; i ++ ) {
+	            todoitem_content = todoitem_content + '<div class = "' + (i == todo[steps[j]].length - 1 ? 'selected question' : '') + '">' + todo[steps[j]][i] + '</div><hr>';
+	        }
+	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+	        item.append(todotitle);
+	        item.append($(todoitem_content));
+	        item.append(answer);
+	        $('#todolist').append(item);
+	    }
     }
 
-    if (localStorage.getItem("mappingRule") === null) {          
-        var unmapped_list = [];
-    } else {
-        var unmapped_list = [];
-        var getLocalData = localStorage.getItem('mappingRule');
-        var mapping = JSON.parse(getLocalData);
-        for (key in mapping) {
-            if (mapping[key] == '0') {
-                unmapped_list.push(key);
-            }
-        }  
-    }
-    
-    $('.next-page-btn').attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
+    createTodo(todolist);
+
+    $(document).on('click', ".next-page-btn", function() {
+    	if ($('.add-btn').hasClass('hidden')) {
+    		$('.add-btn').removeClass('hidden');
+    		$('.next-page-btn').addClass('hidden');
+    		$('.compare-canvas').empty();
+    		$('.compare-index').empty();
+    		var todolist2 = {
+    			'Step1-1': ['Similar field sites could be considered being grouped into the same family of field sites.', 'Try to find several field sites which are similar to the first site you selected.', 'What similar facial features do they share?'],
+    			'Step1-2': ['What smilar ecological features do they share?'],
+    			'Step2': ['Click the add button and try to find several field sites which are similar to the second site you selected.', 'What facial features and what ecological features do they share?'],
+    			'Step3': ['Double click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji for each family. They are generated based on the average values of the data points in each family.', 'How do these center emojis represent different families?'],
+    			'Step4': ['What are the major facial features that differentiate these two center emojis?', 'What ecological features do these differentiating facial features represent? Does this support your initial ideas?']
+    		};
+    		createTodo(todolist2);
+
+    	} else {
+    		if (localStorage.getItem("mappingRule") === null) {          
+		        var unmapped_list = [];
+		    } else {
+		        var unmapped_list = [];
+		        var getLocalData = localStorage.getItem('mappingRule');
+		        var mapping = JSON.parse(getLocalData);
+		        for (key in mapping) {
+		            if (mapping[key] == '0') {
+		                unmapped_list.push(key);
+		            }
+		        }  
+		    }
+		    location.href = "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list;
+    	}
+    });
 
 </script>
 <script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>

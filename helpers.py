@@ -7,7 +7,7 @@ def get_db_data_json(dataset):
     if dataset == 1:
         table_name = 'winequality_white'
     elif dataset == 2:
-        table_name = 'beetle_richness'
+        table_name = 'beetle_richness_new'
     elif dataset == 3:
         table_name = 'breast_cancer'
     #add different dataset conditions later
@@ -37,7 +37,7 @@ def create_table_from_csv(dataset):
                 pH real, sulphates real, alcohol real, quality real
             ) '''
         elif dataset == 2:
-            command = ''' CREATE TABLE IF NOT EXISTS beetle_richness (
+            command = ''' CREATE TABLE IF NOT EXISTS beetle_richness_new (
                 id text primary key, Latitude real, 
                 Longitude real, Elevation_m real, 
                 Mean_Temp_degC real, Mean_Ann_Precip_mm real, 
@@ -63,7 +63,7 @@ def create_table_from_csv(dataset):
                 command = 'INSERT INTO winequality_white VALUES (' + vals + ')'
             elif dataset == 2:
                 vals = ''.join(['"'+ vals[:4] + '"', vals[4:]])
-                command = 'INSERT INTO beetle_richness VALUES (' + vals + ')'
+                command = 'INSERT INTO beetle_richness_new VALUES (' + vals + ')'
             elif dataset == 3:
                 command = 'INSERT INTO breast_cancer VALUES (' + vals + ')' 
 

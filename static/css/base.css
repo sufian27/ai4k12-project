@@ -1,3 +1,7 @@
+.add-btn {
+	height: 100px;
+}
+
 .modal-dialog {
     /*margin-right: auto;*/
     margin-right: 1.75rem !important;
@@ -73,8 +77,8 @@
 }
 
 .compare-canvas {
-	height: 100px; 
-	width: 100px; 
+	height: 126px; 
+	width: 106px; 
 	margin-bottom: 10px;
 	/*background-color: #d5f4e6; */
 	z-index: 0; 

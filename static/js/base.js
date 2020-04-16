@@ -75,12 +75,15 @@ $(document).on('submit', '.user-answer', function(e) {
         var q_id = parseInt($(this).attr('id').replace(/[^\d]/g, ''));
         var card_id = steps[q_id - 1];
         if (q_id == steps.length) {
+            $('#todolist').addClass('hidden');
             $('.next-page-btn').removeClass('hidden');
         } else {
             var card_id_new = steps[q_id];
             $('#' + card_id).addClass('hidden');
             $('#' + card_id_new).removeClass('hidden');
         }
+    } else {
+        console.log('q number is zero');
     }
 
     if (title == 'Introduction') {

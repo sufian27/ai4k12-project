@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="variables"></div>
-<button type="button" class="btn btn-outline-success next-btn" data-toggle="modal" data-target="#qa" style="position: fixed; bottom: 50px; right: 50px; color: #28a745;" >Next</button>
+<button type="button" class="btn btn-outline-success next-btn" data-toggle="modal" data-target="#qa" style="position: fixed; bottom: 50px; right: 50px;" >Next</button>
 
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -73,7 +73,7 @@
 	}
 
 	for (key in var_explain) {
-		var new_line = $('<div>' + key + '<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key][1] + '">' + var_explain[key][0] + '</button></div>');
+		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key][1] + '">' + var_explain[key][0] + '</button>(' + key + ')</div>');
 		$('#variables').append(new_line);
 	}
 
