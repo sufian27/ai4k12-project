@@ -18,7 +18,11 @@ app = Flask(__name__, static_url_path='/static')
 app.secret_key = os.urandom(24)
 #init log database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://admin:AI$K!2-db@ai4k12.ccww9pi9mcdx.us-east-1.rds.amazonaws.com:1433/ai4k12'
+print(app.config['SQLALCHEMY_DATABASE_URI'])
+
 db = SQLAlchemy(app)
 from models import User, User_Action
 from helpers import get_db_data_json, create_table_from_csv, dataset_pre_analysis, dataset_preprocess
