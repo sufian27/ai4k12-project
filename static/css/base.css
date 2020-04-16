@@ -1,3 +1,7 @@
+.clickable-element {
+	cursor: pointer;
+}
+
 .add-btn {
 	height: 100px;
 }

@@ -39,17 +39,12 @@ def before_request(): #set global user
 def index():
     if g.user == None:
         return redirect(url_for('login'))
-
-    if request.method == "POST": #handle asynchronous request
-        req = request.get_json()
-        db.session.add(User_Action('user checked checkbox {}'.format(req['val']), session['user_id']))
-        db.session.commit()
-        res = make_response(jsonify(req), 200)
-        return res
-    else: 
+    if request.method == "GET": #handle asynchronous request
         db.session.add(User_Action('user at home page', session['user_id'])) #log data 
         db.session.commit()
         return render_template('index.html', title='Home')
+    else:
+        return 'Invalid Data'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -191,9 +186,22 @@ def answer():
         return redirect(url_for('login'))
     if request.method == "POST": #handle asynchronous request for log data
         req = request.get_json()
-        print("------------------")
+        db.session.add(User_Action('user response: {}, {}'.format(req['q_index'], req['val']), session['user_id']))
+        db.session.commit()
+        res = make_response(jsonify(req), 200)
+        return res
+    else:
+        return 'Invalid Data'
+
+@app.route('/click_record', methods = ['GET', 'POST'])
+def click_record():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == "POST": #handle asynchronous request for log data
+        req = request.get_json()
+        print('------------')
         print(req)
-        db.session.add(User_Action('user response: {}'.format(req['val']), session['user_id']))
+        db.session.add(User_Action('user clicked {}, {}'.format(req['page'], req['element']), session['user_id']))
         db.session.commit()
         res = make_response(jsonify(req), 200)
         return res

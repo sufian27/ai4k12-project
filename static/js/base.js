@@ -39,7 +39,7 @@
 $(document).on('submit', '.user-answer', function(e) {
     e.preventDefault();
     var data = {
-        q_index : $(this).attr('id'),
+        q_index: $(this).attr('id'),
         val: document.getElementById("user_input").value
     };
     console.log('---');
@@ -150,6 +150,37 @@ function mousePosition(ev){
         x:ev.clientX + document.body.scrollLeft - document.body.clientLeft, 
         y:ev.clientY + document.body.scrollTop - document.body.clientTop 
     }; 
+}
+
+function click_record_fuc() {
+    var data = {
+        page: title,
+        element: $(this).attr('id'),
+        // val: this.value
+    };
+    console.log($(this).attr('id'));
+    console.log(this.value)
+    fetch(`${window.origin}/click_record`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        cache: "no-cache",
+        headers: new Headers({
+            "content-type": "application/json"
+        })
+    })
+    .then(function (response) {
+        if (response.status !== 200) {
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+        }
+        response.json().then(function (data) {
+        console.log(data);
+        });
+    })
+    .catch(function (error) {
+        console.log("Fetch error: " + error);
+    });
 }
 
 function allowDropFeature(ev) {

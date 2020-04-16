@@ -26,13 +26,13 @@
     <div class="col-7" id="cluster-vis" ></div>
     <div class="col-3" id="todolist"></div>
 </div>
-<a role="button" class="btn btn-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px;" href="#" >Next</a>
+<a role="button" class="btn btn-success next-page-btn hidden clickable-element" style="position: fixed; bottom: 50px; right: 50px;" href="#" id="next-page-button">Next</a>
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="qaLabel">Explore the clustering results</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -124,7 +124,7 @@
             'Step3': ['What shared facial features does the second family have?', 'What ecological features do those faical features represent?', 'What is the type of field sites are in the second family?'],
             'Step4': ['What shared facial features does the third family have?', 'What ecological features do those faical features represent?', 'What is the type of field sites in the third family?'],
             'Step5': ['What shared facial features does the forth family have?', 'What ecological features do those faical features represent?', 'What is the type of field sites in the forth family?'],
-            'Step6': ['Double click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between emoji families of field sites with high species richness and low species richness', 'What are the differentiating facial features and ecological features?'],
+            'Step6': ['Click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between emoji families of field sites with high species richness and low species richness', 'What are the differentiating facial features and ecological features?'],
             'Step7': ['Click the compare button to explore the differences between emoji familes of field sites with medium level of species richness.', 'What are the differentiating facial features and ecological features?']
         };
     } else {
@@ -134,7 +134,7 @@
             'Step3': ['What shared facial features does the second family have?', 'What chemical features do those faical features represent?', 'What is the type of wines in the second family?'],
             'Step4': ['What shared facial features does the third family have?', 'What chemical features do those faical features represent?', 'What is the type of wines in the third family?'],
             'Step5': ['What shared facial features does the forth family have?', 'What chemical features do those faical features represent?', 'What is the type of wines in the forth family?'],
-            'Step6': ['Double click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between emoji families of wines with high quality and low quality.', 'What are the differentiating facial features and corresponding chemical features?'],
+            'Step6': ['Click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between emoji families of wines with high quality and low quality.', 'What are the differentiating facial features and corresponding chemical features?'],
             'Step7': ['Try to compare center emojis from different emoji families.', "What more findings can you get?"]
         };        
     }
@@ -149,7 +149,7 @@
         for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
             todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
         }
-        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
         item.append(todotitle);
         item.append($(todoitem_content));
         item.append(answer);

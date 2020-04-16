@@ -7,23 +7,23 @@
 <form action="/intro?example" method="GET" name="form">
     <p>
         <label>
-            <input name="example" type="radio" value='1' required/>
+            <input id = "example1-selection-button" class = "clickable-element" name="example" type="radio" value='1' required/>
             <span>Wine chemistry</span>
         </label>
     </p>
     <p>
         <label>
-            <input name="example" type="radio" value='2' />
+            <input id = "example2-selection-button" class = "clickable-element" name="example" type="radio" value='2' />
             <span>Understand dynamic ecological and climate systems</span>
         </label>
     </p>
     <p>
         <label>
-            <input name="example" type="radio" value='3' />
+            <input id = "example3-selection-button" class = "clickable-element" name="example" type="radio" value='3' />
             <span>Breast Cancer Dataset</span>
         </label>
     </p>
-    <button type="submit" id="example-selection">SUBMIT</button>
+    <button type="submit" class = "clickable-element" id="example-selection-submit-button">SUBMIT</button>
 </form>
 {% endblock %}
 
@@ -32,35 +32,6 @@
 <script type="text/javascript">
     // alert("inner js");
     localStorage.clear();
-    $(document).ready(function(){
-        $('input[type=radio]').click(function(){
-            var data = {
-                val: this.value
-            };
-            console.log(this.value);
-            fetch(`${window.origin}/`, {
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify(data),
-                cache: "no-cache",
-                headers: new Headers({
-                    "content-type": "application/json"
-                })
-            })
-            .then(function (response) {
-                if (response.status !== 200) {
-                    console.log(`Looks like there was a problem. Status code: ${response.status}`);
-                    return;
-                }
-                response.json().then(function (data) {
-                console.log(data);
-                });
-            })
-            .catch(function (error) {
-                console.log("Fetch error: " + error);
-            });
-        });
-    });
     
 </script>
 {% endblock %}
