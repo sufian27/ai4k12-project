@@ -1,3 +1,11 @@
+.clickable-element {
+	cursor: pointer;
+}
+
+.add-btn {
+	height: 100px;
+}
+
 .modal-dialog {
     /*margin-right: auto;*/
     margin-right: 1.75rem !important;
@@ -6,6 +14,7 @@
 #data_table thead {
 	max-width: 70px;
 	word-break: break-all;
+	font-size: 12px;
 }
 
 #face {
@@ -73,8 +82,8 @@
 }
 
 .compare-canvas {
-	height: 100px; 
-	width: 100px; 
+	height: 126px; 
+	width: 106px; 
 	margin-bottom: 10px;
 	/*background-color: #d5f4e6; */
 	z-index: 0; 
@@ -182,6 +191,11 @@
 .expand-area {
 	overflow: scroll;
 	height: 170px;
+}
+
+.stem-item {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 /*.modal-dialog {
 	max-width: 800px;

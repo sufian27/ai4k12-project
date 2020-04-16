@@ -26,13 +26,13 @@
     <div class="col-7" id="cluster-vis" ></div>
     <div class="col-3" id="todolist"></div>
 </div>
-<a role="button" class="btn btn-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px;" href="#" >Next</a>
+<a role="button" class="btn btn-success next-page-btn hidden clickable-element" style="position: fixed; bottom: 50px; right: 50px;" href="#" id="next-page-button">Next</a>
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="qaLabel">Explore the clustering results</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -85,7 +85,7 @@
         $('#cluster-vis').append(cluster_box);
     }
 
-    for ( var j = 0; j < (json_cluster['nodes'].length - k); j ++ ) {
+    for ( var j = (json_cluster['nodes'].length - 1); j > -1; j -- ) {
         var cluster_box_id = "#cluster" + json_cluster['nodes'][j]['group'];
         var datapoint_id = parseInt(json_cluster['nodes'][j]['name'].substr(2));
         var face_place = $('<span class = "overlay" id = "overlay' + datapoint_id + '" ></span>');
@@ -96,32 +96,57 @@
         if ($(cluster_box_id + ' span').length > 1) {
             $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.4);
         }
+    }
+
+    for ( var j = 0; j < json_cluster["nodes"].length; j ++ ) {
+        var datapoint_id = parseInt(json_cluster['nodes'][j]['name'].substr(2));
         var placeholder = $("<span id = 'data" + datapoint_id + "'></span>");
         var group_id = json_cluster['nodes'][j]['group'];
         $("#expand" + group_id).append(placeholder);
     }
 
-    for (i = 0; i < json_cluster["nodes"].length; i++) {
+    //to add emojis to show each cluster
+    for (var i = 0; i < json_cluster["nodes"].length; i++) {
         var datapoint_id = parseInt(json_cluster['nodes'][i]['name'].substr(2));
         datapoint_face = dataset_face[datapoint_id];
-        d3.select("#data" + i)
+        d3.select("#data" + datapoint_id)
             .call(chernoffFace());
-        $("#data" + i + ' svg').attr('id', "face" + i);
-        $("#data" + i + ' svg').attr('class', 'hover-face');
+        $("#data" + datapoint_id + ' svg').attr('id', "face" + datapoint_id);
+        $("#data" + datapoint_id + ' svg').attr('class', 'hover-face');
     }
 
     var q_num = 0;
     //for the q&a code
     if (example == '2') {
         var todolist = {
-            'Step1': ['Now all the field sites are grouped into two different families, and we want to group similar field sites into a family.', 'There are still a lot of variations within each family. To make the pattern clearer, try to make k = 4 and see the results!', 'What is the difference between grouping sites into 2 families and 4 families?'],
-            'Step2': ['Explore the four families of field sites.', 'What shared facial characteristics does the first family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the first family?'],
-            'Step3': ['What shared facial characteristics does the second family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the second family?'],
-            'Step4': ['What shared facial characteristics does the third family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the third family?'],
-            'Step5': ['What shared facial characteristics does the forth family have?', 'What ecological and climate characteristics do those faical characteristics represent?', 'What type of the field sites are in the forth family?'],
-            'Step6': ['Double click the overlay view of each family and you can see their average representation.', 'Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site family with high species richness and the field site family with low species richness?'],
-            'Step7': ['Click the compare button to explore the differences between each family of field sites', 'What are the differences between the field site families with medium level of species richness?']
+            'Step1': ['Now all the field site data points are grouped into two emoji families by K-Means Clustering Machine Learning method. Machine clusters data based on what you just did on the previous page - by comparing similarity of data points and group similar data points together.', 'As you can see, there are still a lot of variations within each emoji family, which is not good enough for us to find patterns within each emoji family.', 'Now, try to make k = 4.', 'What is the difference between grouping sites into 2 families and 4 families?'],
+            'Step2': ['Explore the four emoji families of field sites.', 'What shared facial features does the first family have?', 'What ecological features do those faical features represent?', 'What is the type of field sites in the first family?'],
+            'Step3': ['What shared facial features does the second family have?', 'What ecological features do those faical features represent?', 'What is the type of field sites are in the second family?'],
+            'Step4': ['What shared facial features does the third family have?', 'What ecological features do those faical features represent?', 'What is the type of field sites in the third family?'],
+            'Step5': ['What shared facial features does the forth family have?', 'What ecological features do those faical features represent?', 'What is the type of field sites in the forth family?'],
+            'Step6': ['Click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between the first and the last emoji family.', 'What are the differentiating facial features and ecological features?'],
+            'Step7': ['Click the compare button to explore the differences between emoji familes of field sites with medium level of species richness.', 'What are the differentiating facial features and ecological features?']
         };
+    } else if (example == '3') {
+         var todolist = {
+            'Step1': ['Now all the cell data points are grouped into two emoji families by K-Means Clustering Machine Learning method. Machine clusters data based on what you just did on the previous page - by comparing similarity of data points and group similar data points together.', 'As you can see, there are still a lot of variations within each emoji family, which is not good enough for us to find patterns within each emoji family.', 'Now, try to make k = 4.', 'What is the difference between grouping sites into 2 families and 4 families?'],
+            'Step2': ['Explore the four emoji families of cells.', 'What shared facial features does the first family have?', 'What digitized image features do those faical features represent?', 'What is the type of cells in the first family?'],
+            'Step3': ['What shared facial features does the second family have?', 'What digitized image features do those faical features represent?', 'What is the type of cells are in the second family?'],
+            'Step4': ['What shared facial features does the third family have?', 'What digitized image features do those faical features represent?', 'What is the type of cells in the third family?'],
+            'Step5': ['What shared facial features does the forth family have?', 'What digitized image features do those faical features represent?', 'What is the type of cells in the forth family?'],
+            'Step6': ['Click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between the first and the last emoji family.', 'What are the differentiating facial features and digitized image features?'],
+            'Step7': ['Click the compare button to explore the differences between emoji familes of field sites with medium level of species richness.', 'What are the differentiating facial features and digitized image features?']
+        };       
+    } else {
+        var todolist = {
+            'Step1': ['Now all the wine data points are grouped into two emoji families by K-Means Clustering Machine Learning method. Machine clusters data based on what you just did on the previous page - by comparing similarity of data points and group similar data points together.', 'As you can see, there are still a lot of variations within each emoji family, which is not good enough for us to find patterns within each emoji family.', 'Now, try to make k = 4.', 'What is the difference between grouping sites into 2 families and 4 families?'],
+            'Step2': ['Explore the four emoji families of wines.', 'What shared facial features does the first family have?', 'What chemical features do those faical features represent?', 'What is the type of wines in the first family?'],
+            'Step3': ['What shared facial features does the second family have?', 'What chemical features do those faical features represent?', 'What is the type of wines in the second family?'],
+            'Step4': ['What shared facial features does the third family have?', 'What chemical features do those faical features represent?', 'What is the type of wines in the third family?'],
+            'Step5': ['What shared facial features does the forth family have?', 'What chemical features do those faical features represent?', 'What is the type of wines in the forth family?'],
+            'Step6': ['Click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between the first and the second emoji family.', 'What are the differentiating facial features and corresponding chemical features?'],
+            'Step7': ['Try to compare center emojis from different emoji families.', "What more findings can you get?"]
+        };        
     }
 
     var steps = Object.keys(todolist);
@@ -134,14 +159,16 @@
         for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
             todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
         }
-        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
         item.append(todotitle);
         item.append($(todoitem_content));
         item.append(answer);
         $('#todolist').append(item);
     }
 
-    $('.next-page-btn').attr("href", "/stem?example=" + example);
+    if (example == '2') {
+        $('.next-page-btn').attr("href", "/stem?example=" + example);
+    }
 
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>

@@ -1,5 +1,5 @@
 ﻿$(document).ready(function(){
-    $(document).on('dblclick', '.compare-canvas img', function() {
+    $(document).on('click', '.compare-canvas img', function() {
         var current_canvas_id = $(this).parent('.compare-canvas').attr('id');
         var datapointIDs = [];
         var face_img_list = $('#' + current_canvas_id + ' img');
@@ -26,7 +26,7 @@
 
     });
 
-    $(document).on('dblclick', '.compare-canvas', function() {
+    $(document).on('click', '.compare-canvas', function() {
         var current_canvas_id = $(this).attr('id');
         var current_cluster_id = current_canvas_id.substr(7);
         if ($(this).children('span').hasClass('hidden')) {
@@ -69,7 +69,7 @@
                 $(this).parent('.compare-block').removeClass('selected-block');
             }
             if ($('.cluster-canvas').length > 1) {
-                var overlay_btn = $('<button type="button" class = "overlay-btn btn-outline-success btn-sm">Compare</button>');
+                var overlay_btn = $('<button type="button" class = "overlay-btn btn-outline-success btn-sm clickable-element" id = "overlay-button-' + current_cluster_id + '">Compare</button>');
                 $(this).parent('.cluster-canvas').append(overlay_btn);
             }
         }

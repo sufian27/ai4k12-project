@@ -41,28 +41,28 @@
         } else if (example == '1') {
             json_mapping = {
                 "alcohol": "er",
-                "residual_sugar": "0",
-                "pH": "bl",
+                "volatile_acidity": "bl",
                 "quality": "bv",
                 "total_sulfur_dioxide": "ms",
                 "free_sulfur_dioxide": "mv",
                 "fixed_acidity": "mc",
-                "volatile_acidity": "nw",
+                "residual_sugar": "nw",
                 "density": "nh",
                 "chlorides": "0",
                 "sulphates": "0",
-                "citric_acid": "0"
+                "citric_acid": "0",
+                "pH": "bs",
             }
 
             json_mapping_face = {
                 "er": "alcohol", 
-                // "bs": "residual_sugar", 
-                "bl": "pH", 
+                "bs": "pH", 
+                "bl": "volatile_acidity", 
                 "bv": "quality", 
                 "ms": "total_sulfur_dioxide", 
                 "mv": "free_sulfur_dioxide", 
                 "mc": "fixed_acidity", 
-                "nw": "volatile_acidity", 
+                "nw": "residual_sugar", 
                 "nh": "density"
             }
         } else {

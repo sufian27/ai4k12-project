@@ -47,7 +47,7 @@
 
         {% if dataset_face %}
         {% if title != 'Introduction' %}
-        <button type="button" class="btn btn-primary float-right mapping-btn" data-toggle="modal" data-target="#mappingModal">How emojis are generated?</button>
+        <button type="button" class="btn btn-primary float-right mapping-btn clickable-element" data-toggle="modal" data-target="#mappingModal" id="emoji-customize-button">How emojis are generated?</button>
         {% endif %}
         {% endif %} 
     </div>
@@ -58,7 +58,10 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Customize your emoji</h5>
+                <h5 class="modal-title">Customize the emoji visualization</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
               <form id="mapping-form">
                   <div class="modal-body row">
@@ -66,7 +69,7 @@
                     <div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary update-mapping refresh">Save & Close</button>
+                    <button type="button" class="btn btn-primary update-mapping refresh clickable-element" id="emoji-customize-save-button">Save & Close</button>
                     <!-- <button type="button" class="btn btn-primary update-mapping">Save changes</button> -->
                   </div>
               </form>
@@ -80,9 +83,10 @@
             <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; left: 140px; z-index: 1000;">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="select" href="/" >Select</a></li>
                     <li class="breadcrumb-item"><a class="intro" href="/intro?example=" >Intro</a></li>
                     <li class="breadcrumb-item"><a class="var" href="/var?example=" >Factors</a></li>
-                    <li class="breadcrumb-item"><a class="dataset2face" href="/dataset2face?example=" >Emoji the Dataset</a></li>
+                    <li class="breadcrumb-item"><a class="dataset2face" href="/dataset2face?example=" >'Emoji' the Dataset</a></li>
                     <li class="breadcrumb-item"><a class="compare" href="/compare?example=" >Play with Emojis</a></li>
                     <li class="breadcrumb-item"><a class="cluster" href="/cluster2?example=" >Cluster</a></li>
                   </ol>

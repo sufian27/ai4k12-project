@@ -39,12 +39,13 @@
 $(document).on('submit', '.user-answer', function(e) {
     e.preventDefault();
     var data = {
+        q_index: $(this).attr('id'),
         val: document.getElementById("user_input").value
     };
     console.log('---');
     console.log(this.value);
     console.log($(this).attr('id'));
-    fetch(`${window.origin}/intro`, {
+    fetch(`${window.origin}/answer`, {
         method: "POST",
         credentials: "include",
         body: JSON.stringify(data),
@@ -75,12 +76,15 @@ $(document).on('submit', '.user-answer', function(e) {
         var q_id = parseInt($(this).attr('id').replace(/[^\d]/g, ''));
         var card_id = steps[q_id - 1];
         if (q_id == steps.length) {
+            $('#todolist').addClass('hidden');
             $('.next-page-btn').removeClass('hidden');
         } else {
             var card_id_new = steps[q_id];
             $('#' + card_id).addClass('hidden');
             $('#' + card_id_new).removeClass('hidden');
         }
+    } else {
+        console.log('q number is zero');
     }
 
     if (title == 'Introduction') {
@@ -146,6 +150,37 @@ function mousePosition(ev){
         x:ev.clientX + document.body.scrollLeft - document.body.clientLeft, 
         y:ev.clientY + document.body.scrollTop - document.body.clientTop 
     }; 
+}
+
+function click_record_fuc() {
+    var data = {
+        page: title,
+        element: $(this).attr('id'),
+        // val: this.value
+    };
+    console.log($(this).attr('id'));
+    console.log(this.value)
+    fetch(`${window.origin}/click_record`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        cache: "no-cache",
+        headers: new Headers({
+            "content-type": "application/json"
+        })
+    })
+    .then(function (response) {
+        if (response.status !== 200) {
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+        }
+        response.json().then(function (data) {
+        console.log(data);
+        });
+    })
+    .catch(function (error) {
+        console.log("Fetch error: " + error);
+    });
 }
 
 function allowDropFeature(ev) {

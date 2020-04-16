@@ -12,7 +12,7 @@
 
     var content = "";
     for (var data_id = 0; data_id < dataset_face.length; data_id ++) {
-        content += "<div class = 'conbox pointer-cursor' id = 'wrap" + data_id + "' ></div>";
+        content += "<div class = 'conbox pointer-cursor clickable-element' id = 'wrap" + data_id + "' ></div>";
     }
 
     document.getElementById("face-browser").innerHTML = content;

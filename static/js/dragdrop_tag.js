@@ -66,6 +66,8 @@ function addTag(elem, face_id) {
     var close = $('<button>x</button>');
     id_tag.addClass("badge");
     close.addClass("close-btn");
+    close.addClass("clickable-element");
+    close.attr('id', 'close-face' + face_id);
     id_tag.append(close);
     elem.append(id_tag);
 }

@@ -32,23 +32,25 @@ def json4cluster(dataset, centroids, labels, example, dataset_face):
 		link["group"] = str(labels[i])
 		json_cluster["links"].append(link)
 	
-	distance_max = max(distance_list)
-	distance_min = min(distance_list)
-	distance_range = distance_max - distance_min
+	# distance calculation for d3 force
+	# distance_max = max(distance_list)
+	# distance_min = min(distance_list)
+	# distance_range = distance_max - distance_min
 
-	for i in range(len(dataset)):
-		original = json_cluster["nodes"][i]["distance"]
-		json_cluster["nodes"][i]["distance"] = (float(original) - float(distance_min)) / float(distance_range)
+	# for i in range(len(dataset)):
+	# 	original = json_cluster["nodes"][i]["distance"]
+	# 	json_cluster["nodes"][i]["distance"] = (float(original) - float(distance_min)) / float(distance_range)
 
-	for i in range(len(centroids)):
-		node = {}
-		node["name"] = str(i) + '_'
-		node["group"] = str(i)
-		node["distance"] = 0
-		pic_src = "/static/image/example" + str(example) + "/circle.png";
-		node["pic"] = pic_src
-		json_cluster["nodes"].append(node)
+	# for i in range(len(centroids)):
+	# 	node = {}
+	# 	node["name"] = str(i) + '_'
+	# 	node["group"] = str(i)
+	# 	node["distance"] = 0
+	# 	pic_src = "/static/image/example" + str(example) + "/circle.png";
+	# 	node["pic"] = pic_src
+	# 	json_cluster["nodes"].append(node)
 
+	json_cluster['nodes'] = sorted(json_cluster['nodes'], key = lambda x: x['distance'])
 	return json_cluster
 
 def distanceCal(data1, data2):

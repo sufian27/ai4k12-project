@@ -7,23 +7,23 @@
 		<div class="row">
 			<div class="col compare-block selected-block" id="block0">
 				<!-- <div class="compare-canvas" id = "canvas0" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div> -->
-				<div class="compare-canvas" id = "canvas0" ></div>
+				<div class="compare-canvas clickable-element" id = "canvas0" ></div>
 				<div class="compare-index"></div>				
 			</div>
-			<button type="button" class="btn btn-primary add-btn float-left">+</button>			
+			<button type="button" class="btn btn-primary add-btn float-left hidden clickable-element" id="add-cluster-button">+</button>			
 		</div>
 	</div>
 	<div id="face-browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
 	<div id="todolist" class="col-3"></div>
 </div>
 
-<a role="button" class="btn btn-success next-page-btn hidden" style="position: fixed; bottom: 50px; right: 50px;" href="#" >Next</a>
+<a role="button" class="btn btn-success next-page-btn hidden clickable-element" style="position: fixed; bottom: 50px; right: 50px;" href="#" id="next-page-button">Next</a>
 <div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="qaLabel">Initial testing of your ideas</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -32,7 +32,7 @@
             <label for="message-text" class="col-form-label">
             </label>
             <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success" id="answer-submit-button">Submit</button>
         </form>
       </div>
     </div>
@@ -160,46 +160,100 @@
 		$(this).before(compare_template);
 	});
 
-	var q_num = 0;
     //for the q&a code
+    var q_num = 0;
+    var steps = [];
     if (example == '2') {
         var todolist = {
-            'Step1': ['Find a field site with high beetle richness', 'Find a field site with low beetle richness', 'What is the difference between these two field sites?'],
-            'Step2': ['Try to find several more similar field sites to the first site you selected.', 'Try to find several more similar field sites to the second site you selected.', 'Double click on the overlay and you can see the average representation of each overlay', 'Do these sites support your previous ideas?']
+            'Step1-1': ['Find a field site with high beetle richness', 'What facial features does it have?'],
+            'Step1-2': ['What ecological features does this field site have?'],
+            'Step1-3': ['Find a field site with low beetle richness', 'What are the ecological features that differentiate these two field sites?']
         };
-    }
-
-    var steps = Object.keys(todolist);
-    q_num = steps.length;
-
-    for (var j = 0; j < q_num; j ++ ) {
-        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
-        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
-        var todoitem_content = '';
-        for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
-            todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
-        }
-        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
-        item.append(todotitle);
-        item.append($(todoitem_content));
-        item.append(answer);
-        $('#todolist').append(item);
-    }
-
-    if (localStorage.getItem("mappingRule") === null) {          
-        var unmapped_list = [];
+    } else if (example == '3') {
+        var todolist = {
+            'Step1-1': ['Find a cell with small bare nuclei', 'What facial features does it have?'],
+            'Step1-2': ['What digitized image features does this cell have?'],
+            'Step1-3': ['Find a cell with large bare nuclei', 'What are the digitized image features that differentiate these two cells?']
+        };    	
     } else {
-        var unmapped_list = [];
-        var getLocalData = localStorage.getItem('mappingRule');
-        var mapping = JSON.parse(getLocalData);
-        for (key in mapping) {
-            if (mapping[key] == '0') {
-                unmapped_list.push(key);
-            }
-        }  
+        var todolist = {
+            'Step1-1': ['Find a wine with high quality', 'What facial features does it have?'],
+            'Step1-2': ['What chemical features does this wine have?'],
+            'Step1-3': ['Find a field site with low quality', 'What are the chemical features that differentiate these two different wines?']
+        };    	
     }
-    
-    $('.next-page-btn').attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
+
+    function createTodo(todo) {
+    	$('#todolist').empty();
+    	$('#todolist').removeClass('hidden');
+    	steps = Object.keys(todo);
+    	q_num = steps.length;
+	    for (var j = 0; j < q_num; j ++ ) {
+	        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
+	        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
+	        var todoitem_content = '';
+	        for (var i = 0; i < todo[steps[j]].length; i ++ ) {
+	            todoitem_content = todoitem_content + '<div class = "' + (i == todo[steps[j]].length - 1 ? 'selected question' : '') + '">' + todo[steps[j]][i] + '</div><hr>';
+	        }
+	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+	        item.append(todotitle);
+	        item.append($(todoitem_content));
+	        item.append(answer);
+	        $('#todolist').append(item);
+	    }
+    }
+
+    createTodo(todolist);
+
+    $(document).on('click', ".next-page-btn", function() {
+    	if ($('.add-btn').hasClass('hidden')) {
+    		$('.add-btn').removeClass('hidden');
+    		$('.next-page-btn').addClass('hidden');
+    		$('.compare-canvas').empty();
+    		$('.compare-index').empty();
+    		if (example == '2') {
+	    		var todolist2 = {
+	    			'Step2-1': ['Similar field sites could be considered as the same family of field sites.', 'Try to find several field sites which are similar to the first site you selected.', 'Now you can see the combination emojis of the filed sites you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding ecological features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several field sites which are similar to the second site you selected.', 'What facial features and what ecological features do they share?'],
+	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What ecological features do these differentiating facial features represent? Does this support your initial ideas?']
+	    		};
+    		} else if (example == '3') {
+	    		var todolist2 = {
+	    			'Step2-1': ['Similar cells could be considered as the same family of cells.', 'Try to find several cells which are similar to the first cell you selected.', 'Now you can see the combination emojis of the cells you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding digitized image features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several cells which are similar to the second cell you selected.', 'What facial features and what digitized image features do they share?'],
+	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What digitized features do these differentiating facial features represent? Does this support your initial ideas?']
+	    		};    			
+    		} else {
+	    		var todolist2 = {
+	    			'Step2-1': ['Wines with similar chemical features could be considered as the same family of wines.', 'Try to find several wines which are similar to the first wine you selected.', 'Now you can see the combination emojis of the wines you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding chemical features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several wines which are similar to the second wine you selected.', 'What facial features and what chemical features do they share?'],
+	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What chemical features do these differentiating facial features represent? Does this support your initial ideas?']
+	    		};
+    		}
+    		createTodo(todolist2);
+
+    	} else {
+    		if (localStorage.getItem("mappingRule") === null) {          
+		        var unmapped_list = [];
+		    } else {
+		        var unmapped_list = [];
+		        var getLocalData = localStorage.getItem('mappingRule');
+		        var mapping = JSON.parse(getLocalData);
+		        for (key in mapping) {
+		            if (mapping[key] == '0') {
+		                unmapped_list.push(key);
+		            }
+		        }  
+		    }
+		    location.href = "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list;
+    	}
+    });
 
 </script>
 <script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>
