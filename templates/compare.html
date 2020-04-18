@@ -133,7 +133,7 @@
 	        $('.selected-block .compare-canvas').append($('<span id = "overlay' + current_id + '"></span>'))
 	        $('#overlay' + current_id).addClass('overlay');
 	        d3.select('#overlay' + current_id)
-	        	.call(chernoffFace())
+	        	.call(chernoffFace(1));
 	        // $('.selected-block .compare-canvas').children('svg')
 	        // $('.selected-block .compare-canvas').children('svg').addClass('overlay');
 	        if ($('.selected-block .compare-canvas').children('span').length > 1) {

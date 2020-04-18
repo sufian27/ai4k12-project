@@ -92,7 +92,7 @@
         $(cluster_box_id).append(face_place);
         datapoint_face = dataset_face[datapoint_id];
         d3.select("#overlay" + datapoint_id)
-            .call(chernoffFace())
+            .call(chernoffFace(1));
         if ($(cluster_box_id + ' span').length > 1) {
             $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.4);
         }
@@ -110,7 +110,7 @@
         var datapoint_id = parseInt(json_cluster['nodes'][i]['name'].substr(2));
         datapoint_face = dataset_face[datapoint_id];
         d3.select("#data" + datapoint_id)
-            .call(chernoffFace());
+            .call(chernoffFace(1));
         $("#data" + datapoint_id + ' svg').attr('id', "face" + datapoint_id);
         $("#data" + datapoint_id + ' svg').attr('class', 'hover-face');
     }

@@ -22,7 +22,7 @@
         $('#' + current_canvas_id).attr('ondrop','console.log("disable ondrop");')
         $('#' + current_canvas_id).attr('ondragover', 'console.log("disable ondragover");')
         d3.select('#' + current_canvas_id)
-            .call(chernoffFace())
+            .call(chernoffFace(1));
 
     });
 
@@ -59,7 +59,7 @@
                 datapoint_face = centroid_for_face;
                 face_span_list.addClass('hidden');
                 d3.select('#' + current_canvas_id)
-                    .call(chernoffFace()); 
+                    .call(chernoffFace(1)); 
                 var center_id = 'center' + current_cluster_id;
                 $('#' + current_canvas_id + ' > svg').attr('id', center_id);   
                 $('#' + current_canvas_id + ' > svg').attr('class', 'center');
