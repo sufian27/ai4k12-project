@@ -21,7 +21,22 @@
     {% if example %}
     <script type="text/javascript">example = {{ example }};</script>
     {% endif %}
-
+    <script type="text/javascript">
+        var feature_names = {};
+        if (example == '2') {
+            feature_names = {
+                "id": ["Field Site ID", "id"],
+                "Small_Mammal_Richness": ["Small Mammal Richness", "Small Mammal"],
+                "Beetles_Richness": ["Beetles Richness","Beetles"],
+                "Mean_Ann_Precip_mm": ["Mean Annual Precipitation (mm)" ,"Precipitation"],
+                "Mean_Canopy_Height_m": ["Mean Canopy Height", "Canopy Height"],
+                "Mean_Temp_degC": ["Mean Temperature (degree Celsius)","Temperature"],
+                "Elevation_m": ["Elevation (m)" ,"Elevation"],
+                "Longitude": ["Longitude", "Longitude"],
+                "Latitude": ["Latitude", "Latitude"]
+            };
+        }
+    </script>
     {% if title %}
     <script type="text/javascript">var title = '{{ title | safe }}';</script>
     {% endif %}

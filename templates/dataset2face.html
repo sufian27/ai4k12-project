@@ -52,7 +52,7 @@
 	var content = "<thead><tr>" + '<td>' + "id" +"</td>";	
 	for (i=0; i<variables.length; i++) {
 		if (variables[i] != 'id') {
-			content += "<td>" + variables[i] + "</td>";
+			content += "<td>" + feature_names[variables[i]][0] + "</td>";
 		}
 	}
 	content += "</tr></thead>";
@@ -62,7 +62,7 @@
 		content += "<td>" + json_dataset[i]["id"] + "</td>";
         for (j = 0; j < variables.length; j++) {
         	if (variables[j] != "id") {
-        		content += '<td>' + json_dataset[i][variables[j]] + "</td>";
+        		content += '<td>' + toDecimal1NoZero(json_dataset[i][variables[j]]) + "</td>";
         	}
         }
         content += '</tr>';

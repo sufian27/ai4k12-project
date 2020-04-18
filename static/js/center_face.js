@@ -88,10 +88,13 @@
             var center_span = $('<span class = "overlay ' + cluster_id + '"></span>');
             $('.center-face-overlay').append(center_span);
             $('.' + cluster_id).append(center);
+            $('.' + cluster_id + ' .center').removeAttr('id');
+            $('.' + cluster_id + ' .center').addClass('center-overlay');
+            $('.' + cluster_id + ' .center').removeClass('center');
             $(this).addClass('take-back');
             $(this).text('Remove');
             if($('.center-face-overlay').children('span').length > 1) {
-                $('.center-face-overlay .center').attr('opacity', 0.4);
+                $('.center-face-overlay .center-overlay').attr('opacity', 0.4);
             }
         }
     });

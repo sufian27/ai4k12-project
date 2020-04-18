@@ -89,8 +89,8 @@
 		}
 	}
 
-	for (key in var_explain) {
-		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key][1] + '">' + var_explain[key][0] + '</button>(' + key + ')</div>');
+	for (key in feature_names) {
+		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key][1] + '">' + feature_names[key][0] + '</button></div>');
 		$('#variables').append(new_line);
 	}
 

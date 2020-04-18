@@ -102,34 +102,64 @@ $(document).on('click', ".next-q-btn", function() {
     $('#qa form label').text(question);
 });
 
-$(document).on('mouseover', "g.chernoff", function(e) {
-    if ($(this).parent('svg').hasClass('hover-face')) {
-        var datapoint_id = $(this).parent('svg').attr('id').substr(4);
+$(document).on('mouseover', ".face-ele", function(e) {
+    $('#tooltip').empty();
+    var face_group = {
+        'reyebrow': ['bv', 'bl', 'bs'],
+        'leyebrow': ['bv', 'bl', 'bs'],
+        'reye': ['er'],
+        'leye': ['er'],
+        'mouth': ['ms', 'mv', 'mc'],
+        'nose': ['nh', 'nw'] 
+    };
+
+    if ($(this).parents('svg').hasClass('hover-face')) {
+        var datapoint_id = $(this).parents('svg').attr('id').substr(4);
         var datapoint = json_dataset[datapoint_id];
         if (parseInt(datapoint_id) == (parseInt(datapoint['id']) - 1)) {
             var id = parseInt(datapoint_id) + 1;
         } else {
             var id = datapoint['id'];
         }
-        var id_line = $('<div>id: ' + id + '</div>');
-        $('#tooltip').empty();
-        $("#tooltip").append(id_line);
-    } else if ($(this).parent('svg').hasClass('center')) {
-        var datapoint_id = $(this).parent('svg').attr('id');
+    } else if ($(this).parents('svg').hasClass('center')) {
+        var datapoint_id = $(this).parents('svg').attr('id');
         var datapoint = center_face_list[datapoint_id];
-        var id_line = $('<div>Center Face</div>');
-        $('#tooltip').empty();
-        $("#tooltip").append(id_line);
-    } else {
-        $('#tooltip').empty();
     }
 
-    for (dataset_feature in json_mapping) {
-        var facial_short = json_mapping[dataset_feature];
-        var facial_feature = facial_full[facial_short];
-        var feature_line = $('<p>' + facial_feature + ' - ' + dataset_feature + ( ($(this).parent('svg').hasClass('hover-face')) || ($(this).parent('svg').hasClass('center')) ? (': ' + datapoint[dataset_feature]) : "" ) + '</p>');
-        $("#tooltip").append(feature_line);
+    if (! $(this).hasClass('face-circle')) {
+        var face_class = $(this).attr("class").split(' ')[0];
+        for (i in face_group[face_class]) {
+            var facial_short = face_group[face_class][i];
+            var dataset_feature = '';
+            var dataset_feature_orig = '';
+            var mapped = false;
+            for (k in json_mapping) {
+                if (json_mapping[k] == facial_short) {
+                    dataset_feature_orig = k;
+                    dataset_feature = feature_names[k][1];
+                    mapped = true;
+                    break;
+                }
+            }
+            if (mapped) {
+                var facial_feature = facial_full[facial_short].split(' ')[1];
+                var feature_line = $('<p><span class = "face-label">' + facial_feature + '</span><span class = "dataset-feature-label"> ' + dataset_feature + '</span>' + ( ($(this).parents('svg').hasClass('hover-face')) || ($(this).parents('svg').hasClass('center')) ? (': ' + toDecimal1NoZero(datapoint[dataset_feature_orig])) : "" ) + '</p>');
+                $("#tooltip").append(feature_line);
+            }
+        }
+    } else {
+        if ($(this).parents('svg').hasClass('hover-face')) {
+            var id_line = $('<p>id: ' + id + '</p>');   
+            $("#tooltip").append(id_line);
+        } else if ($(this).parents('svg').hasClass('center')) {
+            var id_line = $('<p>Center Face</p>');
+            $("#tooltip").append(id_line);
+        } else {
+            var id_line = $('<p>Face Overlay</p>');
+            $("#tooltip").append(id_line);
+        }
     }
+
     var mousePos = mousePosition(e);
     var  xOffset = 20;
     var  yOffset = 25;
@@ -181,6 +211,16 @@ function click_record_fuc() {
     .catch(function (error) {
         console.log("Fetch error: " + error);
     });
+}
+
+function toDecimal1NoZero(x) {
+    console.log('====');
+    console.log(x);
+    console.log(typeof(x));
+    var float_num = parseFloat(x);
+    var f = Math.round(float_num * 10) / 10;
+    var s = f.toString();
+    return s;
 }
 
 function allowDropFeature(ev) {
