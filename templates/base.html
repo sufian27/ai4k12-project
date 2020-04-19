@@ -53,17 +53,19 @@
 
 <body>
     <div class="container">
-        {% if title %}
-        <span class="page-title"><span>{{ title }} - SmileyCluster</span><a href="/logout" role="button">logout</a></span>
-        {% else %}
-        <h3>Welcome to SmileyCluster</h3>
-        {% endif %}
+        <div class="page-title">
+            {% if title %}
+            <span>{{ title }} - SmileyCluster</span><a href="/logout" role="button">logout</a>
+            {% else %}
+            <h3>Welcome to SmileyCluster</h3>
+            {% endif %}
 
-        {% if dataset_face %}
-        {% if title != 'Introduction' %}
-        <button type="button" class="btn btn-primary float-right mapping-btn clickable-element" data-toggle="modal" data-target="#mappingModal" id="emoji-customize-button">How emojis are generated?</button>
-        {% endif %}
-        {% endif %} 
+            {% if dataset_face %}
+            {% if title != 'Introduction' %}
+            <button type="button" class="btn btn-primary float-right mapping-btn clickable-element" data-toggle="modal" data-target="#mappingModal" id="emoji-customize-button">How emojis are generated?</button>
+            {% endif %}
+            {% endif %} 
+        </div>
     </div>
         <hr>
     <div class="container">

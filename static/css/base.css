@@ -1,7 +1,3 @@
-.intro-card {
-	/*margin: 10px;*/
-}
-
 .intro-image .centered {
 	position: absolute;
     top: 20%;
@@ -61,17 +57,34 @@
 	font-size: 14px !important;*/
 }
 
-#variables div {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
 .page-title {
-	margin-top: 5px;
+	margin-top: 20px;
 }
 
 .page-title a {
 	margin-left: 20px;
+}
+
+.feature-row {
+	margin-bottom: 10px;
+}
+
+.feature-row .feature-full-name {
+	background-color: rgb(254, 204, 75);
+	border-radius: 10px;
+	width: 20%;
+	padding: 10px;
+	text-align: center;
+	margin: auto;
+}
+
+.feature-row .feature-explain {
+	width: 70%;
+    margin: auto;
+    text-align: left;
+    /*padding-left: 20px;*/
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .tip {
@@ -314,3 +327,16 @@ input[type="range"] {
 /*.modal-dialog {
 	max-width: 800px;
 }*/
+
+.fixed-right-bottom-parent {
+	position: relative;
+}
+
+.fixed-right-bottom {
+/*	position: fixed; 
+	bottom: 50px; 
+	right: 50px;*/
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
