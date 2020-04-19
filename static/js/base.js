@@ -28,6 +28,7 @@
 
     	$("#toolbox .intro").attr("href", "/intro?example=" + example);
         $("#toolbox .var").attr("href", "/var?example=" + example);
+        $("#toolbox .slider").attr("href", "/slider?example=" + example);
         $("#toolbox .dataset2face").attr("href", "/dataset2face?example=" + example);
         $("#toolbox .compare").attr("href", "/compare?example=" + example);
         $("#toolbox .cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
@@ -96,7 +97,7 @@ $(document).on('submit', '.user-answer', function(e) {
 });
 
 $(document).on('click', ".next-q-btn", function() {
-    var answer_id = title + '_' + $(this).attr('id');
+    var answer_id = title.replace(/\s/g, '') + '_' + $(this).attr('id');
     var question = $(this).parent('.card').children('.question').text();
     $('#qa form').attr('id', answer_id);
     $('#qa form label').text(question);
@@ -126,7 +127,7 @@ $(document).on('mouseover', ".face-ele", function(e) {
         var datapoint = center_face_list[datapoint_id];
     }
 
-    if (! $(this).hasClass('face-circle')) {
+    if ((! $(this).hasClass('face-circle')) && (! $(this).parents('svg').hasClass('user-generated'))) {
         var face_class = $(this).attr("class").split(' ')[0];
         for (i in face_group[face_class]) {
             var facial_short = face_group[face_class][i];
@@ -154,7 +155,7 @@ $(document).on('mouseover', ".face-ele", function(e) {
         } else if ($(this).parents('svg').hasClass('center')) {
             var id_line = $('<p>Center Face</p>');
             $("#tooltip").append(id_line);
-        } else {
+        } else if (! $(this).parents('svg').hasClass('user-generated')){
             var id_line = $('<p>Face Overlay</p>');
             $("#tooltip").append(id_line);
         }
@@ -214,9 +215,6 @@ function click_record_fuc() {
 }
 
 function toDecimal1NoZero(x) {
-    console.log('====');
-    console.log(x);
-    console.log(typeof(x));
     var float_num = parseFloat(x);
     var f = Math.round(float_num * 10) / 10;
     var s = f.toString();
