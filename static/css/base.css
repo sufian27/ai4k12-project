@@ -1,3 +1,7 @@
+.center {
+	margin: auto;
+}
+
 .intro-image .centered {
 	position: absolute;
     top: 20%;
@@ -338,5 +342,10 @@ input[type="range"] {
 	right: 50px;*/
 	position: absolute;
 	top: 50%;
-	left: 50%;
+	right: 10px;
+	transform: translate(0, -50%);
+}
+
+#dataset-intro thead {
+	height: 350px;
 }

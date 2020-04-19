@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row fixed-right-bottom-parent">
+	<div id="dataset-intro" class="center">
+		<table class="table table-sm">
+			<thead><tr>
+				<th></th>
+				<th><img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="300px"></th>
+				<th><img src="{{ url_for('static', filename = 'img/example' + example + '/intro2.jpg') }}" width="300px"></th>
+			</thead></tr>
+	    </table>
+	</div>
+	<button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+	function readpara (para) {
+		return para;
+	}
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
+	var dataset_face = readpara( {{ dataset_face | safe }} );
+	var variables = Object.keys(json_dataset[0]);
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping = JSON.parse(getLocalData);
+
+    for (key in feature_names) {
+        var table_row = $('<tr><td class = "feature-full-name">' + feature_names[key][0] + '</td><td class = "feature-explain">' + json_dataset[27][key] + '</td><td class = "feature-explain">' + json_dataset[38][key] + '</td></tr>');
+        $("#dataset-intro .table").append(table_row);
+    }
+
+    $('#next-button').click( function() {
+    	location.href = "/feature_map?example=" + example;
+    });
+</script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
+{% endblock %}

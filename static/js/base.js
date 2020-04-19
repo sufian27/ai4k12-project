@@ -28,6 +28,7 @@
 
     	$("#toolbox .intro").attr("href", "/intro?example=" + example);
         $("#toolbox .var").attr("href", "/var?example=" + example);
+        $("#toolbox .data_intro").attr("href", "/data_intro?example=" + example);
         $("#toolbox .slider").attr("href", "/slider?example=" + example);
         $("#toolbox .dataset2face").attr("href", "/dataset2face?example=" + example);
         $("#toolbox .compare").attr("href", "/compare?example=" + example);
@@ -91,7 +92,7 @@ $(document).on('submit', '.user-answer', function(e) {
     if (title == 'Introduction') {
         location.href = "/var?example=" + example;
     } else if (title == 'Variable') {
-        location.href = "/dataset2face?example=" + example;
+        location.href = "/data_intro?example=" + example;
     }
     
 });

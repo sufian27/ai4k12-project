@@ -5,7 +5,7 @@
 	<div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
 		<div id="controller">
 			<br/>
-			<table>
+			<table class="table">
 				<tr>
 					<th>Seed Feature</th>
 					<th>Value</th>
@@ -41,7 +41,7 @@
     for (key in json_mapping) {
         if (json_mapping[key] != "0") {
             var slider_row = $('<tr><td>' + feature_names[key][0] + '</td><td><span id = "' + key + '"></span></td><td><div class = "slider"><input type="range" name="' + key + '" min="0" max="1" step="0.01" value="0.50" onchange="updateSlider(this.value, this.name)" /><span class="gauge ' + key + '">' + 0.5 + '</span></div></td><td>' + facial_full[json_mapping[key]] + '</td></tr>');
-            $("#controller table").append(slider_row);
+            $("#controller .table").append(slider_row);
         }
     }
 

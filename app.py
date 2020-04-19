@@ -123,6 +123,24 @@ def var():
     else:
         return 'Invalid Data'
 
+@app.route('/data_intro', methods = ['GET', 'POST'])
+def data_intro():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        create_table_from_csv(example_index)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+
+        db.session.add(User_Action('user at data intro page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('data_intro.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Dataset Introduction')
+    else:
+        return 'Invalid Data'
+
 @app.route('/slider', methods = ['GET', 'POST'])
 def slider():
     if g.user == None:
