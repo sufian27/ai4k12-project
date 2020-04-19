@@ -54,8 +54,7 @@
 <body>
     <div class="container">
         {% if title %}
-        <h3 class="page-title">{{ title }} - SmileyCluster</h3>
-        <a href="/logout">logout</a>
+        <span class="page-title"><span>{{ title }} - SmileyCluster</span><a href="/logout" role="button">logout</a></span>
         {% else %}
         <h3>Welcome to SmileyCluster</h3>
         {% endif %}

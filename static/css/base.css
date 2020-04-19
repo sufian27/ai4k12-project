@@ -1,3 +1,32 @@
+.intro-card {
+	/*margin: 10px;*/
+}
+
+.intro-image .centered {
+	position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    background-color: rgb(254, 204, 75);
+    padding: 5px;
+    border-radius: 10px;
+    /*box-shadow: 3px 3px 1px grey;*/
+}
+
+.intro-image {
+    position: relative;
+    text-align: center;
+}
+
+.answer-box textarea {
+	margin-left: 20px !important;
+}
+
+.user-answer button {
+	margin-top: 10px;
+}
+
 .clickable-element {
 	cursor: pointer;
 }
@@ -38,7 +67,11 @@
 }
 
 .page-title {
-	margin-top: 20px;
+	margin-top: 5px;
+}
+
+.page-title a {
+	margin-left: 20px;
 }
 
 .tip {

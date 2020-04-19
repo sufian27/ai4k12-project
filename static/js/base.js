@@ -70,23 +70,23 @@ $(document).on('submit', '.user-answer', function(e) {
     });
 
     $("#user_input").val("");
-    $('#qa').modal('hide');
+    // $('#qa').modal('hide');
 
     //to change the steps on the page
-    if (q_num > 0) {
-        var q_id = parseInt($(this).attr('id').replace(/[^\d]/g, ''));
-        var card_id = steps[q_id - 1];
-        if (q_id == steps.length) {
-            $('#todolist').addClass('hidden');
-            $('.next-page-btn').removeClass('hidden');
-        } else {
-            var card_id_new = steps[q_id];
-            $('#' + card_id).addClass('hidden');
-            $('#' + card_id_new).removeClass('hidden');
-        }
-    } else {
-        console.log('q number is zero');
-    }
+    // if (q_num > 0) {
+    //     var q_id = parseInt($(this).attr('id').replace(/[^\d]/g, ''));
+    //     var card_id = steps[q_id - 1];
+    //     if (q_id == steps.length) {
+    //         $('#todolist').addClass('hidden');
+    //         $('.next-page-btn').removeClass('hidden');
+    //     } else {
+    //         var card_id_new = steps[q_id];
+    //         $('#' + card_id).addClass('hidden');
+    //         $('#' + card_id_new).removeClass('hidden');
+    //     }
+    // } else {
+    //     console.log('q number is zero');
+    // }
 
     if (title == 'Introduction') {
         location.href = "/var?example=" + example;
