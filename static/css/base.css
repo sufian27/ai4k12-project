@@ -54,7 +54,8 @@
 }
 
 .add-btn {
-	height: 100px;
+	/*height: 100px;*/
+	visibility: hidden;
 }
 
 .modal-dialog {

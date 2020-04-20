@@ -5,14 +5,11 @@
 <div class="row">
 	<div id="face-browser" class="col-2" style="height: 420px; overflow: scroll;"></div>
 	<div class="col-6">
-		<div class="row">
+		<div class="row compare-block-row">
 			<div class="col compare-block selected-block" id="block0">
 				<div class="compare-canvas clickable-element" id = "canvas0" ></div>
 				<div class="compare-index"></div>				
-			</div>
-			<div class="center-vertical">
-				<button type="button" class="btn btn-primary add-btn float-left clickable-element" id="add-cluster-button">+</button>
-			</div>			
+			</div>		
 		</div>
 	</div>
 	<div class="col-3 fixed-right-bottom-parent">
@@ -38,7 +35,7 @@
                 </label>
                 <label for="message-text" class="col-form-label card-body label3 hidden">
 	                {% if example == '2' %}
-	                Click the add button and try to find several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features do they share?
+	                Now try to find several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features do they share?
 	                {% elif example == '3' %}
 	                What cell features do you think breast tumor has?
 	                {% else %}
@@ -180,28 +177,10 @@
 	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 0.4);
 	        }
 	        var elem = $('.selected-block .compare-index');
-	        addTag(elem, current_id);
+	        addTag(elem, datapoint_face, current_id);
 	        $(this).addClass('gone');
 	        console.log($('.selected-block .compare-canvas').children('span').length);     
 	    }
-	});
-
-	$(".add-btn").click(function () {
-		var current_num = $('.compare-block').length;
-		$('.compare-block').removeClass('selected-block');
-		var compare_template = $('.compare-block').eq(0).clone();
-		var block_id = $('.compare-block').length;
-		compare_template.attr('id', 'block' + block_id);
-		compare_template.addClass('selected-block');
-		compare_template.children(".compare-canvas").children().remove();
-		compare_template.children(".compare-index").children().remove();
-		compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);
-		// $('.compare-row').append(compare_template);
-		$(this).before(compare_template);
-		if (current_num == 1) {
-			$('#face38').parent('.conbox').trigger("click");
-			$(".add-btn").css("visibility", "hidden");
-		}
 	});
 
 </script>

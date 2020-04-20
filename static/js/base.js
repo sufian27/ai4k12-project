@@ -106,25 +106,35 @@ $(document).on('submit', '.user-answer', function(e) {
             $('.label1').addClass('hidden');
             $('.label2').removeClass('hidden');
         } else if (! $('.label2').hasClass('hidden')) {
+            add_cluster();
             $('.label2').addClass('hidden');
             $('.label3').removeClass('hidden');
         } else if (! $('.label3').hasClass('hidden')){
             $('.label3').addClass('hidden');
             $('.label4').removeClass('hidden');
         } else if (! $('.label4').hasClass('hidden')){
-            var unmapped_list = [];
-            var getLocalData = localStorage.getItem('mappingRule');
-            var mapping = JSON.parse(getLocalData);
-            for (key in mapping) {
-                if (mapping[key] == '0') {
-                    unmapped_list.push(key);
-                }
-            } 
-            location.href = "/cluster2?example=" + example + "&k=" + k + "&unmapped=" + unmapped_list;
+            location.href = "/dataset2face?example=" + example;
         }
-    }
-    
+    }    
 });
+
+function add_cluster() {
+    alert('add cluster');
+    var current_num = $('.compare-block').length;
+    $('.compare-block').removeClass('selected-block');
+    var compare_template = $('.compare-block').eq(0).clone();
+    var block_id = $('.compare-block').length;
+    compare_template.attr('id', 'block' + block_id);
+    compare_template.addClass('selected-block');
+    compare_template.children(".compare-canvas").children().remove();
+    compare_template.children(".compare-index").children().remove();
+    compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);
+    // $('.compare-row').append(compare_template);
+    $('.compare-block-row').append(compare_template);
+    if (current_num == 1) {
+        $('#face38').parent('.conbox').trigger("click");
+    }
+}
 
 $(document).on('click', ".next-q-btn", function() {
     var answer_id = title.replace(/\s/g, '') + '_' + $(this).attr('id');

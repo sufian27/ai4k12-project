@@ -189,7 +189,7 @@ def dataset2face():
 
         db.session.add(User_Action('user at dataset2face page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('dataset2face.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Dataset to Face')
+        return render_template('dataset2face.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Full Dataset')
     else:
         return 'Invalid Data'
 

@@ -3,38 +3,15 @@
 {% block content %}
 
 <div class="row">
-  <div style="overflow:scroll; height: 450px;" class="col-md-9 col-xs-9 col-sm-9 col-lg-9" id="table">
-    <table id="data_table" class="table table-sm"></table>
-    <div id="face_table" class="hidden"></div>
-  </div>
-  <div class="col-md-3 col-xs-3 col-sm-3 col-lg-3">
-   <div id="face"></div> 
-   <div id="todolist"></div>
-  </div>
-</div>
-
-<button type="button" class="btn btn-outline-success clickable-element" id="all_faces" style="position: fixed; bottom: 50px; left: 160px;" >View all Emojis</button>
-<a role="button" class="btn btn-success next-page-btn hidden clickable-element" style="position: fixed; bottom: 50px; right: 50px;" href="#" id="next-page-button">Next</a>
-
-<div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="qaLabel">Initial Exploration</h5>
-        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="user-answer">
-            <label for="message-text" class="col-form-label">
-            </label>
-            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
-            <button type="submit" class="btn btn-success" id="answer-submit-button">Submit</button>
-        </form>
-      </div>
+    <div class="col-9">
+        <div id="face_table"></div>
     </div>
-  </div>
+    <div class="col-3 fixed-right-bottom-parent">
+        <div class="fixed-right-bottom">
+            <div class="card border-light">when the dataset becomes large (many faces), it will take a long time for human to make the grouping, but computer is really good at it. Next we will use a Machine Learning method called K-means clustering to help group these faces into a certain number of families.</div>
+            <button type="button" class="btn btn-outline-success clickable-element" id="next-button">Next</button>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
@@ -42,103 +19,31 @@
 {% block script %}
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
-<script>
-	function readpara (para) {
-		return para;
-	}
-  var json_object = readpara( {{ json_data | tojson | safe }} );
-  var json_dataset = JSON.parse(json_object).records;
-	var variables = Object.keys(json_dataset[0]);
-	var content = "<thead><tr>" + '<td>' + "id" +"</td>";	
-	for (i=0; i<variables.length; i++) {
-		if (variables[i] != 'id') {
-			content += "<td>" + feature_names[variables[i]][0] + "</td>";
-		}
-	}
-	content += "</tr></thead>";
-
-	for (i=0; i<json_dataset.length; i++) {
-		content += "<tr id = '" + i + "' class = 'datapoint pointer-cursor clickable-element" + (i == 0 ? " selected" : "") + "'>";
-		content += "<td>" + json_dataset[i]["id"] + "</td>";
-        for (j = 0; j < variables.length; j++) {
-        	if (variables[j] != "id") {
-        		content += '<td>' + toDecimal1NoZero(json_dataset[i][variables[j]]) + "</td>";
-        	}
-        }
-        content += '</tr>';
-	}
-	document.getElementById("data_table").innerHTML = content;
-
-    //default selection of json_mapping and datapoint_face for chernoff face generation
-  var getLocalData = localStorage.getItem('mappingRule');
-	var json_mapping = JSON.parse(getLocalData);
-  var example = readpara( {{ example }} );
-  var dataset_face = readpara( {{ dataset_face | safe }});
-  var data_id = 0;
-  var datapoint_face = dataset_face[data_id];
-	d3.select("#face")
-		.call(chernoffFace(1.5));
-  $('#face svg').attr('id', "face" + data_id);
-  $('#face svg').attr('class', 'hover-face');
-	$("#data_table .datapoint").click( function() {
-    	// data_id = parseInt($(this).text()) - 1;
-    	data_id = parseInt($(this).attr('id'));
-    	datapoint_face = dataset_face[data_id];
-    	d3.select("#face svg").remove();
-    	d3.select("#face")
-    		.call(chernoffFace(1));
-      $('#face svg').attr('id', "face" + data_id);
-      $('#face svg').attr('class', 'hover-face');
-      $('#data_table .selected').removeClass('selected');
-      $(this).addClass('selected');
-  });
-
-
-  var q_num = 0;
-  //for the q&a code
-  if (example == '1') {
-     var todolist = {
-      'Step1': ['Here is a dataset about different white wines with the chemical factors and the quality level we just talked about', 'Try to explore the dataset a little bit. You can aslo hover your cursor on the emoji above.', 'How is one emoji generated from one numeric data point in the dataset?'],
-      'Step2': ['View the emojis of wines with high quality.', 'What facial feature represents the quality of wines?'],
-      'Step3': ['View the emojis of wines with low alcohol by volume.', 'What facial features do the wines with low alcohol by volume have?'],
-      'Step4': ['View the whole dataset with emoji.', 'What inital assumptions do you have after viewing the whole dataset with emojis?']
-    };
-  } else if (example == '2') {
-
-     var todolist = {
-      'Step1': ['Here is a dataset about different field sites with the ecological factors we just talked about', 'Try to explore the dataset a little bit. You can aslo hover your cursor on the emoji above.', 'How are these emojis generated from each numeric data point in the dataset?'],
-      'Step2': ['View the emojis of field sites with high beetle richness.', 'View the emoji of field sites with high small mammal richness.', 'What facial features represent high beetle richness and high small mammal richness?'],
-      'Step3': ['View the emojis of field sites with high annual precipitation.', 'View the emoji of field sites with high average temperature.', 'What facial features do the field sites with warm and humid climate have?'],
-      'Step4': ['View the whole dataset with emoji.', 'What initial assumptions do you have after viewing the whole dataset with emojis?']
-    };
-  } else {
-     var todolist = {
-      'Step1': ['Here is a dataset about cell features extracted from digitized image we just talked about', 'Try to explore the dataset a little bit. You can aslo hover your cursor on the emoji above.', 'How are these emojis generated from each numeric data point in the dataset?'],
-      'Step2': ['View the emojis of cells with high marginal adhesion.', 'What facial feature represents high marginal adhesion?'],
-      'Step3': ['View the emojis of cells with small uniformity of cell size.', 'What facial features do the cells with small uniformity of cell size have?'],
-      'Step4': ['View the whole dataset with emoji.', 'What initial assumptions do you have after viewing the whole dataset with emojis?']
-    };    
-  }
-
-  var steps = Object.keys(todolist);
-  q_num = steps.length;
-
-  for (var j = 0; j < q_num; j ++ ) {
-    var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
-    var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
-    var todoitem_content = '';
-    for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
-      todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
-    }
-    var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
-    item.append(todotitle);
-    item.append($(todoitem_content));
-    item.append(answer);
-    $('#todolist').append(item);
-  }
-
-  $('.next-page-btn').attr("href", "/compare?example=" + example);
-
-</script>
 <script src="{{ url_for('static', filename = 'js/view_all_faces.js') }}"></script>
+<script>
+function readpara (para) {
+	return para;
+}
+var json_object = readpara( {{ json_data | tojson | safe }} );
+var json_dataset = JSON.parse(json_object).records;
+  //default selection of json_mapping and datapoint_face for chernoff face generation
+var getLocalData = localStorage.getItem('mappingRule');
+var json_mapping = JSON.parse(getLocalData);
+var example = readpara( {{ example }} );
+var dataset_face = readpara( {{ dataset_face | safe }});
+var data_id = 0;
+var datapoint_face = dataset_face[data_id];
+
+$('#next-button').click( function() {
+    var unmapped_list = [];
+    var getLocalData = localStorage.getItem('mappingRule');
+    var mapping = JSON.parse(getLocalData);
+    for (key in mapping) {
+        if (mapping[key] == '0') {
+            unmapped_list.push(key);
+        }
+    } 
+    location.href = "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list;
+});
+</script>
 {% endblock %}
