@@ -141,6 +141,24 @@ def data_intro():
     else:
         return 'Invalid Data'
 
+@app.route('/feature_map', methods = ['GET', 'POST'])
+def feature_map():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        create_table_from_csv(example_index)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+
+        db.session.add(User_Action('user at feature mapping page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('feature_map.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Make Your Emoji')
+    else:
+        return 'Invalid Data'
+
 @app.route('/slider', methods = ['GET', 'POST'])
 def slider():
     if g.user == None:

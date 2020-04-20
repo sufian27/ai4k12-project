@@ -2,6 +2,8 @@
     var original_width = 100;
     var original_height = 120;
     var width = original_width * r, height = original_height * r;
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping = JSON.parse(getLocalData);
     var chernoff = d3.chernoff()
         .face(function(d) { return d.f; })
         .hair(function(d) { return d.h; })

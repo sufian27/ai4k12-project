@@ -53,9 +53,6 @@
 	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var json_object = readpara( {{ json_data | tojson | safe }} );
 	var json_dataset = JSON.parse(json_object).records;
-
-	var getLocalData = localStorage.getItem('mappingRule');
-	var json_mapping = JSON.parse(getLocalData);
 	var datapoint_face = json_dataset[0]; //default datapoint for chernoffface.js
 	var center_face_list = {};
 	// var variables = Object.keys(json_dataset[0]);

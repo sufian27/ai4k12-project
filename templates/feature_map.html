@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row fixed-right-bottom-parent">
+	<div class="col-3" id="face"></div>
+	<div class="col-4">
+		<form id="mapping-form">
+			<div class="row">
+				<div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div>
+		    <div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div>
+			</div>
+		</form>
+	</div>
+	<div class="col-3 center">
+		<img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="100%">
+		<div class="image-label">Oak Ridge field site (ORNL)</div>
+	</div>
+	<button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
+<script>
+	function readpara (para) {
+		return para;
+	}
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
+	var dataset_face = readpara( {{ dataset_face | safe }} );
+	console.log('dataset_face is defined')
+	var variables = Object.keys(json_dataset[0]);
+
+    for (key in feature_names) {
+        var table_row = $('<tr><td class = "feature-full-name">' + feature_names[key][0] + '</td><td class = "feature-explain">' + json_dataset[27][key] + '</td><td class = "feature-explain">' + json_dataset[38][key] + '</td></tr>');
+        $("#dataset-intro .table").append(table_row);
+    }
+
+	var datapoint_face = dataset_face[27];
+	d3.select('#face')
+		.call(chernoffFace(2));
+
+	$('#next-button').click( function (){
+		location.href = "/slider?example=" + example;
+	});
+
+</script>
+{% endblock %}

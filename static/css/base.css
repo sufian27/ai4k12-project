@@ -1,3 +1,11 @@
+.image-label {
+	background-color: rgb(254, 204, 75);
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+	margin: auto;
+}
+
 .center {
 	margin: auto;
 }
@@ -275,7 +283,7 @@
 
 #controller table {
     border-collapse: collapse;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 #controller td {

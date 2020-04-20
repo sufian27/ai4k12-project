@@ -39,6 +39,7 @@
 
 
 $(document).on('submit', '.user-answer', function(e) {
+    console.log(title);
     e.preventDefault();
     var data = {
         q_index: $(this).attr('id'),
@@ -237,6 +238,7 @@ function dropFeature(ev) {
     var target_id = ev.target.id;
     console.log(target_id);
     console.log(ev.target.tagName);
+    console.log(title);
     if (ev.target.tagName == 'SPAN') {
         ev.target.after(data_element);
         $('.feature-unmapped-area').append($('#' + target_id));        
@@ -248,5 +250,54 @@ function dropFeature(ev) {
             $('.feature-unmapped-area').append($('#' + target_id).children('.dataset-feature'));
         }
         ev.target.appendChild(data_element);
+    }
+    if (title == 'Make Your Emoji') {
+        $(update_map());
     }    
+}
+
+function update_map() {
+    var json_mapping_new = {}
+    for (i in facial_full) {
+        var x = $('#' + i).children('.dataset-feature').length;
+        if(x == 1) {
+            var dataset_feature = $('#' + i).children('.dataset-feature').attr('id');
+            json_mapping_new[dataset_feature] = i;
+        } else if (x > 1) {
+            alert('Something went wrong with the mapping rule!');
+        }
+    }
+    var y = $('#unmapped-area').children('.dataset-feature').length;
+    if(y > 0) {
+        for (i = 0; i < y; i++) {
+            var dataset_feature = $('#unmapped-area').children('.dataset-feature').eq(i).attr('id');
+            json_mapping_new[dataset_feature] = "0";
+        }
+    }
+    var json_mapping = json_mapping_new;
+    var str_mapping = JSON.stringify(json_mapping_new);
+    localStorage.setItem('mappingRule', str_mapping);
+    // $('#exampleModal').modal('hide');  
+    var current_loc = window.location.href;
+    if ( current_loc.includes("unmapped=") ) {
+        console.log('include');
+        var unmapped_list = [];
+        var getLocalData = localStorage.getItem('mappingRule');
+        var mapping = JSON.parse(getLocalData);
+        for (key in mapping) {
+            if (mapping[key] == '0') {
+                unmapped_list.push(key);
+            }
+        } 
+        window.location.href = "/cluster2?example=" + example + "&k=" + k + "&unmapped=" + unmapped_list;
+    } else if (title == 'Make Your Emoji') {
+        console.log("title");
+        console.log(title);
+        var datapoint_face = dataset_face[27];
+        d3.select("#face svg").remove();
+        d3.select('#face')
+            .call(chernoffFace(2));
+    } else {
+        location.reload(true);
+    }
 }
