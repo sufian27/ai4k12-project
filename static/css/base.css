@@ -265,8 +265,8 @@
 }
 
 .center-face-overlay {
-	margin-top: 20px;
-	height: 150px;
+	/*margin-top: 20px;*/
+	height: 240px;
 }
 
 .cluster-canvas button {
@@ -275,7 +275,7 @@
 
 .expand-area {
 	overflow: scroll;
-	height: 170px;
+	height: 260px;
 }
 
 .stem-item {

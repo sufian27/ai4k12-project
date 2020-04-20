@@ -80,11 +80,13 @@
         var cluster_id = $(this).parent('.cluster-canvas').children('.compare-canvas').attr('id');
         var center_id = 'center' + cluster_id.substr(7);
         if ($(this).hasClass('take-back')) {
+            $('#' + center_id).attr('opacity', 1);
             $('.center-face-overlay .' + cluster_id).remove();
             $(this).removeClass('take-back');
             $(this).text('Compare');
         } else {
             var center = $('#' + center_id).clone();
+            $('#' + center_id).attr('opacity', 0.4);
             var center_span = $('<span class = "overlay ' + cluster_id + '"></span>');
             $('.center-face-overlay').append(center_span);
             $('.' + cluster_id).append(center);

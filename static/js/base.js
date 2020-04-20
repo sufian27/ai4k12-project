@@ -72,23 +72,6 @@ $(document).on('submit', '.user-answer', function(e) {
     });
 
     $("#user_input").val("");
-    // $('#qa').modal('hide');
-
-    //to change the steps on the page
-    // if (q_num > 0) {
-    //     var q_id = parseInt($(this).attr('id').replace(/[^\d]/g, ''));
-    //     var card_id = steps[q_id - 1];
-    //     if (q_id == steps.length) {
-    //         $('#todolist').addClass('hidden');
-    //         $('.next-page-btn').removeClass('hidden');
-    //     } else {
-    //         var card_id_new = steps[q_id];
-    //         $('#' + card_id).addClass('hidden');
-    //         $('#' + card_id_new).removeClass('hidden');
-    //     }
-    // } else {
-    //     console.log('q number is zero');
-    // }
 
     if (title == 'Introduction') {
         location.href = "/var?example=" + example;
@@ -115,7 +98,21 @@ $(document).on('submit', '.user-answer', function(e) {
         } else if (! $('.label4').hasClass('hidden')){
             location.href = "/dataset2face?example=" + example;
         }
-    }    
+    } else if (title == 'Automatic Clustering') {
+        if ($(this).attr('id') == 'cluster-question0') {
+            $('#next-button').removeClass('hidden');
+            $('#next-button').trigger('click');
+        } else if ($(this).attr('id').includes('cluster-question-familay')) {
+            $(this).parent('.answer-box').remove();
+            if ($('.answer-box').length == 0) {
+                $('#next-button').removeClass('hidden');
+            }
+        } else if ($(this).attr('id').includes('cluster-question-center')) {
+            $(this).parent('.answer-box').remove();
+            var cluster_step5 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center2"><label for="message-text" class="col-form-label card-body">What are the ecological features differentiate the field sites represented by these emojis?</label><div class="row"><div class="col-9"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-3"><button type="submit" class="btn btn-outline-success" >Submit</button></div></div></form></div>');
+            $('.fixed-right-bottom-parent').append(cluster_step5);
+        }
+    }
 });
 
 function add_cluster() {
@@ -135,13 +132,6 @@ function add_cluster() {
         $('#face38').parent('.conbox').trigger("click");
     }
 }
-
-$(document).on('click', ".next-q-btn", function() {
-    var answer_id = title.replace(/\s/g, '') + '_' + $(this).attr('id');
-    var question = $(this).parent('.card').children('.question').text();
-    $('#qa form').attr('id', answer_id);
-    $('#qa form label').text(question);
-});
 
 $(document).on('mouseover', ".face-ele", function(e) {
     var getLocalData = localStorage.getItem('mappingRule');
