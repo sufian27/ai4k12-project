@@ -23,8 +23,15 @@
 
 <div class="row fixed-right-bottom-parent">
     <div class="col-9" id="cluster-vis" ></div>
-    <!-- <div class="center-face-overlay col-2"></div> -->
-    <button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button>
+    <div class="fixed-right-bottom">
+        <div class="card border-light" id="step1">
+            <p>Now all the field site data points are grouped into two emoji families by K-Means Clustering Machine Learning method. Machine clusters data based on what you just did on the previous page - by comparing similarity of data points and group similar data points together.</p>
+            <p>The value of K means how many families do you want the machine to group the dataset into. Try out different values for the K.</p>
+            <p>The best K value for this dataset is 4, which means that the emojis within a family are similar enough to each other and the center emojis of all the families are different enough from each other. Use k = 4 and click the Next button.</p>
+        </div>
+        <button type="button" class="btn btn-outline-success clickable-element" id="next-button">Next</button>
+    </div>
+    <!-- <button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button> -->
 </div>
 
 {% endblock %}
@@ -98,18 +105,15 @@
 
     cluster_generation();
 
-    var cluster_step1 = $('<span id = "step1"><p>Now all the field site data points are grouped into two emoji families by K-Means Clustering Machine Learning method. Machine clusters data based on what you just did on the previous page - by comparing similarity of data points and group similar data points together.</p><p>The value of K means how many families do you want the machine to group the dataset into. Try out different values for the K and end with K = 4.</p></span>');
-
-    $('#cluster-question-box0').append(cluster_step1);
-
     $('#next-button').click( function() {
         if ($('#step1').length > 0) {
             var cluster_step2 = $('<div class="card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question0"><label for="message-text" class="col-form-label card-body">What differences do you view when you group the dataset into more families?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
-            $('#cluster-question-box0').empty();
-            $('#cluster-question-box0').append(cluster_step2);
+            // $('#cluster-question-box0').empty();
+            $('#step1').remove();
+            $('.fixed-right-bottom').append(cluster_step2);
             $(this).addClass('hidden');
         } else if ($('#cluster-question0').length > 0) {
-            $('#cluster-question-box0').empty();
+            $('.fixed-right-bottom').children('.card').remove();
             for (var i = 0; i < k; i++) {
                 var new_step = $('<div class="card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question-familay' + i + '"><label for="message-text" class="col-form-label card-body">What shared facial features does this emoji family have? What are the corresponding ecological features shared by the field sites in this family? Hover on the face to see its mapping features.</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
                 $('#cluster-question-box' + i).append(new_step);
@@ -124,9 +128,9 @@
             $('.cluster-canvas').addClass('col-4');
             var overlay_area = $('<div class = "col-4"><div class = "center-face-overlay"></div></div>');
             $('.row-cluster-0').append(overlay_area);
-            var cluster_step4 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center1"><label for="message-text" class="col-form-label card-body">Click the compare button to explore the differences between the center emoji. What are the differentiating facial features between them?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
+            var cluster_step4 = $('<div class="col-3 card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question-center1"><label for="message-text" class="col-form-label card-body">Click the compare button to explore the differences between the center emoji. What are the differentiating facial features between them?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
             $(this).addClass('hidden');
-            $('.fixed-right-bottom-parent').append(cluster_step4);
+            $('.fixed-right-bottom').append(cluster_step4);
         }
     });
 

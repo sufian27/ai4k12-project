@@ -75,7 +75,7 @@ $(document).on('submit', '.user-answer', function(e) {
 
     if (title == 'Introduction') {
         location.href = "/var?example=" + example;
-    } else if (title == 'Variable') {
+    } else if (title == 'Feature') {
         location.href = "/data_intro?example=" + example;
     } else if (title == 'Smilarity Comparison') {
         if ($('.label2').hasClass('hidden')) {

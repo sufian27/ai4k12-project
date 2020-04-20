@@ -1,3 +1,8 @@
+.card-body {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+}
+
 #next-button {
 	border-radius: 35px !important;
 	padding: 15px 10px !important;
