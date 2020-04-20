@@ -107,16 +107,17 @@ $(document).on('submit', '.user-answer', function(e) {
             if ($('.answer-box').length == 0) {
                 $('#next-button').removeClass('hidden');
             }
-        } else if ($(this).attr('id').includes('cluster-question-center')) {
+        } else if ($(this).attr('id') == 'cluster-question-center1') {
             $(this).parent('.answer-box').remove();
-            var cluster_step5 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center2"><label for="message-text" class="col-form-label card-body">What are the ecological features differentiate the field sites represented by these emojis?</label><div class="row"><div class="col-9"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-3"><button type="submit" class="btn btn-outline-success" >Submit</button></div></div></form></div>');
+            var cluster_step5 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center2"><label for="message-text" class="col-form-label card-body">What are the ecological features differentiate the field sites represented by these emojis?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
             $('.fixed-right-bottom-parent').append(cluster_step5);
+        } else if ($(this).attr('id') == 'cluster-question-center2') {
+            location.href = "/stem?example=" + example;
         }
     }
 });
 
 function add_cluster() {
-    alert('add cluster');
     var current_num = $('.compare-block').length;
     $('.compare-block').removeClass('selected-block');
     var compare_template = $('.compare-block').eq(0).clone();

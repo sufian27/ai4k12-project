@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row">
-	<div id="face-browser" class="col-2" style="height: 420px; overflow: scroll;"></div>
+	<div id="face-browser" class="col-3" style="height: 420px; overflow: scroll;"></div>
 	<div class="col-6">
 		<div class="row compare-block-row">
 			<div class="col compare-block selected-block" id="block0">
@@ -17,7 +17,7 @@
             <form class="user-answer" id = "groupwise-question">
                 <label for="message-text" class="col-form-label card-body label1">
 	                {% if example == '2' %}
-	                Similar field sites could be considered as the same family of field sites. Try to find several field sites which are similar to the ORNL field site. What facial features do they share?
+	                Similar field sites could be considered as the same family of field sites. Try to find and click on several field sites which are similar to the ORNL field site. View the combination emojis generated, what facial features do they share?
 	                {% elif example == '3' %}
 	                What cell features do you think breast tumor has?
 	                {% else %}
@@ -35,7 +35,7 @@
                 </label>
                 <label for="message-text" class="col-form-label card-body label3 hidden">
 	                {% if example == '2' %}
-	                Now try to find several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features do they share?
+	                Now try to find and click on several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features do the second group of combination emojis share?
 	                {% elif example == '3' %}
 	                What cell features do you think breast tumor has?
 	                {% else %}
@@ -46,8 +46,8 @@
                 	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family. How do these center emojis represent different families?
                 </label>
                 <div class="row">
-                    <div class="col-9"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
-                    <div class="col-3"><button type="submit" class="btn btn-outline-success" >Submit</button></div>
+                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
+                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
                 </div>
             </form>
         </div>
