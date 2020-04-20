@@ -1,3 +1,8 @@
+.overlay-area {
+	width: 200px;
+	height: 240px;
+}
+
 .image-label {
 	background-color: rgb(254, 204, 75);
 	border-radius: 10px;
@@ -6,7 +11,7 @@
 	margin: auto;
 }
 
-.center {
+.center-full {
 	margin: auto;
 }
 
@@ -30,6 +35,10 @@
 .intro-image {
     position: relative;
     text-align: center;
+}
+
+.pairwise-compare .intro-image {
+	padding: 30px;
 }
 
 .answer-box textarea {

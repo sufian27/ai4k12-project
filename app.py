@@ -210,6 +210,23 @@ def compare():
     else:
         return 'Invalid Data'
 
+@app.route('/groupwise_compare', methods = ['GET', 'POST'])
+def groupwise_compare():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+
+        db.session.add(User_Action('user at groupwise compare page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('groupwise_compare.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Groupwise Smilarity Comparison')
+    else:
+        return 'Invalid Data'
+
 @app.route('/cluster2', methods = ['GET', 'POST'])
 def cluster():
     if g.user == None:

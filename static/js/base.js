@@ -94,6 +94,13 @@ $(document).on('submit', '.user-answer', function(e) {
         location.href = "/var?example=" + example;
     } else if (title == 'Variable') {
         location.href = "/data_intro?example=" + example;
+    } else if (title == 'Smilarity Comparison') {
+        if ($('.label2').hasClass('hidden')) {
+            $('.label1').addClass('hidden');
+            $('.label2').removeClass('hidden');
+        } else {
+            location.href = "/groupwise_compare?example=" + example;
+        }
     }
     
 });
