@@ -106,6 +106,8 @@ $(document).on('click', ".next-q-btn", function() {
 });
 
 $(document).on('mouseover', ".face-ele", function(e) {
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping = JSON.parse(getLocalData);
     $('#tooltip').empty();
     var face_group = {
         'reyebrow': ['bv', 'bl', 'bs'],
@@ -129,7 +131,7 @@ $(document).on('mouseover', ".face-ele", function(e) {
         var datapoint = center_face_list[datapoint_id];
     }
 
-    if ((! $(this).hasClass('face-circle')) && (! $(this).parents('svg').hasClass('user-generated'))) {
+    if ((! $(this).hasClass('face-circle'))) {
         var face_class = $(this).attr("class").split(' ')[0];
         for (i in face_group[face_class]) {
             var facial_short = face_group[face_class][i];
@@ -157,7 +159,7 @@ $(document).on('mouseover', ".face-ele", function(e) {
         } else if ($(this).parents('svg').hasClass('center')) {
             var id_line = $('<p>Center Face</p>');
             $("#tooltip").append(id_line);
-        } else if (! $(this).parents('svg').hasClass('user-generated')){
+        } else if (! $(this).parents('svg').hasClass('user-generated')) {
             var id_line = $('<p>Face Overlay</p>');
             $("#tooltip").append(id_line);
         }
@@ -297,6 +299,7 @@ function update_map() {
         d3.select("#face svg").remove();
         d3.select('#face')
             .call(chernoffFace(2));
+        $('#face svg').attr('class', 'user-generated'); 
     } else {
         location.reload(true);
     }

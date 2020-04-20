@@ -10,6 +10,11 @@
 	margin: auto;
 }
 
+.center-vertical {
+	margin-bottom: auto;
+	margin-top: auto;
+}
+
 .intro-image .centered {
 	position: absolute;
     top: 20%;

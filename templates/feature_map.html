@@ -2,7 +2,10 @@
 
 {% block content %}
 <div class="row fixed-right-bottom-parent">
-	<div class="col-3" id="face"></div>
+	<div class="col-3 center-vertical">
+		<div id="face"></div>
+		<div class="note">Try to hover your cursor on the face elements that are mapped to dataset features!</div>
+	</div>
 	<div class="col-4">
 		<form id="mapping-form">
 			<div class="row">
@@ -11,7 +14,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="col-3 center">
+	<div class="col-3 center-vertical">
 		<img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="100%">
 		<div class="image-label">Oak Ridge field site (ORNL)</div>
 	</div>
@@ -31,6 +34,8 @@
 	var dataset_face = readpara( {{ dataset_face | safe }} );
 	console.log('dataset_face is defined')
 	var variables = Object.keys(json_dataset[0]);
+    // var getLocalData = localStorage.getItem('mappingRule');
+    // var json_mapping = JSON.parse(getLocalData);
 
     for (key in feature_names) {
         var table_row = $('<tr><td class = "feature-full-name">' + feature_names[key][0] + '</td><td class = "feature-explain">' + json_dataset[27][key] + '</td><td class = "feature-explain">' + json_dataset[38][key] + '</td></tr>');
@@ -40,6 +45,7 @@
 	var datapoint_face = dataset_face[27];
 	d3.select('#face')
 		.call(chernoffFace(2));
+	$('#face svg').attr('class', 'user-generated');	
 
 	$('#next-button').click( function (){
 		location.href = "/slider?example=" + example;

@@ -60,6 +60,7 @@
     }
 	d3.select('#face')
 		.call(chernoffFace(2));
+	$('#face svg').attr('class', 'user-generated');	
 
 	function updateSlider(slider_value, dataset_feature) {
 		datapoint_face[dataset_feature] = slider_value;
