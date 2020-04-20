@@ -101,6 +101,27 @@ $(document).on('submit', '.user-answer', function(e) {
         } else {
             location.href = "/groupwise_compare?example=" + example;
         }
+    } else if (title == 'Groupwise Smilarity Comparison') {
+        if (! $('.label1').hasClass('hidden')) {
+            $('.label1').addClass('hidden');
+            $('.label2').removeClass('hidden');
+        } else if (! $('.label2').hasClass('hidden')) {
+            $('.label2').addClass('hidden');
+            $('.label3').removeClass('hidden');
+        } else if (! $('.label3').hasClass('hidden')){
+            $('.label3').addClass('hidden');
+            $('.label4').removeClass('hidden');
+        } else if (! $('.label4').hasClass('hidden')){
+            var unmapped_list = [];
+            var getLocalData = localStorage.getItem('mappingRule');
+            var mapping = JSON.parse(getLocalData);
+            for (key in mapping) {
+                if (mapping[key] == '0') {
+                    unmapped_list.push(key);
+                }
+            } 
+            location.href = "/cluster2?example=" + example + "&k=" + k + "&unmapped=" + unmapped_list;
+        }
     }
     
 });

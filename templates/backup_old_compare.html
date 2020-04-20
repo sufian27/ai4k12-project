@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+	<div id="face-browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
+	<div class="col-md-5 col-xs-5 col-sm-5 col-lg-5">
+		<div class="row">
+			<div class="col compare-block selected-block" id="block0">
+				<!-- <div class="compare-canvas" id = "canvas0" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div> -->
+				<div class="compare-canvas clickable-element" id = "canvas0" ></div>
+				<div class="compare-index"></div>				
+			</div>
+			<button type="button" class="btn btn-primary add-btn float-left hidden clickable-element" id="add-cluster-button">+</button>			
+		</div>
+	</div>
+	<div id="todolist" class="col-3"></div>
+</div>
+
+<a role="button" class="btn btn-success next-page-btn hidden clickable-element" style="position: fixed; bottom: 50px; right: 50px;" href="#" id="next-page-button">Next</a>
+<div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qaLabel">Initial testing of your ideas</h5>
+        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="user-answer">
+            <label for="message-text" class="col-form-label">
+            </label>
+            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
+            <button type="submit" class="btn btn-success" id="answer-submit-button">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/dragdrop_tag.js') }}"></script>
+<script>
+	// alert("inner script");
+	function readpara (para) {
+		return para;
+	}
+	var example_id = readpara( {{ example | safe }} );
+	var user_id = readpara( {{ g.user.id | safe }} );
+	var dataset_face = readpara( {{ dataset_face | safe }} );
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
+	var datapoint_face = json_dataset[0]; //default datapoint for chernoffface.js
+	var center_face_list = {};
+	// var variables = Object.keys(json_dataset[0]);
+
+	var current_id = 0;
+	$(document).on("click", "button.close" , function() {
+    	var id = $(this).parent(".badge")
+    		.clone()
+    		.children() //select all the children
+    		.remove()   //remove all the children
+    		.end()  //again go back to selected element
+    		.text();
+    	var data_id = parseInt(id) - 1;
+    	
+    	if (!$("#drag" + data_id).hasClass('hidden')) {
+    		var image = $("#drag" + data_id);
+	    	$("#drag" + data_id).remove();
+	    	image.attr("width", 35);
+	    	image.css("opacity", 1);
+	    	$("#wrap" + data_id).append(image);
+	    	$("#wrap" + data_id).css('opacity', 1);
+	    	$("#drag" + data_id).removeClass("overlay");
+	    	$("#drag" + data_id).css('z-index', 0);
+	    	var canvas_id = $(this).parent(".badge").parent(".compare-index").siblings(".compare-canvas").attr("id");
+	    	var x = $("#" + canvas_id).children().length;
+	    	if (x!=0) {
+	    		$("#" + canvas_id).children("img").css('opacity', 1/x);
+	    	}
+	    	$(this).parent(".badge").remove();
+    	}
+	});
+
+	$(document).on('click', 'button.close-btn', function() {
+    	var id = $(this).parent(".badge")
+    		.clone()
+    		.children() //select all the children
+    		.remove()   //remove all the children
+    		.end()  //again go back to selected element
+    		.text();
+    	current_id = parseInt(id) - 1;
+    	if (!$("#overlay" + current_id).hasClass('hidden')) {
+			var block_id = $( '#overlay' + current_id ).parent('.compare-canvas').attr('id').substr(6);
+			$( '#overlay' + current_id ).remove();
+			$( '#tag' + current_id ).remove();
+			$( '#wrap' + current_id ).removeClass('gone');
+	        if ( $('#canvas' + block_id).children('span').length == 1 ) {
+	        	$('#canvas' + block_id).children('span').children('svg').attr('opacity', 1);
+	        } else if ( $('#canvas' + block_id).children('span').length == 0 && ($('.compare-block').length > 1)) {
+	        	if ($('#block' + block_id).hasClass('selected-block')) {
+	        		$('#block' + block_id).remove();
+	        		var new_selected = $('.compare-block').length - 1;
+	        		$('.compare-block').eq(new_selected).addClass('selected-block');
+	        	} else {
+	        		$('#block' + block_id).remove();
+	        	}
+
+	        }
+    	}
+	
+	});
+
+	$(document).on('click', ".conbox", function() {
+		var svg_id = $(this).children('svg').attr('id');
+        current_id = svg_id.substr(4);
+		if ($(this).hasClass('gone')) {
+			// d3.select('#overlay' + current_id + ' svg').remove();
+			$( '#overlay' + current_id ).remove();
+			$( '#tag' + current_id ).remove();
+			$(this).removeClass('gone');
+	        if ($('.selected-block .compare-canvas').children('span').length == 1) {
+	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 1);
+	        }			
+		} else {
+	        datapoint_face = dataset_face[current_id];
+	        $('.selected-block .compare-canvas').append($('<span id = "overlay' + current_id + '"></span>'))
+	        $('#overlay' + current_id).addClass('overlay');
+	        d3.select('#overlay' + current_id)
+	        	.call(chernoffFace(1));
+	        // $('.selected-block .compare-canvas').children('svg')
+	        // $('.selected-block .compare-canvas').children('svg').addClass('overlay');
+	        if ($('.selected-block .compare-canvas').children('span').length > 1) {
+	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 0.4);
+	        }
+	        var elem = $('.selected-block .compare-index');
+	        addTag(elem, current_id);
+	        $(this).addClass('gone');
+	        console.log($('.selected-block .compare-canvas').children('span').length);     
+	    }
+	});
+
+	$(".add-btn").click(function () {
+		var current_num = $('.compare-block').length;
+		$('.compare-block').removeClass('selected-block');
+		var compare_template = $('.compare-block').eq(0).clone();
+		var block_id = $('.compare-block').length;
+		compare_template.attr('id', 'block' + block_id);
+		compare_template.addClass('selected-block');
+		compare_template.children(".compare-canvas").children().remove();
+		compare_template.children(".compare-index").children().remove();
+		compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);
+		// $('.compare-row').append(compare_template);
+		$(this).before(compare_template);
+	});
+
+    //for the q&a code
+    var q_num = 0;
+    var steps = [];
+    if (example == '2') {
+        var todolist = {
+            'Step1-1': ['Find a field site with high beetle richness', 'What facial features does it have?'],
+            'Step1-2': ['What ecological features does this field site have?'],
+            'Step1-3': ['Find a field site with low beetle richness', 'What are the ecological features that differentiate these two field sites?']
+        };
+    } else if (example == '3') {
+        var todolist = {
+            'Step1-1': ['Find a cell with small bare nuclei', 'What facial features does it have?'],
+            'Step1-2': ['What digitized image features does this cell have?'],
+            'Step1-3': ['Find a cell with large bare nuclei', 'What are the digitized image features that differentiate these two cells?']
+        };    	
+    } else {
+        var todolist = {
+            'Step1-1': ['Find a wine with high quality', 'What facial features does it have?'],
+            'Step1-2': ['What chemical features does this wine have?'],
+            'Step1-3': ['Find a wine with low quality', 'What are the chemical features that differentiate these two different wines?']
+        };    	
+    }
+
+    function createTodo(todo) {
+    	$('#todolist').empty();
+    	$('#todolist').removeClass('hidden');
+    	steps = Object.keys(todo);
+    	q_num = steps.length;
+	    for (var j = 0; j < q_num; j ++ ) {
+	        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
+	        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
+	        var todoitem_content = '';
+	        for (var i = 0; i < todo[steps[j]].length; i ++ ) {
+	            todoitem_content = todoitem_content + '<div class = "' + (i == todo[steps[j]].length - 1 ? 'selected question' : '') + '">' + todo[steps[j]][i] + '</div><hr>';
+	        }
+	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+	        item.append(todotitle);
+	        item.append($(todoitem_content));
+	        item.append(answer);
+	        $('#todolist').append(item);
+	    }
+    }
+
+    createTodo(todolist);
+
+    $(document).on('click', ".next-page-btn", function() {
+    	if ($('.add-btn').hasClass('hidden')) {
+    		$('.add-btn').removeClass('hidden');
+    		$('.next-page-btn').addClass('hidden');
+    		$('.compare-canvas').empty();
+    		$('.compare-index').empty();
+    		if (example == '2') {
+	    		var todolist2 = {
+	    			'Step2-1': ['Similar field sites could be considered as the same family of field sites.', 'Try to find several field sites which are similar to the first site you selected.', 'Now you can see the combination emojis of the filed sites you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding ecological features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several field sites which are similar to the second site you selected.', 'What facial features and what ecological features do they share?'],
+	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What ecological features do these differentiating facial features represent? Does this support your initial ideas?']
+	    		};
+    		} else if (example == '3') {
+	    		var todolist2 = {
+	    			'Step2-1': ['Similar cells could be considered as the same family of cells.', 'Try to find several cells which are similar to the first cell you selected.', 'Now you can see the combination emojis of the cells you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding digitized image features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several cells which are similar to the second cell you selected.', 'What facial features and what digitized image features do they share?'],
+	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What digitized features do these differentiating facial features represent? Does this support your initial ideas?']
+	    		};    			
+    		} else {
+	    		var todolist2 = {
+	    			'Step2-1': ['Wines with similar chemical features could be considered as the same family of wines.', 'Try to find several wines which are similar to the first wine you selected.', 'Now you can see the combination emojis of the wines you just picked.', 'What similar facial features do they share?'],
+	    			'Step2-2': ['What corresponding chemical features do they share?'],
+	    			'Step2-3': ['Click the add button and try to find several wines which are similar to the second wine you selected.', 'What facial features and what chemical features do they share?'],
+	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
+	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What chemical features do these differentiating facial features represent? Does this support your initial ideas?']
+	    		};
+    		}
+    		createTodo(todolist2);
+
+    	} else {
+    		if (localStorage.getItem("mappingRule") === null) {          
+		        var unmapped_list = [];
+		    } else {
+		        var unmapped_list = [];
+		        var getLocalData = localStorage.getItem('mappingRule');
+		        var mapping = JSON.parse(getLocalData);
+		        for (key in mapping) {
+		            if (mapping[key] == '0') {
+		                unmapped_list.push(key);
+		            }
+		        }  
+		    }
+		    location.href = "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list;
+    	}
+    });
+
+</script>
+<script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
+{% endblock %}

@@ -59,7 +59,7 @@
                 datapoint_face = centroid_for_face;
                 face_span_list.addClass('hidden');
                 d3.select('#' + current_canvas_id)
-                    .call(chernoffFace(1)); 
+                    .call(chernoffFace(2)); 
                 var center_id = 'center' + current_cluster_id;
                 $('#' + current_canvas_id + ' > svg').attr('id', center_id);   
                 $('#' + current_canvas_id + ' > svg').attr('class', 'center');

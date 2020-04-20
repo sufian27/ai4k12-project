@@ -164,8 +164,8 @@
 }
 
 .compare-canvas {
-	height: 126px; 
-	width: 106px; 
+	height: 246px; 
+	width: 206px; 
 	margin-bottom: 10px;
 	/*background-color: #d5f4e6; */
 	z-index: 0; 
@@ -183,10 +183,12 @@
 .compare-index {
 	margin-left: 10px;
 	padding-left: 10px;
-	width: 100px;
+	/*width: 100px;*/
+	width: 206px;
 }
 
 .compare-block {
+	width: 206px;
 	margin-left: 20px;
 	margin-top: 20px;
 	float: left;

@@ -3,18 +3,58 @@
 {% block content %}
 
 <div class="row">
-	<div class="col-md-5 col-xs-5 col-sm-5 col-lg-5">
+	<div id="face-browser" class="col-2" style="height: 420px; overflow: scroll;"></div>
+	<div class="col-6">
 		<div class="row">
 			<div class="col compare-block selected-block" id="block0">
-				<!-- <div class="compare-canvas" id = "canvas0" ondragover = 'allowDrop(event)' ondrop = 'dropChild(event)' ></div> -->
 				<div class="compare-canvas clickable-element" id = "canvas0" ></div>
 				<div class="compare-index"></div>				
 			</div>
-			<button type="button" class="btn btn-primary add-btn float-left hidden clickable-element" id="add-cluster-button">+</button>			
+			<div class="center-vertical">
+				<button type="button" class="btn btn-primary add-btn float-left clickable-element" id="add-cluster-button">+</button>
+			</div>			
 		</div>
 	</div>
-	<div id="face-browser" class="col-md-4 col-xs-4 col-sm-4 col-lg-4" style="height: 420px; overflow: scroll;"></div>
-	<div id="todolist" class="col-3"></div>
+	<div class="col-3 fixed-right-bottom-parent">
+        <div class="card border-light answer-box fixed-right-bottom">
+            <form class="user-answer" id = "groupwise-question">
+                <label for="message-text" class="col-form-label card-body label1">
+	                {% if example == '2' %}
+	                Similar field sites could be considered as the same family of field sites. Try to find several field sites which are similar to the ORNL field site. What facial features do they share?
+	                {% elif example == '3' %}
+	                What cell features do you think breast tumor has?
+	                {% else %}
+	                How do you think the chemical factors may influence each other? And how are they related to the quality of a wine?
+	                {% endif %}
+                </label>
+                <label for="message-text" class="col-form-label card-body label2 hidden">
+	                {% if example == '2' %}
+	                What corresponding ecological features do they share?
+	                {% elif example == '3' %}
+	                What cell features do you think breast tumor has?
+	                {% else %}
+	                How do you think the chemical factors may influence each other? And how are they related to the quality of a wine?
+	                {% endif %}
+                </label>
+                <label for="message-text" class="col-form-label card-body label3 hidden">
+	                {% if example == '2' %}
+	                Click the add button and try to find several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features do they share?
+	                {% elif example == '3' %}
+	                What cell features do you think breast tumor has?
+	                {% else %}
+	                How do you think the chemical factors may influence each other? And how are they related to the quality of a wine?
+	                {% endif %}
+                </label>
+                <label for="message-text" class="col-form-label card-body label4 hidden">
+                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family. How do these center emojis represent different families?
+                </label>
+                <div class="row">
+                    <div class="col-9"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
+                    <div class="col-3"><button type="submit" class="btn btn-outline-success" >Submit</button></div>
+                </div>
+            </form>
+        </div>
+	</div>
 </div>
 
 <a role="button" class="btn btn-success next-page-btn hidden clickable-element" style="position: fixed; bottom: 50px; right: 50px;" href="#" id="next-page-button">Next</a>
@@ -43,6 +83,9 @@
 {% block script %}
 <script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/dragdrop_tag.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 <script>
 	// alert("inner script");
 	function readpara (para) {
@@ -56,8 +99,8 @@
 	var datapoint_face = json_dataset[0]; //default datapoint for chernoffface.js
 	var center_face_list = {};
 	// var variables = Object.keys(json_dataset[0]);
-
 	var current_id = 0;
+
 	$(document).on("click", "button.close" , function() {
     	var id = $(this).parent(".badge")
     		.clone()
@@ -130,7 +173,7 @@
 	        $('.selected-block .compare-canvas').append($('<span id = "overlay' + current_id + '"></span>'))
 	        $('#overlay' + current_id).addClass('overlay');
 	        d3.select('#overlay' + current_id)
-	        	.call(chernoffFace(1));
+	        	.call(chernoffFace(2));
 	        // $('.selected-block .compare-canvas').children('svg')
 	        // $('.selected-block .compare-canvas').children('svg').addClass('overlay');
 	        if ($('.selected-block .compare-canvas').children('span').length > 1) {
@@ -155,105 +198,11 @@
 		compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);
 		// $('.compare-row').append(compare_template);
 		$(this).before(compare_template);
+		if (current_num == 1) {
+			$('#face38').parent('.conbox').trigger("click");
+			$(".add-btn").css("visibility", "hidden");
+		}
 	});
 
-    //for the q&a code
-    var q_num = 0;
-    var steps = [];
-    if (example == '2') {
-        var todolist = {
-            'Step1-1': ['Find a field site with high beetle richness', 'What facial features does it have?'],
-            'Step1-2': ['What ecological features does this field site have?'],
-            'Step1-3': ['Find a field site with low beetle richness', 'What are the ecological features that differentiate these two field sites?']
-        };
-    } else if (example == '3') {
-        var todolist = {
-            'Step1-1': ['Find a cell with small bare nuclei', 'What facial features does it have?'],
-            'Step1-2': ['What digitized image features does this cell have?'],
-            'Step1-3': ['Find a cell with large bare nuclei', 'What are the digitized image features that differentiate these two cells?']
-        };    	
-    } else {
-        var todolist = {
-            'Step1-1': ['Find a wine with high quality', 'What facial features does it have?'],
-            'Step1-2': ['What chemical features does this wine have?'],
-            'Step1-3': ['Find a wine with low quality', 'What are the chemical features that differentiate these two different wines?']
-        };    	
-    }
-
-    function createTodo(todo) {
-    	$('#todolist').empty();
-    	$('#todolist').removeClass('hidden');
-    	steps = Object.keys(todo);
-    	q_num = steps.length;
-	    for (var j = 0; j < q_num; j ++ ) {
-	        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
-	        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
-	        var todoitem_content = '';
-	        for (var i = 0; i < todo[steps[j]].length; i ++ ) {
-	            todoitem_content = todoitem_content + '<div class = "' + (i == todo[steps[j]].length - 1 ? 'selected question' : '') + '">' + todo[steps[j]][i] + '</div><hr>';
-	        }
-	        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
-	        item.append(todotitle);
-	        item.append($(todoitem_content));
-	        item.append(answer);
-	        $('#todolist').append(item);
-	    }
-    }
-
-    createTodo(todolist);
-
-    $(document).on('click', ".next-page-btn", function() {
-    	if ($('.add-btn').hasClass('hidden')) {
-    		$('.add-btn').removeClass('hidden');
-    		$('.next-page-btn').addClass('hidden');
-    		$('.compare-canvas').empty();
-    		$('.compare-index').empty();
-    		if (example == '2') {
-	    		var todolist2 = {
-	    			'Step2-1': ['Similar field sites could be considered as the same family of field sites.', 'Try to find several field sites which are similar to the first site you selected.', 'Now you can see the combination emojis of the filed sites you just picked.', 'What similar facial features do they share?'],
-	    			'Step2-2': ['What corresponding ecological features do they share?'],
-	    			'Step2-3': ['Click the add button and try to find several field sites which are similar to the second site you selected.', 'What facial features and what ecological features do they share?'],
-	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
-	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What ecological features do these differentiating facial features represent? Does this support your initial ideas?']
-	    		};
-    		} else if (example == '3') {
-	    		var todolist2 = {
-	    			'Step2-1': ['Similar cells could be considered as the same family of cells.', 'Try to find several cells which are similar to the first cell you selected.', 'Now you can see the combination emojis of the cells you just picked.', 'What similar facial features do they share?'],
-	    			'Step2-2': ['What corresponding digitized image features do they share?'],
-	    			'Step2-3': ['Click the add button and try to find several cells which are similar to the second cell you selected.', 'What facial features and what digitized image features do they share?'],
-	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
-	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What digitized features do these differentiating facial features represent? Does this support your initial ideas?']
-	    		};    			
-    		} else {
-	    		var todolist2 = {
-	    			'Step2-1': ['Wines with similar chemical features could be considered as the same family of wines.', 'Try to find several wines which are similar to the first wine you selected.', 'Now you can see the combination emojis of the wines you just picked.', 'What similar facial features do they share?'],
-	    			'Step2-2': ['What corresponding chemical features do they share?'],
-	    			'Step2-3': ['Click the add button and try to find several wines which are similar to the second wine you selected.', 'What facial features and what chemical features do they share?'],
-	    			'Step2-4': ['Click on the two emoji families you just created.', 'Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family.', 'How do these center emojis represent different families?'],
-	    			'Step2-5': ['What are the major facial features that differentiate these two center emojis?', 'What chemical features do these differentiating facial features represent? Does this support your initial ideas?']
-	    		};
-    		}
-    		createTodo(todolist2);
-
-    	} else {
-    		if (localStorage.getItem("mappingRule") === null) {          
-		        var unmapped_list = [];
-		    } else {
-		        var unmapped_list = [];
-		        var getLocalData = localStorage.getItem('mappingRule');
-		        var mapping = JSON.parse(getLocalData);
-		        for (key in mapping) {
-		            if (mapping[key] == '0') {
-		                unmapped_list.push(key);
-		            }
-		        }  
-		    }
-		    location.href = "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list;
-    	}
-    });
-
 </script>
-<script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>
-<script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
-<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
 {% endblock %}
