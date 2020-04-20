@@ -119,7 +119,7 @@ def var():
 
         db.session.add(User_Action('user at var page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('var.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Feature')
+        return render_template('var.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Factor')
     else:
         return 'Invalid Data'
 
