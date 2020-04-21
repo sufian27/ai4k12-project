@@ -34,5 +34,6 @@
         $('.conbox').eq(data_id).css({ 'width': '70px', 'height': '84px', 'background-size': 'contain', 'filter': 'alpha(opacity=20)' });
     }
 
-    $('#face27').parent('.conbox').trigger("click");
+    var data_box_id1 = '#face' + sample_dp[0];
+    $(data_box_id1).parent('.conbox').trigger("click");
 });

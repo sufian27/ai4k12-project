@@ -3,12 +3,16 @@
 {% block content %}
 <div class="row">
     <div class="intro-image col-6">
-        <img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="100%">
+        <img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" height="100%">
+        {% if example == '2' %}
         <div class="centered">Oak Ridge field site (ORNL)</div>
+        {% endif %}
     </div>
     <div class="intro-image col-6">
         <img src="{{ url_for('static', filename = 'img/example' + example + '/intro2.jpg') }}" width="100%">
+        {% if example == '2' %}
         <div class="centered">Toolik field site (TOOL)</div>
+        {% endif %}
     </div>
 </div>
 <div class="row">
@@ -21,14 +25,6 @@
             {% elif example == '3' %}
             <div class="card-body">
                 <p>How to diagnose breast cancer based on the digitized image of cells? Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. They describe characteristics of the cell nuclei present in the image.</p>
-                <p>What features do you think can be useful for breast tumor diagnosis?</p>
-            </div>            
-            {% else %}
-            <div class="card-header">The Chemistry of Wine: Fermentation</div>
-            <div class="card-body">
-                <p class="card-text">There are two basic ingredients needed to ferment the juice of grapes into wine: sugar and yeast. Sugar level increases as the grapes ripen on the vine.</p>
-                <p class="card-text">The second ingredient needed for fermentation, yeast, consumes the sugar in the must, and as a byproduct, it releases three components: ethanol, CO2, and heat. The CO2 and heat escape, and the ethanol remains. The natural yeast dies off when grape juice reaches 4 to 5 percent alcohol by volume, before fermentation is complete. Then the winemaker adds an anaerobic cultured yeast in order to ferment the must completely.</p>
-                <p class="card-text">Following fermentation, the winemaker will store the wine in various vessels. During that period, harsh acids in the wine convert into softer, more palatable acids.</p>
             </div>
             {% endif %}
         </div>
@@ -42,7 +38,7 @@
                     {% elif example == '3' %}
                     What features do you think can be useful for breast tumor diagnosis?
                     {% else %}
-                    Do you know the common chemical factors are related to wine chemistry?
+                    What common chemical factors do you know are related to wine chemistry?
                     {% endif %}
                 </label>
                 <div class="row">

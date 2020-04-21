@@ -130,7 +130,8 @@ function add_cluster() {
     // $('.compare-row').append(compare_template);
     $('.compare-block-row').append(compare_template);
     if (current_num == 1) {
-        $('#face38').parent('.conbox').trigger("click");
+        var data_box_id2 = '#face' + sample_dp[1];
+        $(data_box_id2).parent('.conbox').trigger("click");
     }
 }
 

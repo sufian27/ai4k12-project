@@ -15,8 +15,15 @@
 		</form>
 	</div>
 	<div class="col-3 center-vertical">
+		<p>Map several dataset features that you are interested in to facial features on the left!</p>
 		<img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="100%">
-		<div class="image-label">Oak Ridge field site (ORNL)</div>
+		<div class="image-label">
+			{% if example == '2' %}
+			Oak Ridge field site (ORNL)
+			{% elif example == '1' %}
+			Wine No. 42
+			{% endif %}
+		</div>
 	</div>
 	<button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button>
 </div>

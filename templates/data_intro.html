@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="row fixed-right-bottom-parent">
+	{% if example == '1' %}
+	<img src="{{ url_for('static', filename = 'img/example' + example + '/intro3.jpg') }}" width="300px" class="center-full">
+	{% endif %}
 	<div id="dataset-intro" class="center-full">
 		<table class="table table-sm">
 			<thead><tr>
 				<th></th>
+				{% if example == '2' %}
 				<th><img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="300px"></th>
 				<th><img src="{{ url_for('static', filename = 'img/example' + example + '/intro2.jpg') }}" width="300px"></th>
+				{% elif example == '1' %}
+				<th>Wine No. 42</th>
+				<th>Wine No. 209</th>
+				{% endif %}
 			</thead></tr>
 	    </table>
 	</div>
@@ -25,9 +34,11 @@
 	var json_dataset = JSON.parse(json_object).records;
 	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var variables = Object.keys(json_dataset[0]);
+	var data_id1 = sample_dp[0];
+	var data_id2 = sample_dp[1]
 
     for (key in feature_names) {
-        var table_row = $('<tr><td class = "feature-full-name">' + feature_names[key][0] + '</td><td class = "feature-explain">' + json_dataset[27][key] + '</td><td class = "feature-explain">' + json_dataset[38][key] + '</td></tr>');
+        var table_row = $('<tr><td class = "feature-full-name">' + feature_names[key][0] + '</td><td class = "feature-explain">' + json_dataset[data_id1][key] + '</td><td class = "feature-explain">' + json_dataset[data_id2][key] + '</td></tr>');
         $("#dataset-intro .table").append(table_row);
     }
 

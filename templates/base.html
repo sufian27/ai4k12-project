@@ -35,6 +35,26 @@
                 "Longitude": ["Longitude(degree)", "Longitude"],
                 "Latitude": ["Latitude(degree)", "Latitude"]
             };
+            var sample_dp = [27, 38]; 
+        } else if (example == '1') {
+            feature_names = {
+                "alcohol": ["Alcohol by Volume", "Alcohol"],
+                "volatile_acidity": ["Volatile Acidity", "Volatile Acidity"],
+                "quality": ["Qaulity", "Qaulity"],
+                "total_sulfur_dioxide": ["Total Sulfur Dioxide", "Total Sulfur Dioxide"],
+                "free_sulfur_dioxide": ["Free Sulfur Dioxide", "Free Sulfur Dioxide"],
+                "fixed_acidity": ["Fixed Acidity", "Fixed Acidity"],
+                "residual_sugar": ["Residual Sugar", "Residual Sugar"],
+                "density": ["Density", "Density"],
+                "chlorides": ["Chlorides", "Chlorides"],
+                "sulphates": ["Sulphates", "Sulphates"],
+                "citric_acid": ["Citric Acid", "Citric Acid"],
+                "pH": ["pH", "pH"]
+            };
+
+            var sample_dp = [41, 208];       
+        } else {
+
         }
     </script>
     {% if title %}
@@ -66,7 +86,7 @@
         <div id="tooltip" class="tip"></div>
         {% block content %}{% endblock %}
 
-        <footer id="toolbox" class="hidden">
+        <footer id="toolbox">
             {% if example %}
             <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; left: 140px; z-index: 1000;">
                 <nav aria-label="breadcrumb">

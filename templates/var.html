@@ -12,7 +12,7 @@
 	                {% elif example == '3' %}
 	                What cell features do you think breast tumor has?
 	                {% else %}
-	                How do you think the chemical factors may influence each other? And how are they related to the quality of a wine?
+	                How do you think the chemical factors may influence each other?
 	                {% endif %}
                 </label>
                 <div class="row">
@@ -82,8 +82,10 @@
 	}
 
 	for (key in feature_names) {
-		var new_line = $('<div class = "feature-row row"><div class = "feature-full-name">' + feature_names[key][0] + '</div><div class = "feature-explain">' + var_explain[key] + '</div></div>');
-		$('#variables').append(new_line);
+		if (key in var_explain) {
+			var new_line = $('<div class = "feature-row row"><div class = "feature-full-name">' + feature_names[key][0] + '</div><div class = "feature-explain">' + var_explain[key] + '</div></div>');
+			$('#variables').append(new_line);
+		}
 	}
 
 	$('#next-button').click( function() {
