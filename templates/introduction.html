@@ -2,58 +2,56 @@
 
 {% block content %}
 <div class="row">
-    <img src="{{ url_for('static', filename = 'img/example' + example + '/intro.jpg') }}" class="col-6" width="100%">
+    <div class="intro-image col-6">
+        <img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" height="100%">
+        {% if example == '2' %}
+        <div class="centered">Oak Ridge field site (ORNL)</div>
+        {% elif example == '3' %}
+        <div class="centered">A case of invasive breast carcinoma</div>
+        {% endif %}
+    </div>
+    <div class="intro-image col-6">
+        <img src="{{ url_for('static', filename = 'img/example' + example + '/intro2.jpg') }}" width="100%">
+        {% if example == '2' %}
+        <div class="centered">Toolik field site (TOOL)</div>
+        {% elif example == '3' %}
+        <div class="centered">A benign case</div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
     <div class="col-6">
-        <div class="intro-card card border-info mb-3">
+        <div class="card border-light">
             {% if example == '2' %}
-            <div class="card-body text-info">
-                <p>The left field site is Oak Ridge (ORNL) located in Tennessee. Its dominant NLCD (National Land Cover Database) classes include Deciduous Forest, Evergreen Forest and Pasture/Hay. The right one is Delta Junction field site (DEJU), which is mainly Evergreen Forest, Shrub/Shrub and Woody Wetlands.</p>
-                <p>However, both the beetle richness and small mammal richness of ORNL are much higher than richness of DEJU. What ecological factors do you think may cause the difference?</p>
+            <div class="card-body">
+                <p>Oak Ridge field site (ORNL) locates in Tennessee. Its dominant NLCD (National Land Cover Database) classes include Deciduous Forest, Evergreen Forest and Pasture/Hay. Toolik field site (TOOL) located in Alaska is mainly Evergreen Forest, Shrub/Shrub and Woody Wetlands.</p>
             </div>
             {% elif example == '3' %}
-            <div class="card-body text-info">
+            <div class="card-body">
                 <p>How to diagnose breast cancer based on the digitized image of cells? Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. They describe characteristics of the cell nuclei present in the image.</p>
-                <p>What features do you think can be useful for breast tumor diagnosis?</p>
-            </div>            
-            {% else %}
-            <div class="card-header">The Chemistry of Wine: Fermentation</div>
-            <div class="card-body text-info">
-                <p class="card-text">There are two basic ingredients needed to ferment the juice of grapes into wine: sugar and yeast. Sugar level increases as the grapes ripen on the vine.</p>
-                <p class="card-text">The second ingredient needed for fermentation, yeast, consumes the sugar in the must, and as a byproduct, it releases three components: ethanol, CO2, and heat. The CO2 and heat escape, and the ethanol remains. The natural yeast dies off when grape juice reaches 4 to 5 percent alcohol by volume, before fermentation is complete. Then the winemaker adds an anaerobic cultured yeast in order to ferment the must completely.</p>
-                <p class="card-text">Following fermentation, the winemaker will store the wine in various vessels. During that period, harsh acids in the wine convert into softer, more palatable acids.</p>
             </div>
             {% endif %}
         </div>
     </div>
-</div>
-<button id = "next-button" type="button" class="btn btn-outline-success next-btn clickable-element" data-toggle="modal" data-target="#qa" style="position: fixed; bottom: 50px; right: 50px;" >Next</button>
-
-<div class="modal fade bd-example-modal-sm" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="qaLabel">Brainstorming</h5>
-        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="intro-question" class="user-answer">
-            <label for="message-text" class="col-form-label">
-                {% if example == '2' %}
-                What ecological factors do you think may cause the difference?
-                {% elif example == '3' %}
-                What features do you think can be useful for breast tumor diagnosis?
-                {% else %}
-                Do you know the common chemical factors are related to wine chemistry?
-                {% endif %}
-            </label>
-            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
-            <button type="submit" class="btn btn-success" id="answer-submit-button">Submit</button>
-        </form>
-      </div>
+    <div class="col-6">
+        <div class="card border-light answer-box" width = "100%">
+            <form class="user-answer" id = "intro-question">
+                <label for="message-text" class="col-form-label card-body">
+                    {% if example == '2' %}
+                    ORNL has much higher beetle richness and small mammal richness than TOOL. What other ecological differences between these two filed sites can you observe from the images?
+                    {% elif example == '3' %}
+                    What cell features extracted from the digitized image of cells do you think can be useful for breast tumor diagnosis?
+                    {% else %}
+                    What common chemical factors do you know are related to wine chemistry?
+                    {% endif %}
+                </label>
+                <div class="row">
+                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
+                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 
 {% endblock %}
@@ -70,7 +68,6 @@
 	// var example = readpara( {{ example }} );
 	console.log(json_dataset.length);
 	var variables = Object.keys(json_dataset[0]);
-    var q_num = 0;
 
 	//note: what are needed for most pages: json_dataset, dataset_face(in case some original variables are not numeric), json_mapping, example index
 </script>

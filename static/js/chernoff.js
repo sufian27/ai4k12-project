@@ -112,7 +112,9 @@
             //////////////////// MY CODE BELOW (Zhaoxiong) /////////////
             ele.append('circle')
                 .attr('r',50)
-                .attr('fill', '#F3D681')
+                .attr('class', 'face-circle face-ele')
+                // .attr('fill', '#F3D681')
+                .attr('fill', 'rgb(254, 204, 75)')
                 // .attr('transform', `translate(70,110)`);
                 .attr('transform', `translate(50, 60)`);
 
@@ -133,8 +135,10 @@
 
             ele.selectAll("path.nose").data([nose]).enter()
                 .append("path")
-                .attr("class", "nose")
-                .attr('fill', '#267326')
+                .attr("class", "nose face-ele")
+                .attr('fill', 'black')
+                // .attr('stroke', 'black')
+                // .attr('stroke-width', 2)
                 .attr("d", line);
 
             let mouth = [{x: xoffset, y: yoffset+mc_var+mv_var-mouthOpensize},
@@ -144,8 +148,9 @@
 
             ele.selectAll("path.mouth").data([mouth]).enter()
                 .append("path")
-                .attr("class", "mouth")
-                .attr('fill', '#e25c6e')
+                .attr("class", "mouth face-ele")
+                // .attr('fill', '#e25c6e')
+                .attr('fill', 'rgb(219, 66, 89)')
                 .attr("d", line);
 
             // Eyes //
@@ -164,7 +169,7 @@
 
             ele.selectAll("path.leye").data([leye]).enter()
                 .append("path")
-                .attr("class", "leye")
+                .attr("class", "leye face-ele")
                 .attr('fill','white')
                 .attr('stroke', 'black')
                 .attr('stroke-width', 1)
@@ -172,7 +177,7 @@
             
             ele.selectAll("path.reye").data([reye]).enter()
                 .append("path")
-                .attr("class", "reye")
+                .attr("class", "reye face-ele")
                 .attr('fill','white')
                 .attr('stroke', 'black')
                 .attr('stroke-width', 1)
@@ -181,6 +186,7 @@
             // Eyebrows //
             ele.append('rect')
                 .attr("class", "leyebrow")
+                .attr("class", "leyebrow face-ele")
                 .attr('x', -eyeSpacing - bl_var / 2 - browSpacing)
                 // .attr('transform', `translate(68, ${-1*eyeVertical+bv_var+74}) rotate(${bs_var})`)
                 .attr('transform', `translate(48, ${-1*eyeVertical+bv_var+14}) rotate(${bs_var})`)
@@ -192,7 +198,7 @@
 
 
             ele.append('rect')
-                .attr("class", "reyebrow")
+                .attr("class", "reyebrow face-ele")
                 .attr('x', eyeSpacing - bl_var / 2 + browSpacing)
                 // .attr('transform', ``)
                 // .attr('transform', `rotate(-20 * (Math.PI / 180))`)
@@ -205,7 +211,7 @@
             ele.append("circle")
                 // .attr("transform", `translate(66, ${-1*eyeVertical+79})`)
                 .attr("transform", `translate(46, ${-1*eyeVertical+19})`)
-                .attr("class","pupil")
+                .attr("class","leye pupil face-ele")
                 .attr("r",pupilSize)
                 .attr('cx', -eyeSpacing)
                 .attr('cy', pupilHeight);
@@ -213,7 +219,7 @@
             ele.append('circle')
                 // .attr("transform", `translate(74, ${-1*eyeVertical+79})`)
                 .attr("transform", `translate(54, ${-1*eyeVertical+19})`)
-                .attr("class", "pupil")
+                .attr("class", "reye pupil face-ele")
                 .attr('r', pupilSize)
                 .attr('cx', eyeSpacing)
                 .attr('cy', pupilHeight);

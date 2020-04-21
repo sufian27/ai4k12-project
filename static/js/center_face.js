@@ -22,7 +22,7 @@
         $('#' + current_canvas_id).attr('ondrop','console.log("disable ondrop");')
         $('#' + current_canvas_id).attr('ondragover', 'console.log("disable ondragover");')
         d3.select('#' + current_canvas_id)
-            .call(chernoffFace())
+            .call(chernoffFace(1));
 
     });
 
@@ -58,8 +58,13 @@
 
                 datapoint_face = centroid_for_face;
                 face_span_list.addClass('hidden');
-                d3.select('#' + current_canvas_id)
-                    .call(chernoffFace()); 
+                if ($('.cluster-canvas').length > 0) {
+                    d3.select('#' + current_canvas_id)
+                        .call(chernoffFace(1.5));
+                } else {
+                    d3.select('#' + current_canvas_id)
+                        .call(chernoffFace(2));
+                }
                 var center_id = 'center' + current_cluster_id;
                 $('#' + current_canvas_id + ' > svg').attr('id', center_id);   
                 $('#' + current_canvas_id + ' > svg').attr('class', 'center');
@@ -80,18 +85,23 @@
         var cluster_id = $(this).parent('.cluster-canvas').children('.compare-canvas').attr('id');
         var center_id = 'center' + cluster_id.substr(7);
         if ($(this).hasClass('take-back')) {
+            $('#' + center_id).attr('opacity', 1);
             $('.center-face-overlay .' + cluster_id).remove();
             $(this).removeClass('take-back');
             $(this).text('Compare');
         } else {
             var center = $('#' + center_id).clone();
+            $('#' + center_id).attr('opacity', 0.4);
             var center_span = $('<span class = "overlay ' + cluster_id + '"></span>');
             $('.center-face-overlay').append(center_span);
             $('.' + cluster_id).append(center);
+            $('.' + cluster_id + ' .center').removeAttr('id');
+            $('.' + cluster_id + ' .center').addClass('center-overlay');
+            $('.' + cluster_id + ' .center').removeClass('center');
             $(this).addClass('take-back');
             $(this).text('Remove');
             if($('.center-face-overlay').children('span').length > 1) {
-                $('.center-face-overlay .center').attr('opacity', 0.4);
+                $('.center-face-overlay .center-overlay').attr('opacity', 0.4);
             }
         }
     });

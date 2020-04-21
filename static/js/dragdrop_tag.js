@@ -60,8 +60,9 @@ function addTags(elem, face_id) {
 	elem.appendChild(id_tag);
 }
 
-function addTag(elem, face_id) {
-    var id = parseInt(face_id) + 1;
+function addTag(elem, datapoint, face_id) {
+    // var id = parseInt(face_id) + 1;
+    var id = datapoint['id'];
     var id_tag = $('<span id = "tag' + face_id + '" >' + id + '</span>');
     var close = $('<button>x</button>');
     id_tag.addClass("badge");

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+	<div id="face-browser" class="col-3" style="height: 420px; overflow: scroll;"></div>
+	<div class="col-6">
+		<div class="row compare-block-row">
+			<div class="col compare-block selected-block" id="block0">
+				<div class="compare-canvas clickable-element" id = "canvas0" ></div>
+				<div class="compare-index"></div>				
+			</div>		
+		</div>
+	</div>
+	<div class="col-3 fixed-right-bottom-parent">
+        <div class="card border-light answer-box fixed-right-bottom">
+            <form class="user-answer" id = "groupwise-question">
+                <label for="message-text" class="col-form-label card-body label1">
+	                {% if example == '2' %}
+	                Similar field sites could be considered to be in the same family of field sites. Try to find and click on several field sites which are similar to the ORNL field site. View the combination emojis generated, what facial features do they share?
+	                {% elif example == '3' %}
+	                Cases with similar cell features could be considered to be in the same emoji family. Try to find and click on several cases which are similar to the case No. 1231387. View the combination emojis generated, what facial features do they share?
+	                {% else %}
+	                Wines with similar chemical features and quality levels could be considered to be in the same family of wines. Try to find and click on several wines which are similar to the wine No. 42. View the combination emojis generated, what facial features do they share?
+	                {% endif %}
+                </label>
+                <label for="message-text" class="col-form-label card-body label2 hidden">
+	                {% if example == '2' %}
+	                What corresponding ecological features do they share?
+	                {% elif example == '3' %}
+	                What corresponding cell features do they share?
+	                {% else %}
+	                What corresponding chemical features do they share?
+	                {% endif %}
+                </label>
+                <label for="message-text" class="col-form-label card-body label3 hidden">
+	                {% if example == '2' %}
+	                Now try to find and click on several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features does the second emoji family share?
+	                {% elif example == '3' %}
+	                Now try to find and click on several field sites which are similar to the case No. 1177027. What facial features and corresponding cell features does the second emoji family share?
+	                {% else %}
+	                Now try to find and click on several wines which are similar to the wine No. 209. What facial features and corresponding chemical features does the second emoji family share?
+	                {% endif %}
+                </label>
+                <label for="message-text" class="col-form-label card-body label4 hidden">
+                	{% if example == '2' %}
+                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family. How do these center emojis represent different families? How can they be helpful for the simlarity comparison?
+                	{% elif example == '1' or example == '3' %}
+                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family, and can be used as representatives of their emoji families. Compare the two center emojis. What are the facial features and original dataset features differentiating these two emoji families?
+                	{% endif %}
+                </label>
+                <div class="row">
+                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
+                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
+                </div>
+            </form>
+        </div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/dragdrop_tag.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/face_browser.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
+<script>
+	// alert("inner script");
+	function readpara (para) {
+		return para;
+	}
+	var example_id = readpara( {{ example | safe }} );
+	// var user_id = readpara( {{ g.user.id | safe }} );
+	var dataset_face = readpara( {{ dataset_face | safe }} );
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
+	var datapoint_face = json_dataset[0]; //default datapoint for chernoffface.js
+	var center_face_list = {};
+	// var variables = Object.keys(json_dataset[0]);
+	var current_id = 0;
+
+	$(document).on("click", "button.close" , function() {
+    	var id = $(this).parent(".badge")
+    		.clone()
+    		.children() //select all the children
+    		.remove()   //remove all the children
+    		.end()  //again go back to selected element
+    		.text();
+    	var data_id = parseInt(id) - 1;
+    	
+    	if (!$("#drag" + data_id).hasClass('hidden')) {
+    		var image = $("#drag" + data_id);
+	    	$("#drag" + data_id).remove();
+	    	image.attr("width", 35);
+	    	image.css("opacity", 1);
+	    	$("#wrap" + data_id).append(image);
+	    	$("#wrap" + data_id).css('opacity', 1);
+	    	$("#drag" + data_id).removeClass("overlay");
+	    	$("#drag" + data_id).css('z-index', 0);
+	    	var canvas_id = $(this).parent(".badge").parent(".compare-index").siblings(".compare-canvas").attr("id");
+	    	var x = $("#" + canvas_id).children().length;
+	    	if (x!=0) {
+	    		$("#" + canvas_id).children("img").css('opacity', 1/x);
+	    	}
+	    	$(this).parent(".badge").remove();
+    	}
+	});
+
+	$(document).on('click', 'button.close-btn', function() {
+    	var id = $(this).parent(".badge")
+    		.clone()
+    		.children() //select all the children
+    		.remove()   //remove all the children
+    		.end()  //again go back to selected element
+    		.text();
+    	current_id = parseInt(id) - 1;
+    	if (!$("#overlay" + current_id).hasClass('hidden')) {
+			var block_id = $( '#overlay' + current_id ).parent('.compare-canvas').attr('id').substr(6);
+			$( '#overlay' + current_id ).remove();
+			$( '#tag' + current_id ).remove();
+			$( '#wrap' + current_id ).removeClass('gone');
+	        if ( $('#canvas' + block_id).children('span').length == 1 ) {
+	        	$('#canvas' + block_id).children('span').children('svg').attr('opacity', 1);
+	        } else if ( $('#canvas' + block_id).children('span').length == 0 && ($('.compare-block').length > 1)) {
+	        	if ($('#block' + block_id).hasClass('selected-block')) {
+	        		$('#block' + block_id).remove();
+	        		var new_selected = $('.compare-block').length - 1;
+	        		$('.compare-block').eq(new_selected).addClass('selected-block');
+	        	} else {
+	        		$('#block' + block_id).remove();
+	        	}
+
+	        }
+    	}
+	
+	});
+
+	$(document).on('click', ".conbox", function() {
+		var svg_id = $(this).children('svg').attr('id');
+        current_id = svg_id.substr(4);
+		if ($(this).hasClass('gone')) {
+			// d3.select('#overlay' + current_id + ' svg').remove();
+			$( '#overlay' + current_id ).remove();
+			$( '#tag' + current_id ).remove();
+			$(this).removeClass('gone');
+	        if ($('.selected-block .compare-canvas').children('span').length == 1) {
+	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 1);
+	        }			
+		} else {
+	        datapoint_face = dataset_face[current_id];
+	        $('.selected-block .compare-canvas').append($('<span id = "overlay' + current_id + '"></span>'))
+	        $('#overlay' + current_id).addClass('overlay');
+	        d3.select('#overlay' + current_id)
+	        	.call(chernoffFace(2));
+	        // $('.selected-block .compare-canvas').children('svg')
+	        // $('.selected-block .compare-canvas').children('svg').addClass('overlay');
+	        if ($('.selected-block .compare-canvas').children('span').length > 1) {
+	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 0.4);
+	        }
+	        var elem = $('.selected-block .compare-index');
+	        addTag(elem, datapoint_face, current_id);
+	        $(this).addClass('gone');
+	        console.log($('.selected-block .compare-canvas').children('span').length);     
+	    }
+	});
+
+</script>
+{% endblock %}

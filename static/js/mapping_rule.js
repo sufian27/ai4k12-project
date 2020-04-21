@@ -11,7 +11,7 @@
         }
     }
 
-    var facial_feature = ["er", "bs", "bl", "bv", "ms", "mv", "mc", "nw", "nh"];
+    var facial_feature = Object.keys(facial_full);
     // var facial_full = {"er": "Eye Radius", "bs": "Brow Slant", "bl": "Brow Length", "bv": "Brow Vertical", "ms": "Mouth Size", "mv": "Mouth Vertical", "mc": "Mouth Curve", "nw": "Nose Width", "nh": "Nose Height"};
 
     if (localStorage.getItem("mappingRule") === null) {
@@ -19,25 +19,37 @@
         var json_mapping_face = {};
         if (example == '2') {
             json_mapping = {
-                "Beetles_Richness": "er",
-                "Mean_Temp_degC": "bs",
-                "Mean_Canopy_Height_m": "bl",
-                "Mean_Ann_Precip_mm": "bv",
+                "Beetles_Richness": "0",
+                "Mean_Temp_degC": "0",
+                "Mean_Canopy_Height_m": "0",
+                "Mean_Ann_Precip_mm": "0",
                 // "Longitude": "ms",
                 "Longitude": "0",
-                "Latitude": "ms",
-                "Small_Mammal_Richness": "nw",
+                "Latitude": "0",
+                "Small_Mammal_Richness": "0",
                 "Elevation_m": "0"
             };
-            json_mapping_face = {
-                "er": "Beetles_Richness", 
-                "bs": "Mean_Temp_degC", 
-                "bl": "Mean_Canopy_Height_m", 
-                "bv": "Mean_Ann_Precip_mm", 
-                // "ms": "Longitude", 
-                "ms": "Latitude", 
-                "nw": "Small_Mammal_Richness"
-            }
+
+            // json_mapping = {
+            //     "Beetles_Richness": "er",
+            //     "Mean_Temp_degC": "bs",
+            //     "Mean_Canopy_Height_m": "bl",
+            //     "Mean_Ann_Precip_mm": "bv",
+            //     // "Longitude": "ms",
+            //     "Longitude": "0",
+            //     "Latitude": "ms",
+            //     "Small_Mammal_Richness": "nw",
+            //     "Elevation_m": "0"
+            // };
+            // json_mapping_face = {
+            //     "er": "Beetles_Richness", 
+            //     "bs": "Mean_Temp_degC", 
+            //     "bl": "Mean_Canopy_Height_m", 
+            //     "bv": "Mean_Ann_Precip_mm", 
+            //     // "ms": "Longitude", 
+            //     "ms": "Latitude", 
+            //     "nw": "Small_Mammal_Richness"
+            // }
         } else if (example == '1') {
             json_mapping = {
                 "alcohol": "er",
@@ -89,39 +101,39 @@
         }
     }
 
-    if ($('#mappingModal').length > 0) {
-        var mapping_modal = "";
+    if ($('#mapping-form').length > 0) {
+        var mapping = "";
         // var id_generate = 0;
         for (i in facial_feature) {
-            mapping_modal = '<div id = "' + facial_feature[i] + '" class = "facial-feature" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)">' + facial_full[facial_feature[i]] + '</div>';
-            $('.modal-body .feature-mapped-area').append(mapping_modal);
+            mapping = '<div id = "' + facial_feature[i] + '" class = "facial-feature" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)">' + facial_full[facial_feature[i]] + '</div>';
+            $('.feature-mapped-area').append(mapping);
         }
 
         for (i in facial_feature) {
             if (facial_feature[i] in json_mapping_face) {
-                mapping_modal = '<span id = "' + json_mapping_face[facial_feature[i]] + '" class = "dataset-feature pointer-cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + json_mapping_face[facial_feature[i]] + '</span>';
-                $('#' + facial_feature[i]).append(mapping_modal);
+                mapping = '<span id = "' + json_mapping_face[facial_feature[i]] + '" class = "dataset-feature pointer-cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + feature_names[json_mapping_face[facial_feature[i]]][1] + '</span>';
+                $('#' + facial_feature[i]).append(mapping);
                 // id_generate = id_generate + 1;
             }
         }
 
         for (i in json_mapping) {
             if (json_mapping[i] == "0") {
-                mapping_modal = '<span id = "' + i + '" class = "dataset-feature pointer-cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + i + '</span>'
-                $('.modal-body .feature-unmapped-area').append(mapping_modal);
+                mapping = '<span id = "' + i + '" class = "dataset-feature pointer-cursor" draggable = "true" ondragstart = "dragFeature(event)" >' + feature_names[i][1] + '</span>'
+                $('.feature-unmapped-area').append(mapping);
                 // id_generate = id_generate + 1;
             }
             
         }
     }
 
-    $('.update-mapping').click( function() {
+    $('.update-mapping').click( function () {
         var json_mapping_new = {}
-        for (i in facial_feature) {
-            var x = $('#' + facial_feature[i]).children('.dataset-feature').length;
+        for (i in facial_full) {
+            var x = $('#' + i).children('.dataset-feature').length;
             if(x == 1) {
-                var dataset_feature = $('#' + facial_feature[i]).children('.dataset-feature').attr('id');
-                json_mapping_new[dataset_feature] = facial_feature[i];
+                var dataset_feature = $('#' + i).children('.dataset-feature').attr('id');
+                json_mapping_new[dataset_feature] = i;
             } else if (x > 1) {
                 alert('Something went wrong with the mapping rule!');
             }
@@ -133,7 +145,7 @@
                 json_mapping_new[dataset_feature] = "0";
             }
         }
-
+        
         if (json_mapping == json_mapping_new) {
             $('#exampleModal').modal('hide'); 
         } else {
@@ -157,6 +169,7 @@
                 location.reload(true);
             }
         }
+
     });
 
 });

@@ -1,35 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="variables"></div>
-<button type="button" class="btn btn-outline-success next-btn clickable-element" data-toggle="modal" data-target="#qa" style="position: fixed; bottom: 50px; right: 50px;" id="next-button">Next</button>
-
-<div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="qaLabel">Brainstorming</h5>
-        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="var-question" class="user-answer">
-            <label for="message-text" class="col-form-label">
-                {% if example == '2' %}
-                How do you think these factors may influence each other?
-                {% elif example == '3' %}
-                What cell features do you think breast tumor has?
-                {% else %}
-                How do you think the chemical factors may influence each other? And how are they related to the quality of a wine?
-                {% endif %}
-            </label>
-            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
-            <button type="submit" class="btn btn-success" id="answer-submit-button">Submit</button>
-        </form>
-      </div>
-    </div>
-  </div>
+<div class="row">
+	<div id="variables" class="col-9"></div>
+	<div class="col-3 fixed-right-bottom-parent">
+        <div class="card border-light answer-box hidden fixed-right-bottom">
+            <form class="user-answer" id = "var-question">
+                <label for="message-text" class="col-form-label card-body">
+	                {% if example == '2' %}
+	                How do you think these factors may influence each other?
+	                {% elif example == '3' %}
+	                What cell features do you think breast tumor has?
+	                {% else %}
+	                How do you think the chemical factors may influence each other?
+	                {% endif %}
+                </label>
+                <div class="row">
+                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
+                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
+                </div>
+            </form>
+        </div>
+		<button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button>
+	</div>
 </div>
 
 {% endblock %}
@@ -45,54 +38,60 @@
 	var variables = Object.keys(json_dataset[0]);
 	var variables_content = "";
 	var var_explain = {};
-	var q_num = 0;
 	if (example == 1) {
 		var_explain = {
 			// alcohol -> volatile acidity -> free sulfur dioxide -> fixed acidity -> total sulfur dioxide -> residual sugar -> density -> ph
-			"alcohol": ["Alcohol by volume", "Alcohol by volume, or ABV, is the amount of ethanol in a given volume of liquid, expressed as a percentage."],
-			"volatile_acidity": ["Volatile acidity", "Volatile acidity refers to the steam distillable acids present in wine, primarily acetic acid."],
-			"free_sulfur_dioxide": ["Free sulfur dioxide", "Free sulfur dioxide is a measure of the amount of SO2 that is not bound to other molecules. Sulfur Dioxide is used throughout all stages of the winemaking process to prevent oxidation and microbial growth."],
-			"fixed_acidity": ["Fixed acidity", "The predominant fixed acids found in wines are tartaric, malic, citric, and succinic. Their respective levels found in wine can vary greatly."],
-			"total_sulfur_dioxide": ["Total sulfur dioxide", "Total Sulfur Dioxide is the portion of SO2 that is free in the wine plus the portion that is bound to other chemicals in the wine such as aldehydes, pigments, or sugars."],
-			"residual_sugar": ["Residual sugar", "Residual Sugar is from natural grape sugars leftover in a wine after the alcoholic fermentation finishes."],
-			"density": ["Density", "Density is an important measurement in wine making. It is defined as mass per volume. When we take a deeper look at the components of wine, the main constituents affecting the density are alcohol, sugar, glycerol, and other dissolved solids."],
-			"pH": ["pH", "Winemakers use pH as a way to measure ripeness in relation to acidity. Low pH wines will taste tart and crisp, while higher pH wines are more susceptible to bacterial growth."],
+			"alcohol": "Alcohol by volume, or ABV, is the amount of ethanol in a given volume of liquid, expressed as a percentage.",
+			"volatile_acidity": "Volatile acidity refers to the steam distillable acids present in wine, primarily acetic acid.",
+			"free_sulfur_dioxide": "Free sulfur dioxide is a measure of the amount of SO2 that is not bound to other molecules. Sulfur Dioxide is used throughout all stages of the winemaking process to prevent oxidation and microbial growth.",
+			"fixed_acidity": "The predominant fixed acids found in wines are tartaric, malic, citric, and succinic. Their respective levels found in wine can vary greatly.",
+			"total_sulfur_dioxide": "Total Sulfur Dioxide is the portion of SO2 that is free in the wine plus the portion that is bound to other chemicals in the wine such as aldehydes, pigments, or sugars.",
+			"residual_sugar": "Residual Sugar is from natural grape sugars leftover in a wine after the alcoholic fermentation finishes.",
+			"density": "Density is an important measurement in wine making. It is defined as mass per volume. When we take a deeper look at the components of wine, the main constituents affecting the density are alcohol, sugar, glycerol, and other dissolved solids.",
+			"pH": "Winemakers use pH as a way to measure ripeness in relation to acidity. Low pH wines will taste tart and crisp, while higher pH wines are more susceptible to bacterial growth.",
 			// "chlorides": ["Chlorides",],
 			// "sulphates": ["Sulphates",],
 			// "citric_acid": ["Citric acid",],						
-			"quality": ["Quality", "Quality level based on the sensory data"]
+			"quality": "Quality level based on the sensory data"
 		};
 	} else if (example == 2) {
 		var_explain = {
-			"id": ["Field site ID", "The abbreviation of the field site's name."],
-			"Small_Mammal_Richness": ["Small Mammal Richness", "The number of species of small mammals collected from traps in a month"],
-			"Beetles_Richness": ["Beetles Richness","The number of species of beetles collected from traps in a month."],
-			"Mean_Ann_Precip_mm": ["Mean Annual Precipitation (mm)" ,"The average amount of annual precipitation."],
-			"Mean_Canopy_Height_m": ["Mean Canopy Height", "Mean canopy height consists of the mean height of all canopy surface points."],
-			"Mean_Temp_degC": ["Mean Temperature (degree Celsius)","The average temperature."],
-			"Elevation_m": ["Elevation (m)" ,"The Elevation of the terrain surface."],
-			"Longitude": ["Longitude", "Longitude is a geographic coordinate that specifies the east–west position of a point on the Earth's surface"],
-			"Latitude": ["Latitude", "Latitude is a measurement on a globe or map of location north or south of the Equator"]
+			"id": "The abbreviation of the field site's name.",
+			"Small_Mammal_Richness": "The number of species of small mammals collected from traps in a month",
+			"Beetles_Richness": "The number of species of beetles collected from traps in a month.",
+			"Mean_Ann_Precip_mm": "The average amount of annual precipitation.",
+			"Mean_Canopy_Height_m": "Mean canopy height consists of the mean height of all canopy surface points.",
+			"Mean_Temp_degC": "The average temperature.",
+			"Elevation_m": "The Elevation of the terrain surface.",
+			"Longitude": "Longitude is a geographic coordinate that specifies the east–west position of a point on the Earth's surface",
+			"Latitude": "Latitude is a measurement on a globe or map of location north or south of the Equator"
 		};
 	} else {
 		var_explain = {
-			"clump_thickness": ["Clump thinkness", "Assesses if cells are mono- or multi-layered."],
-			"uniformity_of_cell_size": ["Uniformity of cell size", "Evaluates the consistency in size of the cells in the sample."],
-			"uniformity_of_cell_shape": ["Uniformity of cell shape", "Estimates the equality of cell shapes and identifies marginal variances."],
-			"marginal_adhesion": ["Marginal adhesion", "Quantifies how much cells on the outdside of the epithelial tend to stick together."],
-			"single_epithelial_cell_size": ["Single epithelial cell size", "Relates to cell uniformity, determines if epithelial cells are significantly enlarged."],
-			"bare_nuclei": ["Bare nuclei", "Calculates the proportion of the number of cells not surrounded by cytoplasm to those that are."],
-			"bland_chromatin": ["Bland chromatin", 'Rates the uniform "texture" of the nucleus in a range from fine to coarse.'],
-			"normal_nucleoli": ["Normal nucleoli", "Determines whether the nucleoli are small and barely visible or larger, more visible, and more plentiful."],
-			"mitoses": ["Mitoses", "Describes the level of mitotic (cell reproduction) activity."],
-			"class": ["Class", "2 - benign, 4 - malignant"]
+			"clump_thickness": "Assesses if cells are mono- or multi-layered.",
+			"uniformity_of_cell_size": "Evaluates the consistency in size of the cells in the sample.",
+			"uniformity_of_cell_shape": "Estimates the equality of cell shapes and identifies marginal variances.",
+			"marginal_adhesion": "Quantifies how much cells on the outdside of the epithelial tend to stick together.",
+			"single_epithelial_cell_size": "Relates to cell uniformity, determines if epithelial cells are significantly enlarged.",
+			"bare_nuclei": "Calculates the proportion of the number of cells not surrounded by cytoplasm to those that are.",
+			"bland_chromatin": 'Rates the uniform "texture" of the nucleus in a range from fine to coarse.',
+			"normal_nucleoli": "Determines whether the nucleoli are small and barely visible or larger, more visible, and more plentiful.",
+			"mitoses": "Describes the level of mitotic (cell reproduction) activity.",
+			"class": "2 - benign, 4 - malignant"
 		}
 	}
 
-	for (key in var_explain) {
-		var new_line = $('<div><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="' + var_explain[key][1] + '">' + var_explain[key][0] + '</button>(' + key + ')</div>');
-		$('#variables').append(new_line);
+	for (key in feature_names) {
+		if (key in var_explain) {
+			var new_line = $('<div class = "feature-row row"><div class = "feature-full-name">' + feature_names[key][0] + '</div><div class = "feature-explain">' + var_explain[key] + '</div></div>');
+			$('#variables').append(new_line);
+		}
 	}
+
+	$('#next-button').click( function() {
+		$('.answer-box').removeClass('hidden');
+		$(this).addClass('hidden');
+	});
 
 </script>
 <script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>

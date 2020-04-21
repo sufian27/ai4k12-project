@@ -21,28 +21,36 @@
     <!-- <button class="btn btn-outline-success btn-sm btn-expand">Expand</button> -->
 </div>
 
-<div class="row fixed-right-bottom-parent">
-    <div class="col-9" id="cluster-vis" ></div>
-    <div class="fixed-right-bottom">
-        <div class="card border-light" id="step1">
-            {% if example == '2' %}
-            <p>Now all the field site data points are grouped into two emoji families by K-Means. Machine also clusters data by comparing similarity of data points and group similar data points together.</p>
-            {% elif example == '1' %}
-            <p>Now all the wine data points are grouped into two emoji families by K-Means clustering. Machine also clusters data by comparing similarity of data points and group similar data points together.</p>
-            {% else %}
-            <p>Now all the cases are grouped into two emoji families by K-Means clustering. Machine also clusters data by comparing similarity of data points and group similar data points together.</p>
-            {% endif %}
-            <p>The value of K means how many families do you want the machine to group the dataset into. Try out different values for the K.</p>
-            <p>The best K value for this dataset is 4, which means that the emojis within a family are similar enough to each other and the center emojis of all the families are different enough from each other. Use k = 4 and click the Next button.</p>
-        </div>
-        <button type="button" class="btn btn-outline-success clickable-element" id="next-button">Next</button>
-    </div>
-    <!-- <button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button> -->
+<div class="row">
+    <div class="center-face-overlay col-2"></div>
+    <div class="col-7" id="cluster-vis" ></div>
+    <div class="col-3" id="todolist"></div>
 </div>
-
+<a role="button" class="btn btn-success next-page-btn hidden clickable-element" style="position: fixed; bottom: 50px; right: 50px;" href="#" id="next-page-button">Next</a>
+<div class="modal fade" id="qa" tabindex="-1" role="dialog" aria-labelledby="qaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qaLabel">Explore the clustering results</h5>
+        <button type="button" class="close clickable-element" data-dismiss="modal" aria-label="Close" id="answer-window-close-button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="user-answer">
+            <label for="message-text" class="col-form-label">
+            </label>
+            <textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block script %}
+<script src="{{ url_for('static', filename='js/chernoff.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/center_face.js') }}"></script>
 <script type="text/javascript">
@@ -50,8 +58,6 @@
         return para;
     }
     var k = readpara( {{ k }} );
-    console.log('---');
-    console.log(k);
     var json_cluster = readpara( {{ json_cluster | safe }} );
     console.log(json_cluster);
     var json_object = readpara( {{ json_data | tojson | safe }} );
@@ -73,9 +79,9 @@
     }
 
     // generate the overaly of clusters
-
+    var cluster_box = "";
     for ( var i = 0; i < k; i ++ ) {
-        var cluster_box = $('<div class = "row row-cluster-' + i + '"><div class = "col-4 expand-area" id = "expand' + i + '"></div><div class = "col-3 cluster-canvas" style = "height: 170px;"><div class="compare-canvas" id = "cluster' + i + '" ></div></div><div class = "col-5" id = "cluster-question-box' + i + '"></div></div>');
+        cluster_box = $('<div class = "row"><div class = "col-3 cluster-canvas" style = "height: 170px;"><div class="compare-canvas" id = "cluster' + i + '" ></div></div><div class = "col-9 expand-area" id = "expand' + i + '"></div></div>');
         $('#cluster-vis').append(cluster_box);
     }
 
@@ -86,13 +92,12 @@
         $(cluster_box_id).append(face_place);
         datapoint_face = dataset_face[datapoint_id];
         d3.select("#overlay" + datapoint_id)
-            .call(chernoffFace(1.5));
+            .call(chernoffFace(1));
         if ($(cluster_box_id + ' span').length > 1) {
             $("#overlay" + datapoint_id).children('svg').attr('opacity', 0.4);
         }
     }
 
-    //placeholders to add emojis to show each cluster
     for ( var j = 0; j < json_cluster["nodes"].length; j ++ ) {
         var datapoint_id = parseInt(json_cluster['nodes'][j]['name'].substr(2));
         var placeholder = $("<span id = 'data" + datapoint_id + "'></span>");
@@ -105,39 +110,12 @@
         var datapoint_id = parseInt(json_cluster['nodes'][i]['name'].substr(2));
         datapoint_face = dataset_face[datapoint_id];
         d3.select("#data" + datapoint_id)
-            .call(chernoffFace(0.7));
+            .call(chernoffFace(1));
         $("#data" + datapoint_id + ' svg').attr('id', "face" + datapoint_id);
         $("#data" + datapoint_id + ' svg').attr('class', 'hover-face');
     }
 
-    var term = {
-        '2': ['field sites', 'ecological'],
-        '1': ['wines', 'chemical'],
-        '3': ['cases', 'cell']
-    };
-    $('#next-button').click( function() {
-        if (! $('#step1').hasClass('hidden')) {
-            for (var i = 0; i < k; i++) {
-                var new_step = $('<div class="card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question-familay' + i + '"><label for="message-text" class="col-form-label card-body">What shared facial features does this emoji family have? What are the corresponding ' + term[example][1] +' features shared by the ' + term[example][0] +' in this family? Hover on the face elements to see their mapping features.</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
-                $('#cluster-question-box' + i).append(new_step);
-            }    
-            $(this).addClass('hidden');
-            $('#step1').addClass('hidden');
-        } else {
-            for (var i = 0; i < k; i++) {
-                $('#cluster-question-box' + i).addClass('hidden');
-                $('#cluster' + i).trigger('click');
-            }
-            $('.cluster-canvas').removeClass('col-3');
-            $('.cluster-canvas').addClass('col-4');
-            var overlay_area = $('<div class = "col-4"><div class = "center-face-overlay"></div></div>');
-            $('.row-cluster-0').append(overlay_area);
-            var cluster_step4 = $('<div class="col-3 card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question-center1"><label for="message-text" class="col-form-label card-body">Click the compare button to explore the differences between the center emojis. What are the differentiating facial features and dataset features between the first emoji family and the other families?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
-            $(this).addClass('hidden');
-            $('.fixed-right-bottom').append(cluster_step4);
-        }
-    });
-
+    var q_num = 0;
     //for the q&a code
     if (example == '2') {
         var todolist = {
@@ -169,6 +147,27 @@
             'Step6': ['Click the combination emojis of each emoji family and you can see their average representation, center emoji.', 'Click the compare button to explore the differences between the first and the second emoji family.', 'What are the differentiating facial features and corresponding chemical features?'],
             'Step7': ['Try to compare center emojis from different emoji families.', "What more findings can you get?"]
         };        
+    }
+
+    var steps = Object.keys(todolist);
+    q_num = steps.length;
+
+    for (var j = 0; j < q_num; j ++ ) {
+        var item = $('<div class = "card' + (j == 0 ? '' : ' hidden') + '" id = "' + steps[j] + '"></div>');
+        var todotitle = $('<div class = "card-header">' + steps[j] + '</div>');
+        var todoitem_content = '';
+        for (var i = 0; i < todolist[steps[j]].length; i ++ ) {
+            todoitem_content = todoitem_content + '<div class = "' + (i == todolist[steps[j]].length - 1 ? 'selected question' : '') + '">' + todolist[steps[j]][i] + '</div><hr>';
+        }
+        var answer = $('<button type="button" class="btn btn-outline-success next-q-btn clickable-element" data-toggle="modal" data-target="#qa" id = "answer' + (j + 1) + '">Share my thoughts</button>');
+        item.append(todotitle);
+        item.append($(todoitem_content));
+        item.append(answer);
+        $('#todolist').append(item);
+    }
+
+    if (example == '2') {
+        $('.next-page-btn').attr("href", "/stem?example=" + example);
     }
 
 </script>

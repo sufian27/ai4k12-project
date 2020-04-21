@@ -1,9 +1,76 @@
+.card-body {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+}
+
+#next-button {
+	border-radius: 35px !important;
+	padding: 15px 10px !important;
+}
+
+.overlay-area {
+	width: 200px;
+	height: 240px;
+}
+
+.image-label {
+	background-color: rgb(254, 204, 75);
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+	margin: auto;
+}
+
+.center-full {
+	margin: auto;
+}
+
+.center-vertical {
+	margin-bottom: auto;
+	margin-top: auto;
+}
+
+.intro-image .centered {
+	position: absolute;
+    /*top: 20%;*/
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    z-index: 20;
+    background-color: rgb(254, 204, 75);
+    padding: 5px;
+    border-radius: 10px;
+    /*box-shadow: 3px 3px 1px grey;*/
+}
+
+.intro-image {
+    position: relative;
+    text-align: center;
+}
+
+.pairwise-compare .intro-image {
+	padding: 30px;
+}
+
+.fixed-right-bottom-parent .answer-box {
+	max-width: 320px;
+}
+
+.answer-box textarea {
+	margin-left: 20px !important;
+}
+
+.user-answer button {
+	/*margin-top: 10px;*/
+}
+
 .clickable-element {
 	cursor: pointer;
 }
 
 .add-btn {
-	height: 100px;
+	/*height: 100px;*/
+	visibility: hidden;
 }
 
 .modal-dialog {
@@ -32,29 +99,60 @@
 	font-size: 14px !important;*/
 }
 
-#variables div {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
 .page-title {
 	margin-top: 20px;
+}
+
+.page-title a {
+	margin-left: 20px;
+}
+
+.feature-row {
+	margin-bottom: 10px;
+}
+
+.feature-row .feature-full-name {
+	background-color: rgb(254, 204, 75);
+	border-radius: 10px;
+	width: 20%;
+	padding: 10px;
+	text-align: center;
+	margin: auto;
+}
+
+.feature-row .feature-explain {
+	width: 70%;
+    margin: auto;
+    text-align: left;
+    /*padding-left: 20px;*/
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .tip {
 	display:none; 
 	z-index: 100;
-	font-size: 10px;
-	background-color: rgb(213, 244, 230, 0.5);
-	padding-left: 5px;
-	padding-right: 5px;
+	font-size: 12px;
+	background-color: transparent;
 }
 
 .tip p {
-	margin-top: 3px !important;
+	margin-top: 5px !important;
 	margin-bottom: 0px !important;
 	padding-top: 0px !important;
 	padding-bottom: 0px !important;
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+	background-color: #F0FFFF;
+	border-radius: 10px;
+	box-shadow: 2px 2px 1px grey;
+}
+
+.tip .face-label {
+}
+
+.tip .dataset-feature-label {
+	color: #007bff;
 }
 
 .gone {
@@ -82,12 +180,20 @@
 }
 
 .compare-canvas {
-	height: 126px; 
-	width: 106px; 
 	margin-bottom: 10px;
 	/*background-color: #d5f4e6; */
 	z-index: 0; 
 	position: relative;
+}
+
+.cluster-canvas .compare-canvas {
+	height: 186px;
+	width: 156px;
+}
+
+.compare-block .compare-canvas {
+	height: 246px; 
+	width: 206px; 
 }
 
 .selected-block .compare-canvas {
@@ -101,10 +207,12 @@
 .compare-index {
 	margin-left: 10px;
 	padding-left: 10px;
-	width: 100px;
+	/*width: 100px;*/
+	width: 206px;
 }
 
 .compare-block {
+	width: 206px;
 	margin-left: 20px;
 	margin-top: 20px;
 	float: left;
@@ -180,8 +288,8 @@
 }
 
 .center-face-overlay {
-	margin-top: 20px;
-	height: 150px;
+	/*margin-top: 20px;*/
+	height: 240px;
 }
 
 .cluster-canvas button {
@@ -190,13 +298,110 @@
 
 .expand-area {
 	overflow: scroll;
-	height: 170px;
+	height: 260px;
 }
 
 .stem-item {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+#controller table {
+	border-collapse: collapse;
+}
+
+    th, td {
+      padding: 8px;
+      padding-bottom: 20px;
+      text-align: left;
+      /* border-bottom: 1px solid #ddd; */
+    }
+    
+    /* .slidecontainer {
+    width: 100%;
+    } */
+
+#controller table {
+    border-collapse: collapse;
+    /*width: 100%;*/
+}
+
+#controller td {
+    text-align: left;
+    /* padding: 8px; */
+}
+
+#controller th {
+    text-align: center;
+    padding: 8px;
+}
+    
+#controller tr:nth-child(even) {background-color: #f2f2f2;}
+
+#controller .slider {
+  -webkit-appearance: none;
+/*  min-width: 400px;*/
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+#controller .slider: hover {
+  opacity: 1;
+}
+
+#controller .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 23px;
+  height: 24px;
+  border: 0;
+  /*background: url('/../images/circle-512.png');*/
+  cursor: pointer;
+}
+
+#controller .slider::-moz-range-thumb {
+  width: 23px;
+  height: 24px;
+  border: 0;
+  /*background: url('/../images/circle-512.png');*/
+  cursor: pointer;
+}
+
+input[type="range"] {
+  display: block;
+  width: 100% !important;
+}
 /*.modal-dialog {
 	max-width: 800px;
 }*/
+
+.fixed-right-bottom-parent {
+	/*position: relative;*/
+}
+
+.fixed-right-bottom {
+	max-width: 320px;
+	position: fixed; 
+	top: 50%;
+	right: 20px;
+	transform: translate(0, -50%);
+/*	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translate(0, -50%);*/
+}
+
+.fixed-right-bottom button {
+	float: right;
+	margin-right: 15px;
+	z-index: 50;
+}
+
+#dataset-intro thead {
+	height: 350px;
+}
