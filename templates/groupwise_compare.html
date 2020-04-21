@@ -35,7 +35,7 @@
                 </label>
                 <label for="message-text" class="col-form-label card-body label3 hidden">
 	                {% if example == '2' %}
-	                Now try to find and click on several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features do the second group of combination emojis share?
+	                Now try to find and click on several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features does the second group of combination emojis share?
 	                {% elif example == '3' %}
 	                What cell features do you think breast tumor has?
 	                {% else %}
@@ -68,7 +68,7 @@
 		return para;
 	}
 	var example_id = readpara( {{ example | safe }} );
-	var user_id = readpara( {{ g.user.id | safe }} );
+	// var user_id = readpara( {{ g.user.id | safe }} );
 	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var json_object = readpara( {{ json_data | tojson | safe }} );
 	var json_dataset = JSON.parse(json_object).records;

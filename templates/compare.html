@@ -63,7 +63,7 @@
 		return para;
 	}
 	var example_id = readpara( {{ example | safe }} );
-	var user_id = readpara( {{ g.user.id | safe }} );
+	// var user_id = readpara( {{ g.user.id | safe }} );
 	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var json_object = readpara( {{ json_data | tojson | safe }} );
 	var json_dataset = JSON.parse(json_object).records;

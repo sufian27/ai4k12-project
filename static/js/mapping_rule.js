@@ -18,38 +18,38 @@
         var json_mapping = {};
         var json_mapping_face = {};
         if (example == '2') {
-            // json_mapping = {
-            //     "Beetles_Richness": "0",
-            //     "Mean_Temp_degC": "0",
-            //     "Mean_Canopy_Height_m": "0",
-            //     "Mean_Ann_Precip_mm": "0",
-            //     // "Longitude": "ms",
-            //     "Longitude": "0",
-            //     "Latitude": "0",
-            //     "Small_Mammal_Richness": "0",
-            //     "Elevation_m": "0"
-            // };
-
             json_mapping = {
-                "Beetles_Richness": "er",
-                "Mean_Temp_degC": "bs",
-                "Mean_Canopy_Height_m": "bl",
-                "Mean_Ann_Precip_mm": "bv",
+                "Beetles_Richness": "0",
+                "Mean_Temp_degC": "0",
+                "Mean_Canopy_Height_m": "0",
+                "Mean_Ann_Precip_mm": "0",
                 // "Longitude": "ms",
                 "Longitude": "0",
-                "Latitude": "ms",
-                "Small_Mammal_Richness": "nw",
+                "Latitude": "0",
+                "Small_Mammal_Richness": "0",
                 "Elevation_m": "0"
             };
-            json_mapping_face = {
-                "er": "Beetles_Richness", 
-                "bs": "Mean_Temp_degC", 
-                "bl": "Mean_Canopy_Height_m", 
-                "bv": "Mean_Ann_Precip_mm", 
-                // "ms": "Longitude", 
-                "ms": "Latitude", 
-                "nw": "Small_Mammal_Richness"
-            }
+
+            // json_mapping = {
+            //     "Beetles_Richness": "er",
+            //     "Mean_Temp_degC": "bs",
+            //     "Mean_Canopy_Height_m": "bl",
+            //     "Mean_Ann_Precip_mm": "bv",
+            //     // "Longitude": "ms",
+            //     "Longitude": "0",
+            //     "Latitude": "ms",
+            //     "Small_Mammal_Richness": "nw",
+            //     "Elevation_m": "0"
+            // };
+            // json_mapping_face = {
+            //     "er": "Beetles_Richness", 
+            //     "bs": "Mean_Temp_degC", 
+            //     "bl": "Mean_Canopy_Height_m", 
+            //     "bv": "Mean_Ann_Precip_mm", 
+            //     // "ms": "Longitude", 
+            //     "ms": "Latitude", 
+            //     "nw": "Small_Mammal_Richness"
+            // }
         } else if (example == '1') {
             json_mapping = {
                 "alcohol": "er",
