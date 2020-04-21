@@ -127,6 +127,51 @@
         }
     }
 
+    $('.update-mapping').click( function () {
+        var json_mapping_new = {}
+        for (i in facial_full) {
+            var x = $('#' + i).children('.dataset-feature').length;
+            if(x == 1) {
+                var dataset_feature = $('#' + i).children('.dataset-feature').attr('id');
+                json_mapping_new[dataset_feature] = i;
+            } else if (x > 1) {
+                alert('Something went wrong with the mapping rule!');
+            }
+        }
+        var y = $('#unmapped-area').children('.dataset-feature').length;
+        if(y > 0) {
+            for (i = 0; i < y; i++) {
+                var dataset_feature = $('#unmapped-area').children('.dataset-feature').eq(i).attr('id');
+                json_mapping_new[dataset_feature] = "0";
+            }
+        }
+        
+        if (json_mapping == json_mapping_new) {
+            $('#exampleModal').modal('hide'); 
+        } else {
+            json_mapping = json_mapping_new;
+            var str_mapping = JSON.stringify(json_mapping_new);
+            localStorage.setItem('mappingRule', str_mapping);
+            $('#exampleModal').modal('hide');  
+            var current_loc = window.location.href;
+            if ( current_loc.includes("unmapped=") ) {
+                console.log('include');
+                var unmapped_list = [];
+                var getLocalData = localStorage.getItem('mappingRule');
+                var mapping = JSON.parse(getLocalData);
+                for (key in mapping) {
+                    if (mapping[key] == '0') {
+                        unmapped_list.push(key);
+                    }
+                } 
+                window.location.href = "/cluster2?example=" + example + "&k=" + k + "&unmapped=" + unmapped_list;
+            } else {
+                location.reload(true);
+            }
+        }
+
+    });
+
 });
 
 

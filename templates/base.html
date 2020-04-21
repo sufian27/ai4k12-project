@@ -27,7 +27,7 @@
             feature_names = {
                 "id": ["Field Site ID", "id"],
                 "Small_Mammal_Richness": ["Small Mammal Richness(number)", "Small Mammal"],
-                "Beetles_Richness": ["Beetles Richness(number)","Beetles"],
+                "Beetles_Richness": ["Beetle Richness(number)","Beetle"],
                 "Mean_Ann_Precip_mm": ["Mean Annual Precipitation(mm)" ,"Precipitation"],
                 "Mean_Canopy_Height_m": ["Mean Canopy Height(m)", "Canopy Height"],
                 "Mean_Temp_degC": ["Mean Temperature (Celsius)","Temperature"],
@@ -59,47 +59,11 @@
             {% else %}
             <h3>Welcome to SmileyCluster</h3>
             {% endif %}
-
-            {% if dataset_face %}
-            {% if title != 'Introduction' %}
-            {% if title != 'Make Your Emoji' %}
-            {% if title != 'Factor' %}
-            {% if title != 'Dataset Introduction' %}
-            <button type="button" class="btn btn-primary float-right mapping-btn clickable-element" data-toggle="modal" data-target="#mappingModal" id="emoji-customize-button">How emojis are generated?</button>
-            {% endif %}
-            {% endif %}
-            {% endif %}
-            {% endif %}
-            {% endif %} 
         </div>
     </div>
         <hr>
     <div class="container">
         <div id="tooltip" class="tip"></div>
-        {% if title != 'Make Your Emoji' %}
-        <div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Customize the emoji visualization</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form id="mapping-form">
-                  <div class="modal-body row">
-                    <div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div>
-                    <div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary update-mapping refresh clickable-element" id="emoji-customize-save-button" onclick = "update_map()">Save & Close</button>
-                    <!-- <button type="button" class="btn btn-primary update-mapping">Save changes</button> -->
-                  </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        {% endif %}
         {% block content %}{% endblock %}
 
         <footer id="toolbox">

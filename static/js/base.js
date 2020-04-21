@@ -109,7 +109,7 @@ $(document).on('submit', '.user-answer', function(e) {
             }
         } else if ($(this).attr('id') == 'cluster-question-center1') {
             $(this).parent('.answer-box').remove();
-            var cluster_step5 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center2"><label for="message-text" class="col-form-label card-body">What are the ecological features differentiate the field sites represented by these emojis?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
+            var cluster_step5 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center2"><label for="message-text" class="col-form-label card-body">What are the ecological features differentiate the field sites represented by these emojis? What interesting findings do you get?/label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
             $('.fixed-right-bottom-parent').append(cluster_step5);
         } else if ($(this).attr('id') == 'cluster-question-center2') {
             location.href = "/stem?example=" + example;
@@ -309,27 +309,12 @@ function update_map() {
     var str_mapping = JSON.stringify(json_mapping_new);
     localStorage.setItem('mappingRule', str_mapping);
     // $('#exampleModal').modal('hide');  
-    var current_loc = window.location.href;
-    if ( current_loc.includes("unmapped=") ) {
-        console.log('include');
-        var unmapped_list = [];
-        var getLocalData = localStorage.getItem('mappingRule');
-        var mapping = JSON.parse(getLocalData);
-        for (key in mapping) {
-            if (mapping[key] == '0') {
-                unmapped_list.push(key);
-            }
-        } 
-        window.location.href = "/cluster2?example=" + example + "&k=" + k + "&unmapped=" + unmapped_list;
-    } else if (title == 'Make Your Emoji') {
-        console.log("title");
-        console.log(title);
-        var datapoint_face = dataset_face[27];
-        d3.select("#face svg").remove();
-        d3.select('#face')
-            .call(chernoffFace(2));
-        $('#face svg').attr('class', 'user-generated'); 
-    } else {
-        location.reload(true);
-    }
+    console.log("title");
+    console.log(title);
+    var datapoint_face = dataset_face[27];
+    d3.select("#face svg").remove();
+    d3.select('#face')
+        .call(chernoffFace(2));
+    $('#face svg').attr('class', 'user-generated'); 
+    
 }

@@ -237,6 +237,8 @@ def cluster():
         unmapped = request.args.getlist('unmapped')
         unmapped_list = [str(x) for x in unmapped]
         unmapped_list = unmapped_list[0].split(',')
+        # print('--------')
+        # print(k_value)
         json_object = get_db_data_json(example_index)
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
