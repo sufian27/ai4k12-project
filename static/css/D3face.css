@@ -11,8 +11,8 @@ path.mouth {
 
 path.nose {
     opacity: 1;
-    stroke: none;
-    stroke-width: 8;
+/*    stroke: none;
+    stroke-width: 8;*/
 }
 
 rect {

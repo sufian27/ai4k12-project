@@ -21,7 +21,7 @@
         datapoint_face = dataset_face[data_id];
         var face_place_id = "#wrap" + data_id;
         d3.select(face_place_id)
-            .call(chernoffFace())
+            .call(chernoffFace(0.7));
         $(face_place_id + ' svg').attr('id', "face" + data_id);
         $(face_place_id + ' svg').attr('class', 'hover-face');
         // console.log('===');
@@ -31,6 +31,9 @@
 
     for (var data_id = 0; data_id < dataset_face.length; data_id ++) {
         // $('.conbox').eq(data_id).css({ 'width': '35px', 'height': '35px', 'background': 'transparent url("' + $('#face-browser div').eq(data_id).find('img').attr('src') + '") no-repeat center', 'background-size': 'contain', 'filter': 'alpha(opacity=20)' });
-        $('.conbox').eq(data_id).css({ 'width': '100px', 'height': '100px', 'background-size': 'contain', 'filter': 'alpha(opacity=20)' });
-    } 
+        $('.conbox').eq(data_id).css({ 'width': '70px', 'height': '84px', 'background-size': 'contain', 'filter': 'alpha(opacity=20)' });
+    }
+
+    var data_box_id1 = '#face' + sample_dp['seq_id'][0];
+    $(data_box_id1).parent('.conbox').trigger("click");
 });

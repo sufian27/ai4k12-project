@@ -21,7 +21,63 @@
     {% if example %}
     <script type="text/javascript">example = {{ example }};</script>
     {% endif %}
+    <script type="text/javascript">
+        var feature_names = {};
+        if (example == '2') {
+            feature_names = {
+                "id": ["Field Site ID", "id"],
+                "Small_Mammal_Richness": ["Small Mammal Richness(number)", "Small Mammal"],
+                "Beetles_Richness": ["Beetle Richness(number)","Beetle"],
+                "Mean_Ann_Precip_mm": ["Mean Annual Precipitation(mm)" ,"Precipitation"],
+                "Mean_Canopy_Height_m": ["Mean Canopy Height(m)", "Canopy Height"],
+                "Mean_Temp_degC": ["Mean Temperature (Celsius)","Temperature"],
+                "Elevation_m": ["Elevation(m)" ,"Elevation"],
+                "Longitude": ["Longitude(degree)", "Longitude"],
+                "Latitude": ["Latitude(degree)", "Latitude"]
+            };
+            var sample_dp = {
+                'seq_id': [27, 38],
+                'tag_id': ['ORNL', 'TOOL']
+            }; 
+        } else if (example == '1') {
+            feature_names = {
+                "alcohol": ["Alcohol by Volume", "Alcohol"],
+                "volatile_acidity": ["Volatile Acidity", "Volatile Acidity"],
+                "quality": ["Qaulity", "Qaulity"],
+                "total_sulfur_dioxide": ["Total Sulfur Dioxide", "Total Sulfur Dioxide"],
+                "free_sulfur_dioxide": ["Free Sulfur Dioxide", "Free Sulfur Dioxide"],
+                "fixed_acidity": ["Fixed Acidity", "Fixed Acidity"],
+                "residual_sugar": ["Residual Sugar", "Residual Sugar"],
+                "density": ["Density", "Density"],
+                "chlorides": ["Chlorides", "Chlorides"],
+                "sulphates": ["Sulphates", "Sulphates"],
+                "citric_acid": ["Citric Acid", "Citric Acid"],
+                "pH": ["pH", "pH"]
+            };
 
+            var sample_dp = {
+                'seq_id': [41, 208],
+                'tag_id': [42, 209]
+            };       
+        } else {
+            var sample_dp = {
+                'seq_id': [245,147],
+                'tag_id': [1231387, 1177027]
+            };
+            feature_names = {
+                "clump_thickness": ["Clump Thickness", "Clump Thickness"],
+                "uniformity_of_cell_size": ["Uniformity of Cell Size", "Size Uniformity"],
+                "uniformity_of_cell_shape": ["Uniformity of Cell Shape", "Shape Uniformity"],
+                "marginal_adhesion": ["Marginal Adhesion", "Marginal Adhesion"],
+                "single_epithelial_cell_size": ["Single Epithelial Cell Size", "Epithelial Cell Size"],
+                "bare_nuclei": ["Bare Nuclei", "Bare Nuclei"],
+                "bland_chromatin": ['Bland Chromatin', 'Bland Chromatin'],
+                "normal_nucleoli": ["Normal Nucleoli", "Normal Nucleoli"],
+                "mitoses": ["Mitoses", "Mitoses"],
+                "class": ["Class", "Class"]
+            }
+        }
+    </script>
     {% if title %}
     <script type="text/javascript">var title = '{{ title | safe }}';</script>
     {% endif %}
@@ -38,44 +94,17 @@
 
 <body>
     <div class="container">
-        {% if title %}
-        <h3 class="page-title">{{ title }} - SmileyCluster</h3>
-        <a href="/logout">logout</a>
-        {% else %}
-        <h3>Welcome to SmileyCluster</h3>
-        {% endif %}
-
-        {% if dataset_face %}
-        {% if title != 'Introduction' %}
-        <button type="button" class="btn btn-primary float-right mapping-btn clickable-element" data-toggle="modal" data-target="#mappingModal" id="emoji-customize-button">How emojis are generated?</button>
-        {% endif %}
-        {% endif %} 
+        <div class="page-title">
+            {% if title %}
+            <span>{{ title }} - SmileyCluster</span><a href="/logout" role="button">logout</a>
+            {% else %}
+            <h3>Welcome to SmileyCluster</h3>
+            {% endif %}
+        </div>
     </div>
         <hr>
     <div class="container">
         <div id="tooltip" class="tip"></div>
-        <div class="modal fade" id="mappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Customize the emoji visualization</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form id="mapping-form">
-                  <div class="modal-body row">
-                    <div class="feature-mapped-area col-md-8 col-xs-8 col-sm-8 col-lg-8"></div>
-                    <div id = "unmapped-area" class="feature-unmapped-area col-md-4 col-xs-4 col-sm-4 col-lg-4" ondragover = "allowDropFeature(event)" ondrop = "dropFeature(event)"></div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary update-mapping refresh clickable-element" id="emoji-customize-save-button">Save & Close</button>
-                    <!-- <button type="button" class="btn btn-primary update-mapping">Save changes</button> -->
-                  </div>
-              </form>
-            </div>
-          </div>
-        </div>
         {% block content %}{% endblock %}
 
         <footer id="toolbox">
@@ -86,6 +115,8 @@
                     <li class="breadcrumb-item"><a class="select" href="/" >Select</a></li>
                     <li class="breadcrumb-item"><a class="intro" href="/intro?example=" >Intro</a></li>
                     <li class="breadcrumb-item"><a class="var" href="/var?example=" >Factors</a></li>
+                    <li class="breadcrumb-item"><a class="data_intro" href="/data_intro?example=" >Data Intro</a></li>
+                    <li class="breadcrumb-item"><a class="slider" href="/slider?example=" >Slider</a></li>
                     <li class="breadcrumb-item"><a class="dataset2face" href="/dataset2face?example=" >'Emoji' the Dataset</a></li>
                     <li class="breadcrumb-item"><a class="compare" href="/compare?example=" >Play with Emojis</a></li>
                     <li class="breadcrumb-item"><a class="cluster" href="/cluster2?example=" >Cluster</a></li>

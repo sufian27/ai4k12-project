@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row fixed-right-bottom-parent">
+	<div class="col-md-7 col-xs-7 col-sm-7 col-lg-7">
+		<div id="controller">
+			<br/>
+			<table class="table">
+				<tr>
+					<th>Dataset Feature</th>
+					<th>Value</th>
+  					<th>Slider</th>
+  					<th>Face Feature</th>
+  				</tr>
+		    </table>
+		</div>
+	</div>
+	<div class="col-md-3 col-xs-3 col-sm-3 col-lg-3">
+  		<div id="face"></div>
+	</div>
+	<button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename = 'js/chernoffface.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/mapping_rule.js') }}"></script>
+<script>
+	function readpara (para) {
+		return para;
+	}
+	var json_object = readpara( {{ json_data | tojson | safe }} );
+	var json_dataset = JSON.parse(json_object).records;
+	var dataset_face = readpara( {{ dataset_face | safe }} );
+	var variables = Object.keys(json_dataset[0]);
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping = JSON.parse(getLocalData);
+	var dataset_stat = readpara( {{ dataset_stat | safe }} );
+	var datapoint_face = dataset_face[0];
+
+    for (key in json_mapping) {
+        if (json_mapping[key] != "0") {
+            var slider_row = $('<tr><td>' + feature_names[key][0] + '</td><td><span id = "value4' + key + '"></span></td><td><div class = "slider"><input type="range" name="' + key + '" min="0" max="1" step="0.01" value="0.50" onchange="updateSlider(this.value, this.name)" /><span class="gauge ' + key + '">' + 0.5 + '</span></div></td><td>' + facial_full[json_mapping[key]] + '</td></tr>');
+            $("#controller .table").append(slider_row);
+        }
+    }
+
+
+    for (i = 0; i < $('tr .slider').length; i ++) {
+    	console.log(i)
+    	var dataset_feature = $('tr .slider').eq(i).children($('input[type="range"]')).attr('name');
+    	var slider_value = $('.slider').eq(i).children($('input[type="range"]')).attr('value');
+    	datapoint_face[dataset_feature] = slider_value;
+		var range = dataset_stat[dataset_feature]['max'] - dataset_stat[dataset_feature]['min'];
+		var min = dataset_stat[dataset_feature]['min'];
+		var datapoint_value = slider_value * range + min;
+		var data_value = toDecimalNoZero(datapoint_value);
+		$('span#value4' + dataset_feature).text(data_value);
+    }
+	d3.select('#face')
+		.call(chernoffFace(2));
+	$('#face svg').attr('class', 'user-generated');	
+
+	function updateSlider(slider_value, dataset_feature) {
+		datapoint_face[dataset_feature] = slider_value;
+		$('span.' + dataset_feature).text(slider_value);
+		var range = dataset_stat[dataset_feature]['max'] - dataset_stat[dataset_feature]['min'];
+		var min = dataset_stat[dataset_feature]['min'];
+		var datapoint_value = slider_value * range + min;
+		var data_value = toDecimalNoZero(datapoint_value);
+		$('span#value4' + dataset_feature).text(data_value);
+    	d3.select("#face svg").remove();
+    	d3.select("#face")
+    		.call(chernoffFace(2));
+    	$('#face svg').attr('class', 'user-generated');	
+	}
+
+	function toDecimalNoZero(x) {
+	    var float_num = parseFloat(x);
+	    var f = Math.round(float_num * 10) / 10;
+	    var s = f.toString();
+	    return s;
+	}
+
+	$('#next-button').click( function (){
+		location.href = "/compare?example=" + example;
+	});
+
+</script>
+{% endblock %}

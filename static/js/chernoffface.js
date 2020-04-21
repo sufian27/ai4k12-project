@@ -1,5 +1,9 @@
-﻿function chernoffFace() {
-    var width = 100, height = 120;
+﻿function chernoffFace(r) {
+    var original_width = 100;
+    var original_height = 120;
+    var width = original_width * r, height = original_height * r;
+    var getLocalData = localStorage.getItem('mappingRule');
+    var json_mapping = JSON.parse(getLocalData);
     var chernoff = d3.chernoff()
         .face(function(d) { return d.f; })
         .hair(function(d) { return d.h; })
@@ -35,7 +39,8 @@
     function drawFace(selection) {
         var svg = selection.append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .attr("viewBox", "0 0 " + original_width + " " + original_height);
         var face = svg.selectAll("g.chernoff")
             .data(data())
             .enter().append("g")

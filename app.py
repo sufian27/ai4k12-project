@@ -119,7 +119,60 @@ def var():
 
         db.session.add(User_Action('user at var page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('var.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Variable')
+        return render_template('var.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Factor')
+    else:
+        return 'Invalid Data'
+
+@app.route('/data_intro', methods = ['GET', 'POST'])
+def data_intro():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        create_table_from_csv(example_index)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+
+        db.session.add(User_Action('user at data intro page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('data_intro.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Dataset Introduction')
+    else:
+        return 'Invalid Data'
+
+@app.route('/feature_map', methods = ['GET', 'POST'])
+def feature_map():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        create_table_from_csv(example_index)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+
+        db.session.add(User_Action('user at feature mapping page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('feature_map.html', json_data = json_object, dataset_face = dataset_face, example = str(example_index), title='Make Your Emoji')
+    else:
+        return 'Invalid Data'
+
+@app.route('/slider', methods = ['GET', 'POST'])
+def slider():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == "GET":
+        example_index = request.args.get('example', default = 0, type = int)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+
+        db.session.add(User_Action('user at slider page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('slider.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, dataset_stat = dataset_stat, title='Feature Slider')
     else:
         return 'Invalid Data'
 
@@ -136,7 +189,7 @@ def dataset2face():
 
         db.session.add(User_Action('user at dataset2face page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('dataset2face.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Dataset_to_Face')
+        return render_template('dataset2face.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Full Dataset')
     else:
         return 'Invalid Data'
 
@@ -153,7 +206,24 @@ def compare():
 
         db.session.add(User_Action('user at compare page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('compare.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Smilarity_Comparison')
+        return render_template('compare.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Smilarity Comparison')
+    else:
+        return 'Invalid Data'
+
+@app.route('/groupwise_compare', methods = ['GET', 'POST'])
+def groupwise_compare():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        example_index = request.args.get('example', default = 0, type = int)
+        json_object = get_db_data_json(example_index)
+        json_dataset = yaml.safe_load(json_object)["records"]
+        dataset_stat = dataset_pre_analysis(json_dataset)
+        dataset_face = dataset_preprocess(json_dataset, dataset_stat)
+
+        db.session.add(User_Action('user at groupwise compare page', session['user_id'])) #log data 
+        db.session.commit()
+        return render_template('groupwise_compare.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, title='Groupwise Smilarity Comparison')
     else:
         return 'Invalid Data'
 
@@ -167,6 +237,8 @@ def cluster():
         unmapped = request.args.getlist('unmapped')
         unmapped_list = [str(x) for x in unmapped]
         unmapped_list = unmapped_list[0].split(',')
+        # print('--------')
+        # print(k_value)
         json_object = get_db_data_json(example_index)
         json_dataset = yaml.safe_load(json_object)["records"]
         dataset_stat = dataset_pre_analysis(json_dataset)
@@ -177,7 +249,7 @@ def cluster():
 
         db.session.add(User_Action('user at cluster page with k value {} and unmapped features {}'.format(k_value, unmapped_list), session['user_id'])) #log data 
         db.session.commit()
-        return render_template('cluster2.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic_Clustering')
+        return render_template('cluster2.html', example = str(example_index), json_data = json_object, dataset_face = dataset_face, centroids = centroids, k = k_value, json_cluster = json_cluster, title='Automatic Clustering')
     else:
         return 'Invalid Data'
 
