@@ -29,6 +29,8 @@
             <p>Now all the field site data points are grouped into two emoji families by K-Means. Machine also clusters data by comparing similarity of data points and group similar data points together.</p>
             {% elif example == '1' %}
             <p>Now all the wine data points are grouped into two emoji families by K-Means clustering. Machine also clusters data by comparing similarity of data points and group similar data points together.</p>
+            {% else %}
+            <p>Now all the cases are grouped into two emoji families by K-Means clustering. Machine also clusters data by comparing similarity of data points and group similar data points together.</p>
             {% endif %}
             <p>The value of K means how many families do you want the machine to group the dataset into. Try out different values for the K.</p>
             <p>The best K value for this dataset is 4, which means that the emojis within a family are similar enough to each other and the center emojis of all the families are different enough from each other. Use k = 4 and click the Next button.</p>
@@ -109,14 +111,14 @@
     }
 
     var term = {
-        '2': ['field site', 'ecological'],
-        '1': ['wine', 'chemical'],
-        '3': ['cell', '']
+        '2': ['field sites', 'ecological'],
+        '1': ['wines', 'chemical'],
+        '3': ['cases', 'cell']
     };
     $('#next-button').click( function() {
         if (! $('#step1').hasClass('hidden')) {
             for (var i = 0; i < k; i++) {
-                var new_step = $('<div class="card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question-familay' + i + '"><label for="message-text" class="col-form-label card-body">What shared facial features does this emoji family have? What are the corresponding ' + term[example][1] +' features shared by the ' + term[example][0] +' in this family? Hover on the face elements to see its mapping feature.</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
+                var new_step = $('<div class="card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question-familay' + i + '"><label for="message-text" class="col-form-label card-body">What shared facial features does this emoji family have? What are the corresponding ' + term[example][1] +' features shared by the ' + term[example][0] +' in this family? Hover on the face elements to see their mapping features.</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
                 $('#cluster-question-box' + i).append(new_step);
             }    
             $(this).addClass('hidden');

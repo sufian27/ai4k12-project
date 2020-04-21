@@ -22,6 +22,15 @@
 	        <img src="{{ url_for('static', filename = 'img/example' + example + '/wine2.jpg') }}" width="100%">
 	        <div class="centered">Wine No. 209</div>
 	    </div>
+	    {% else %}
+	    <div class="intro-image">
+	        <img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="100%">
+	        <div class="centered">Case No. 1231387</div>
+	    </div>
+	    <div class="intro-image">
+	        <img src="{{ url_for('static', filename = 'img/example' + example + '/intro2.jpg') }}" width="100%">
+	        <div class="centered">Case No. 1177027</div>
+	    </div>
 	    {% endif %}
 	</div>
 	<div class="col-2 center-vertical">
@@ -42,7 +51,7 @@
 	                {% if example == '2' %}
 	                What are the corresponding ecological features differentiating these two field sites?
 	                {% elif example == '3' %}
-	                What cell features do you think breast tumor has?
+	                What are the corresponding cell features differentiating these two cases?
 	                {% else %}
 	                What are the corresponding chemical features differentiating these two wines?
 	                {% endif %}

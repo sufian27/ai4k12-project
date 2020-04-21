@@ -19,7 +19,7 @@
 	                {% if example == '2' %}
 	                Similar field sites could be considered to be in the same family of field sites. Try to find and click on several field sites which are similar to the ORNL field site. View the combination emojis generated, what facial features do they share?
 	                {% elif example == '3' %}
-	                What cell features do you think breast tumor has?
+	                Cases with similar cell features could be considered to be in the same emoji family. Try to find and click on several cases which are similar to the case No. 1231387. View the combination emojis generated, what facial features do they share?
 	                {% else %}
 	                Wines with similar chemical features and quality levels could be considered to be in the same family of wines. Try to find and click on several wines which are similar to the wine No. 42. View the combination emojis generated, what facial features do they share?
 	                {% endif %}
@@ -28,7 +28,7 @@
 	                {% if example == '2' %}
 	                What corresponding ecological features do they share?
 	                {% elif example == '3' %}
-	                What cell features do you think breast tumor has?
+	                What corresponding cell features do they share?
 	                {% else %}
 	                What corresponding chemical features do they share?
 	                {% endif %}
@@ -37,7 +37,7 @@
 	                {% if example == '2' %}
 	                Now try to find and click on several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features does the second emoji family share?
 	                {% elif example == '3' %}
-	                What cell features do you think breast tumor has?
+	                Now try to find and click on several field sites which are similar to the case No. 1177027. What facial features and corresponding cell features does the second emoji family share?
 	                {% else %}
 	                Now try to find and click on several wines which are similar to the wine No. 209. What facial features and corresponding chemical features does the second emoji family share?
 	                {% endif %}
@@ -45,8 +45,8 @@
                 <label for="message-text" class="col-form-label card-body label4 hidden">
                 	{% if example == '2' %}
                 	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family. How do these center emojis represent different families? How can they be helpful for the simlarity comparison?
-                	{% elif example == '1' %}
-                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family, and can be used as representatives of their emoji families. Compare the two center emojis. What are the facial features and chemical features differentiating these two emoji families?
+                	{% elif example == '1' or example == '3' %}
+                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family, and can be used as representatives of their emoji families. Compare the two center emojis. What are the facial features and original dataset features differentiating these two emoji families?
                 	{% endif %}
                 </label>
                 <div class="row">

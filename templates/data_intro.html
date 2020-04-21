@@ -16,6 +16,9 @@
 				{% elif example == '1' %}
 				<th>Wine No. 42</th>
 				<th>Wine No. 209</th>
+				{% else %}
+				<th>Case No. 1231387</th>
+				<th>Case No. 1177027</th>
 				{% endif %}
 			</thead></tr>
 	    </table>
@@ -34,8 +37,8 @@
 	var json_dataset = JSON.parse(json_object).records;
 	var dataset_face = readpara( {{ dataset_face | safe }} );
 	var variables = Object.keys(json_dataset[0]);
-	var data_id1 = sample_dp[0];
-	var data_id2 = sample_dp[1]
+	var data_id1 = sample_dp['seq_id'][0];
+	var data_id2 = sample_dp['seq_id'][1]
 
     for (key in feature_names) {
         var table_row = $('<tr><td class = "feature-full-name">' + feature_names[key][0] + '</td><td class = "feature-explain">' + json_dataset[data_id1][key] + '</td><td class = "feature-explain">' + json_dataset[data_id2][key] + '</td></tr>');

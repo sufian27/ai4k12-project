@@ -6,12 +6,16 @@
         <img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" height="100%">
         {% if example == '2' %}
         <div class="centered">Oak Ridge field site (ORNL)</div>
+        {% elif example == '3' %}
+        <div class="centered">A case of invasive breast carcinoma</div>
         {% endif %}
     </div>
     <div class="intro-image col-6">
         <img src="{{ url_for('static', filename = 'img/example' + example + '/intro2.jpg') }}" width="100%">
         {% if example == '2' %}
         <div class="centered">Toolik field site (TOOL)</div>
+        {% elif example == '3' %}
+        <div class="centered">A benign case</div>
         {% endif %}
     </div>
 </div>
@@ -36,7 +40,7 @@
                     {% if example == '2' %}
                     ORNL has much higher beetle richness and small mammal richness than TOOL. What other ecological differences between these two filed sites can you observe from the images?
                     {% elif example == '3' %}
-                    What features do you think can be useful for breast tumor diagnosis?
+                    What cell features extracted from the digitized image of cells do you think can be useful for breast tumor diagnosis?
                     {% else %}
                     What common chemical factors do you know are related to wine chemistry?
                     {% endif %}

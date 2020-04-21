@@ -35,7 +35,10 @@
                 "Longitude": ["Longitude(degree)", "Longitude"],
                 "Latitude": ["Latitude(degree)", "Latitude"]
             };
-            var sample_dp = [27, 38]; 
+            var sample_dp = {
+                'seq_id': [27, 38],
+                'tag_id': ['ORNL', 'TOOL']
+            }; 
         } else if (example == '1') {
             feature_names = {
                 "alcohol": ["Alcohol by Volume", "Alcohol"],
@@ -52,9 +55,27 @@
                 "pH": ["pH", "pH"]
             };
 
-            var sample_dp = [41, 208];       
+            var sample_dp = {
+                'seq_id': [41, 208],
+                'tag_id': [42, 209]
+            };       
         } else {
-
+            var sample_dp = {
+                'seq_id': [245,147],
+                'tag_id': [1231387, 1177027]
+            };
+            feature_names = {
+                "clump_thickness": ["Clump Thickness", "Clump Thickness"],
+                "uniformity_of_cell_size": ["Uniformity of Cell Size", "Size Uniformity"],
+                "uniformity_of_cell_shape": ["Uniformity of Cell Shape", "Shape Uniformity"],
+                "marginal_adhesion": ["Marginal Adhesion", "Marginal Adhesion"],
+                "single_epithelial_cell_size": ["Single Epithelial Cell Size", "Epithelial Cell Size"],
+                "bare_nuclei": ["Bare Nuclei", "Bare Nuclei"],
+                "bland_chromatin": ['Bland Chromatin', 'Bland Chromatin'],
+                "normal_nucleoli": ["Normal Nucleoli", "Normal Nucleoli"],
+                "mitoses": ["Mitoses", "Mitoses"],
+                "class": ["Class", "Class"]
+            }
         }
     </script>
     {% if title %}
