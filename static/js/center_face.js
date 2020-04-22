@@ -35,44 +35,47 @@
             face_span_list.removeClass('hidden');
             $('.selected-block').removeClass('selected-block');
             $(this).parent('.compare-block').addClass('selected-block');
+            $(this).parent('.compare-block').children('.compare-index').children('.badge').children('.close-btn').removeClass('hidden');
             if ($('.cluster-canvas').length > 1) {
                 $(this).parent('.cluster-canvas').children('.overlay-btn').remove();
                 $('#center' + current_cluster_id).parent('span').remove();
             }
 
-        } else {
+        } else if ($(this).children('span').length > 1) {
             var datapointIDs = [];
-            if ($(this).children('span').length > 1) {
-                var current_canvas_id = $(this).attr('id');
-                var face_span_list = $('#' + current_canvas_id + ' span');
-                for (i = 0; i < face_span_list.length; i++) {
-                    var face_span = face_span_list.eq(i);
-                    //extract number from a string
-                    var data_id = face_span.attr('id').replace(/[^\d]/g, '');
-                    datapointIDs.push(data_id);
-                }
-                var datapoints_by_var = getDatapoints(datapointIDs, dataset_face);
-                var centroid_for_face = getCentroid(datapoints_by_var);
-                var datapoints_by_var_original = getDatapoints(datapointIDs, json_dataset);
-                var centroid_original = getCentroid(datapoints_by_var_original);
-
-                datapoint_face = centroid_for_face;
-                face_span_list.addClass('hidden');
-                if ($('.cluster-canvas').length > 0) {
-                    d3.select('#' + current_canvas_id)
-                        .call(chernoffFace(1.5));
-                } else {
-                    d3.select('#' + current_canvas_id)
-                        .call(chernoffFace(2));
-                }
-                var center_id = 'center' + current_cluster_id;
-                $('#' + current_canvas_id + ' > svg').attr('id', center_id);   
-                $('#' + current_canvas_id + ' > svg').attr('class', 'center');
-                center_face_list[center_id] = centroid_original;
+            var current_canvas_id = $(this).attr('id');
+            var face_span_list = $('#' + current_canvas_id + ' span');
+            for (i = 0; i < face_span_list.length; i++) {
+                var face_span = face_span_list.eq(i);
+                //extract number from a string
+                var data_id = face_span.attr('id').replace(/[^\d]/g, '');
+                datapointIDs.push(data_id);
             }
+            var datapoints_by_var = getDatapoints(datapointIDs, dataset_face);
+            var centroid_for_face = getCentroid(datapoints_by_var);
+            var datapoints_by_var_original = getDatapoints(datapointIDs, json_dataset);
+            var centroid_original = getCentroid(datapoints_by_var_original);
+
+            datapoint_face = centroid_for_face;
+            face_span_list.addClass('hidden');
+            if ($('.cluster-canvas').length > 0) {
+                d3.select('#' + current_canvas_id)
+                    .call(chernoffFace(1.5));
+            } else {
+                d3.select('#' + current_canvas_id)
+                    .call(chernoffFace(2));
+            }
+            var center_id = 'center' + current_cluster_id;
+            $('#' + current_canvas_id + ' > svg').attr('id', center_id);   
+            $('#' + current_canvas_id + ' > svg').attr('class', 'center');
+            center_face_list[center_id] = centroid_original;
+
+            $(this).parent('.compare-block').children('.compare-index').children('.badge').children('.close-btn').addClass('hidden');
+
             if($(this).parent('.compare-block').hasClass('selected-block')) {
                 $(this).parent('.compare-block').removeClass('selected-block');
             }
+
             if ($('.cluster-canvas').length > 1) {
                 var overlay_btn = $('<button type="button" class = "overlay-btn btn-outline-success btn-sm clickable-element" id = "overlay-button-' + current_cluster_id + '">Compare</button>');
                 $(this).parent('.cluster-canvas').append(overlay_btn);

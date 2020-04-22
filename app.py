@@ -245,7 +245,17 @@ def cluster():
         dataset_face = dataset_preprocess(json_dataset, dataset_stat)
         # dataset_array, centroids, labels = clustering(k_value, json_dataset)
         dataset_array, centroids, labels = clustering(k_value, dataset_face, unmapped_list)
-        json_cluster = json4cluster(dataset_array, centroids, labels, example_index, dataset_face)
+        if example_index == 2 and k_value == 4:
+            f = open('example2.json',) 
+            data = json.load(f)
+            json_cluster = json.dumps(data)
+            # print('--------')
+            f.close()
+        else:
+            json_cluster = json4cluster(dataset_array, centroids, labels, example_index, dataset_face)
+        
+        # with open('cluster.json', 'w') as outfile:
+        #     json.dump(json_cluster , outfile)
 
         db.session.add(User_Action('user at cluster page with k value {} and unmapped features {}'.format(k_value, unmapped_list), session['user_id'])) #log data 
         db.session.commit()

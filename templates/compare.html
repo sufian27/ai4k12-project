@@ -44,10 +44,11 @@
 	<div class="col-3 fixed-right-bottom-parent">
         <div class="card border-light answer-box fixed-right-bottom">
             <form class="user-answer" id = "pairwise-question">
-                <label for="message-text" class="col-form-label card-body label1">
+                <label for="message-text" class="col-form-label card-body">
                 	Compare the two emojis, what are the facial features differentiating the two emojis? 
                 </label>
-                <label for="message-text" class="col-form-label card-body label2 hidden">
+                <textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea>
+                <label for="message-text" class="col-form-label card-body">
 	                {% if example == '2' %}
 	                What are the corresponding ecological features differentiating these two field sites?
 	                {% elif example == '3' %}
@@ -56,10 +57,8 @@
 	                What are the corresponding chemical features differentiating these two wines?
 	                {% endif %}
                 </label>
-                <div class="row">
-                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
-                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
-                </div>
+                <textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea>
+                <button type="submit" class="btn btn-outline-success btn-sm" >Submit</button>
             </form>
         </div>
 	</div>

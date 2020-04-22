@@ -61,13 +61,9 @@ function addTags(elem, face_id) {
 }
 
 function addTag(elem, datapoint, face_id) {
-    // var id = parseInt(face_id) + 1;
     var id = datapoint['id'];
-    var id_tag = $('<span id = "tag' + face_id + '" >' + id + '</span>');
-    var close = $('<button>x</button>');
-    id_tag.addClass("badge");
-    close.addClass("close-btn");
-    close.addClass("clickable-element");
+    var id_tag = $('<span id = "tag' + face_id + '" class = "badge">' + id + '</span>');
+    var close = $('<button class = "close-btn clickable-element"><span>&times;</span></button>');
     close.attr('id', 'close-face' + face_id);
     id_tag.append(close);
     elem.append(id_tag);

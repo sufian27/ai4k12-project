@@ -41,9 +41,13 @@
 $(document).on('submit', '.user-answer', function(e) {
     console.log(title);
     e.preventDefault();
+    var user_input = [];
+    for (var j = 0; j < $(this).children('.user-input').length; j++) {
+        user_input.push($(this).children('.user-input').eq(j).val());
+    }
     var data = {
         q_index: $(this).attr('id'),
-        val: document.getElementById("user_input").value
+        val: user_input
     };
     console.log('---');
     console.log(this.value);
@@ -71,47 +75,35 @@ $(document).on('submit', '.user-answer', function(e) {
         console.log("Fetch error: " + error);
     });
 
-    $("#user_input").val("");
+    // $("#user_input").val("");
 
     if (title == 'Introduction') {
         location.href = "/var?example=" + example;
     } else if (title == 'Factor') {
         location.href = "/data_intro?example=" + example;
     } else if (title == 'Smilarity Comparison') {
-        if ($('.label2').hasClass('hidden')) {
-            $('.label1').addClass('hidden');
-            $('.label2').removeClass('hidden');
-        } else {
-            location.href = "/groupwise_compare?example=" + example;
-        }
+        location.href = "/groupwise_compare?example=" + example;
     } else if (title == 'Groupwise Smilarity Comparison') {
         if (! $('.label1').hasClass('hidden')) {
             $('.label1').addClass('hidden');
             $('.label2').removeClass('hidden');
-        } else if (! $('.label2').hasClass('hidden')) {
             add_cluster();
+            $('.user-input').val("");
+        } else if (! $('.label2').hasClass('hidden')) {
             $('.label2').addClass('hidden');
             $('.label3').removeClass('hidden');
+            $('.user-input').val("");
         } else if (! $('.label3').hasClass('hidden')){
-            $('.label3').addClass('hidden');
-            $('.label4').removeClass('hidden');
-        } else if (! $('.label4').hasClass('hidden')){
             location.href = "/dataset2face?example=" + example;
-        }
+        } 
+        
     } else if (title == 'Automatic Clustering') {
-        if ($(this).attr('id') == 'cluster-question0') {
-            $('#next-button').removeClass('hidden');
-            $('#next-button').trigger('click');
-        } else if ($(this).attr('id').includes('cluster-question-familay')) {
+        if ($(this).attr('id').includes('cluster-question-familay')) {
             $(this).parent('.answer-box').remove();
             if ($('.answer-box').length == 0) {
                 $('#next-button').removeClass('hidden');
             }
         } else if ($(this).attr('id') == 'cluster-question-center1') {
-            $(this).parent('.answer-box').remove();
-            var cluster_step5 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center2"><label for="message-text" class="col-form-label card-body">By comparing the differentiating features between different families, what interesting findings do you get?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
-            $('.fixed-right-bottom-parent').append(cluster_step5);
-        } else if ($(this).attr('id') == 'cluster-question-center2') {
             location.href = "/stem?example=" + example;
         }
     }
