@@ -46,6 +46,8 @@
             $('.page-intro').append($('<b> - Drag the dataset features and drop them to different facial features.</b>'));
         } else if (title == 'Feature Slider') {
             $('.page-intro').append($('<b> - Play around the sliders to observe how dataset features change the facial features.</b>'));
+        } else if (title == 'What we found' && example == '2') {
+            $('.page-intro').append($('<b> - Actual representative field site from the four families!</b>'));
         }
     }
 
