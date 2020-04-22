@@ -17,14 +17,27 @@
             <form class="user-answer" id = "groupwise-question">
                 <label for="message-text" class="col-form-label card-body label1">
 	                {% if example == '2' %}
-	                Similar field sites could be considered to be in the same family of field sites. Try to find and click on several field sites which are similar to the ORNL field site. View the combination emojis generated, what facial features do they share?
+	                Similar field sites could be considered to be in the same family of field sites. Try to find and click on several field sites on the left which are similar to the ORNL field site. View the combination emojis generated, what facial features do they share?
 	                {% elif example == '3' %}
-	                Cases with similar cell features could be considered to be in the same emoji family. Try to find and click on several cases which are similar to the case No. 1231387. View the combination emojis generated, what facial features do they share?
+	                Cases with similar cell features could be considered to be in the same emoji family. Try to find and click on several cases on the left which are similar to the case No. 1231387. View the combination emojis generated, what facial features do they share?
 	                {% else %}
-	                Wines with similar chemical features and quality levels could be considered to be in the same family of wines. Try to find and click on several wines which are similar to the wine No. 42. View the combination emojis generated, what facial features do they share?
+	                Wines with similar chemical features and quality levels could be considered to be in the same family of wines. Try to find and click on several wines on the left which are similar to the wine No. 42. View the combination emojis generated, what facial features do they share?
 	                {% endif %}
                 </label>
                 <label for="message-text" class="col-form-label card-body label2 hidden">
+	                {% if example == '2' %}
+	                Now try to find and click on several field sites on the left which are similar to the TOOL field site. What facial features does the second emoji family share?
+	                {% elif example == '3' %}
+	                Now try to find and click on several cases won the left hich are similar to the case No. 1177027. What facial features does the second emoji family share?
+	                {% else %}
+	                Now try to find and click on several wines on the left which are similar to the wine No. 209. What facial features does the second emoji family share?
+	                {% endif %}
+                </label>
+                <label for="message-text" class="col-form-label card-body label3 hidden">
+                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family, and can be used as representatives of their emoji families. Compare the two center emojis. What are the facial features differentiating these two emoji families?
+                </label>
+                <textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea>
+                <label for="message-text" class="col-form-label card-body label1">
 	                {% if example == '2' %}
 	                What corresponding ecological features do they share?
 	                {% elif example == '3' %}
@@ -33,26 +46,26 @@
 	                What corresponding chemical features do they share?
 	                {% endif %}
                 </label>
-                <label for="message-text" class="col-form-label card-body label3 hidden">
+                <label for="message-text" class="col-form-label card-body label2 hidden">
 	                {% if example == '2' %}
-	                Now try to find and click on several field sites which are similar to the TOOL field site. What facial features and corresponding ecological features does the second emoji family share?
+	                What corresponding ecological features does the second emoji family share?
 	                {% elif example == '3' %}
-	                Now try to find and click on several field sites which are similar to the case No. 1177027. What facial features and corresponding cell features does the second emoji family share?
+	                What corresponding cell features does the second emoji family share?
 	                {% else %}
-	                Now try to find and click on several wines which are similar to the wine No. 209. What facial features and corresponding chemical features does the second emoji family share?
+	                What corresponding chemical features does the second emoji family share?
 	                {% endif %}
                 </label>
-                <label for="message-text" class="col-form-label card-body label4 hidden">
-                	{% if example == '2' %}
-                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family. How do these center emojis represent different families? How can they be helpful for the simlarity comparison?
-                	{% elif example == '1' or example == '3' %}
-                	Click on the two emoji families you just created. Now you can see the average emoji of each family, which is the center emoji of that family. They are generated based on the average values of the data points in a family, and can be used as representatives of their emoji families. Compare the two center emojis. What are the facial features and original dataset features differentiating these two emoji families?
-                	{% endif %}
+                <label for="message-text" class="col-form-label card-body label3 hidden">
+	                {% if example == '2' %}
+	                What are the corresponding ecological features differentiating these two emoji families?
+	                {% elif example == '3' %}
+	                What are the corresponding cell features differentiating these two emoji families?
+	                {% else %}
+	                What are the corresponding chemical features differentiating these two emoji families?
+	                {% endif %}
                 </label>
-                <div class="row">
-                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
-                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
-                </div>
+                <textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea>
+                <button type="submit" class="btn btn-outline-success btn-sm" >Submit</button>
             </form>
         </div>
 	</div>
@@ -109,13 +122,7 @@
 	});
 
 	$(document).on('click', 'button.close-btn', function() {
-    	var id = $(this).parent(".badge")
-    		.clone()
-    		.children() //select all the children
-    		.remove()   //remove all the children
-    		.end()  //again go back to selected element
-    		.text();
-    	current_id = parseInt(id) - 1;
+    	var current_id = $(this).parent(".badge").attr('id').substr(3);
     	if (!$("#overlay" + current_id).hasClass('hidden')) {
 			var block_id = $( '#overlay' + current_id ).parent('.compare-canvas').attr('id').substr(6);
 			$( '#overlay' + current_id ).remove();
@@ -133,37 +140,40 @@
 	        	}
 
 	        }
-    	}
-	
+    	}	
 	});
 
 	$(document).on('click', ".conbox", function() {
 		var svg_id = $(this).children('svg').attr('id');
         current_id = svg_id.substr(4);
-		if ($(this).hasClass('gone')) {
-			// d3.select('#overlay' + current_id + ' svg').remove();
-			$( '#overlay' + current_id ).remove();
-			$( '#tag' + current_id ).remove();
-			$(this).removeClass('gone');
-	        if ($('.selected-block .compare-canvas').children('span').length == 1) {
-	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 1);
-	        }			
-		} else {
-	        datapoint_face = dataset_face[current_id];
-	        $('.selected-block .compare-canvas').append($('<span id = "overlay' + current_id + '"></span>'))
-	        $('#overlay' + current_id).addClass('overlay');
-	        d3.select('#overlay' + current_id)
-	        	.call(chernoffFace(2));
-	        // $('.selected-block .compare-canvas').children('svg')
-	        // $('.selected-block .compare-canvas').children('svg').addClass('overlay');
-	        if ($('.selected-block .compare-canvas').children('span').length > 1) {
-	        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 0.4);
-	        }
-	        var elem = $('.selected-block .compare-index');
-	        addTag(elem, datapoint_face, current_id);
-	        $(this).addClass('gone');
-	        console.log($('.selected-block .compare-canvas').children('span').length);     
-	    }
+        if ((! $('#overlay' + current_id).hasClass("hidden")) && ($('.selected-block').length > 0)) {
+			if ($(this).hasClass('gone')) {
+				// d3.select('#overlay' + current_id + ' svg').remove();
+				$( '#overlay' + current_id ).remove();
+				$( '#tag' + current_id ).remove();
+				$(this).removeClass('gone');
+		        if ($('.selected-block .compare-canvas').children('span').length == 1) {
+		        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 1);
+		        }			
+			} else {
+		        datapoint_face = dataset_face[current_id];
+		        $('.selected-block .compare-canvas').append($('<span id = "overlay' + current_id + '"></span>'))
+		        $('#overlay' + current_id).addClass('overlay');
+		        d3.select('#overlay' + current_id)
+		        	.call(chernoffFace(2));
+		        // $('.selected-block .compare-canvas').children('svg')
+		        // $('.selected-block .compare-canvas').children('svg').addClass('overlay');
+		        if ($('.selected-block .compare-canvas').children('span').length > 1) {
+		        	$('.selected-block .compare-canvas span').children('svg').attr('opacity', 0.4);
+		        }
+		        var elem = $('.selected-block .compare-index');
+		        addTag(elem, datapoint_face, current_id);
+		        $(this).addClass('gone');
+		        console.log($('.selected-block .compare-canvas').children('span').length);     
+		    }
+        } else {
+        	alert("Please don't add or remove emojis to when the center emoji of the current emoji family is generated. Click the center emoji to add or remove emojis.");
+        }
 	});
 
 </script>

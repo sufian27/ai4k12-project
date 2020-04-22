@@ -5,9 +5,9 @@ import csv, json
 def get_db_data_json(dataset):
     table_name = ''
     if dataset == 1:
-        table_name = 'winequality_white'
+        table_name = 'winequality_white_short'
     elif dataset == 2:
-        table_name = 'beetle_richness_new'
+        table_name = 'beetle_richness_short'
     elif dataset == 3:
         table_name = 'breast_cancer'
     #add different dataset conditions later
@@ -29,17 +29,15 @@ def create_table_from_csv(dataset):
         reader = csv.DictReader(csvfile, delimiter=",") #for breast_cancer.csv, change delimiter to ,
         table_name = file_name.split('.')[0]
         if dataset == 1:
-            command = ''' CREATE TABLE IF NOT EXISTS winequality_white (
+            command = ''' CREATE TABLE IF NOT EXISTS winequality_white_short (
                 id integer primary key, fixed_acidity real, volatile_acidity real, 
-                citric_acid real, residual_sugar real, 
-                chlorides real, free_sulfur_dioxide real, 
+                residual_sugar real, free_sulfur_dioxide real, 
                 total_sulfur_dioxide real, density real, 
-                pH real, sulphates real, alcohol real, quality real
+                pH real, alcohol real, quality real
             ) '''
         elif dataset == 2:
-            command = ''' CREATE TABLE IF NOT EXISTS beetle_richness_new (
-                id text primary key, Latitude real, 
-                Longitude real, Elevation_m real, 
+            command = ''' CREATE TABLE IF NOT EXISTS beetle_richness_short (
+                id text primary key, Latitude real,
                 Mean_Temp_degC real, Mean_Ann_Precip_mm real, 
                 Mean_Canopy_Height_m real, 
                 Small_Mammal_Richness real, Beetles_Richness real
@@ -60,10 +58,10 @@ def create_table_from_csv(dataset):
             vals = get_values_str(reader, row)
 
             if dataset == 1:
-                command = 'INSERT INTO winequality_white VALUES (' + vals + ')'
+                command = 'INSERT INTO winequality_white_short VALUES (' + vals + ')'
             elif dataset == 2:
                 vals = ''.join(['"'+ vals[:4] + '"', vals[4:]])
-                command = 'INSERT INTO beetle_richness_new VALUES (' + vals + ')'
+                command = 'INSERT INTO beetle_richness_short VALUES (' + vals + ')'
             elif dataset == 3:
                 command = 'INSERT INTO breast_cancer VALUES (' + vals + ')' 
 

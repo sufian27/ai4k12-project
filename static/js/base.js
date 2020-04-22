@@ -12,6 +12,10 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 
+    // $('#feedback-btn').click(function () {
+    //     $('.feedback-box').toggleClass('hidden');
+    // });
+
     if(example > 0) {
         if (localStorage.getItem("mappingRule") === null) {          
             var unmapped_list = [];
@@ -33,6 +37,18 @@
         $("#toolbox .dataset2face").attr("href", "/dataset2face?example=" + example);
         $("#toolbox .compare").attr("href", "/compare?example=" + example);
         $("#toolbox .cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
+
+        if (title == 'Factor') {
+            $('.page-intro').append($('<b> - Here are related features and their definitions to get you prepared to start the scientific discovery.</b>'));
+        } else if (title == 'Dataset Introduction') {
+            $('.page-intro').append($('<b> - Here are two data points from the dataset with these related features.</b>'));
+        } else if (title == 'Make Your Emoji') {
+            $('.page-intro').append($('<b> - Drag the dataset features and drop them to different facial features.</b>'));
+        } else if (title == 'Feature Slider') {
+            $('.page-intro').append($('<b> - Play around the sliders to observe how dataset features change the facial features.</b>'));
+        } else if (title == 'What we found' && example == '2') {
+            $('.page-intro').append($('<b> - Actual representative field site from the four families!</b>'));
+        }
     }
 
 });
@@ -41,9 +57,13 @@
 $(document).on('submit', '.user-answer', function(e) {
     console.log(title);
     e.preventDefault();
+    var user_input = [];
+    for (var j = 0; j < $(this).children('.user-input').length; j++) {
+        user_input.push($(this).children('.user-input').eq(j).val());
+    }
     var data = {
         q_index: $(this).attr('id'),
-        val: document.getElementById("user_input").value
+        val: user_input
     };
     console.log('---');
     console.log(this.value);
@@ -71,50 +91,81 @@ $(document).on('submit', '.user-answer', function(e) {
         console.log("Fetch error: " + error);
     });
 
-    $("#user_input").val("");
+    // $("#user_input").val("");
 
     if (title == 'Introduction') {
         location.href = "/var?example=" + example;
     } else if (title == 'Factor') {
         location.href = "/data_intro?example=" + example;
     } else if (title == 'Smilarity Comparison') {
-        if ($('.label2').hasClass('hidden')) {
-            $('.label1').addClass('hidden');
-            $('.label2').removeClass('hidden');
-        } else {
-            location.href = "/groupwise_compare?example=" + example;
-        }
+        location.href = "/groupwise_compare?example=" + example;
     } else if (title == 'Groupwise Smilarity Comparison') {
         if (! $('.label1').hasClass('hidden')) {
             $('.label1').addClass('hidden');
             $('.label2').removeClass('hidden');
-        } else if (! $('.label2').hasClass('hidden')) {
             add_cluster();
+            $('.user-input').val("");
+        } else if (! $('.label2').hasClass('hidden')) {
             $('.label2').addClass('hidden');
             $('.label3').removeClass('hidden');
+            $('.user-input').val("");
         } else if (! $('.label3').hasClass('hidden')){
-            $('.label3').addClass('hidden');
-            $('.label4').removeClass('hidden');
-        } else if (! $('.label4').hasClass('hidden')){
             location.href = "/dataset2face?example=" + example;
-        }
+        } 
+        
     } else if (title == 'Automatic Clustering') {
-        if ($(this).attr('id') == 'cluster-question0') {
-            $('#next-button').removeClass('hidden');
-            $('#next-button').trigger('click');
-        } else if ($(this).attr('id').includes('cluster-question-familay')) {
-            $(this).parent('.answer-box').remove();
+        if ($(this).attr('id').includes('cluster-question-familay')) {
+            var q_id = $(this).attr('id').substr(24);
+            $(this).parent('.answer-box').parent('.col-5').remove();
+            if (q_id == '0') {
+                var overlay_area = $('<div class = "col-4"><div class = "center-face-overlay"></div></div>');
+                $('.row-cluster-' + q_id).append(overlay_area);
+            }         
             if ($('.answer-box').length == 0) {
                 $('#next-button').removeClass('hidden');
             }
         } else if ($(this).attr('id') == 'cluster-question-center1') {
-            $(this).parent('.answer-box').remove();
-            var cluster_step5 = $('<div class="col-3 card border-light answer-box fixed-right-bottom" width = "100%"><form class="user-answer" id = "cluster-question-center2"><label for="message-text" class="col-form-label card-body">By comparing the differentiating features between different families, what interesting findings do you get?</label><div class="row"><div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div><div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div></div></form></div>');
-            $('.fixed-right-bottom-parent').append(cluster_step5);
-        } else if ($(this).attr('id') == 'cluster-question-center2') {
             location.href = "/stem?example=" + example;
         }
     }
+});
+
+$(document).on('submit', '.user-feedback', function(e) {
+    console.log(title);
+    e.preventDefault();
+    var user_input = $(this).children('.user-input').val();
+    var data = {
+        page: title,
+        val: user_input
+    };
+    console.log('---');
+    console.log(this.value);
+    console.log($(this).attr('id'));
+    fetch(`${window.origin}/feedback`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        cache: "no-cache",
+        headers: new Headers({
+            "content-type": "application/json"
+        })
+    })
+    .then(function (response) {
+        if (response.status !== 200) {
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+            }
+        response.json().then(function (data) {
+            console.log('===');
+            console.log(data);
+        });
+    })
+    .catch(function (error) {
+        console.log("Fetch error: " + error);
+    });
+
+    $(this).children('.user-input').val("");
+    $('#feedbackModal').modal('hide');
 });
 
 function add_cluster() {
@@ -127,6 +178,7 @@ function add_cluster() {
     compare_template.children(".compare-canvas").children().remove();
     compare_template.children(".compare-index").children().remove();
     compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);
+    compare_template.children(".compare-canvas").addClass('clickable-element');
     // $('.compare-row').append(compare_template);
     $('.compare-block-row').append(compare_template);
     if (current_num == 1) {
@@ -189,9 +241,6 @@ $(document).on('mouseover', ".face-ele", function(e) {
         } else if ($(this).parents('svg').hasClass('center')) {
             var id_line = $('<p>Center Face</p>');
             $("#tooltip").append(id_line);
-        } else if (! $(this).parents('svg').hasClass('user-generated')) {
-            var id_line = $('<p>Face Overlay</p>');
-            $("#tooltip").append(id_line);
         }
     }
 
@@ -217,7 +266,7 @@ function mousePosition(ev){
     }; 
 }
 
-function click_record_fuc() {
+$(document).on('click', '.clickable-element', function() {
     var data = {
         page: title,
         element: $(this).attr('id'),
@@ -246,7 +295,7 @@ function click_record_fuc() {
     .catch(function (error) {
         console.log("Fetch error: " + error);
     });
-}
+});
 
 function toDecimal1NoZero(x) {
     var float_num = parseFloat(x);
@@ -285,6 +334,10 @@ function dropFeature(ev) {
     }
     if (title == 'Make Your Emoji') {
         $(update_map());
+        if ($('.note').hasClass('invisible')) {
+            $('.note').removeClass('invisible');
+            $('.note').css('visibility', 'visible');
+        }
     }    
 }
 

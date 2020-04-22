@@ -17,75 +17,81 @@
     if (localStorage.getItem("mappingRule") === null) {
         var json_mapping = {};
         var json_mapping_face = {};
-        if (example == '2') {
-            json_mapping = {
-                "Beetles_Richness": "0",
-                "Mean_Temp_degC": "0",
-                "Mean_Canopy_Height_m": "0",
-                "Mean_Ann_Precip_mm": "0",
-                // "Longitude": "ms",
-                "Longitude": "0",
-                "Latitude": "0",
-                "Small_Mammal_Richness": "0",
-                "Elevation_m": "0"
-            };
+        // if (example == '2') {
+        //     // json_mapping = {
+        //     //     "Beetles_Richness": "0",
+        //     //     "Mean_Temp_degC": "0",
+        //     //     "Mean_Canopy_Height_m": "0",
+        //     //     "Mean_Ann_Precip_mm": "0",
+        //     //     // "Longitude": "ms",
+        //     //     "Longitude": "0",
+        //     //     "Latitude": "0",
+        //     //     "Small_Mammal_Richness": "0",
+        //     //     "Elevation_m": "0"
+        //     // };
 
-            // json_mapping = {
-            //     "Beetles_Richness": "er",
-            //     "Mean_Temp_degC": "bs",
-            //     "Mean_Canopy_Height_m": "bl",
-            //     "Mean_Ann_Precip_mm": "bv",
-            //     // "Longitude": "ms",
-            //     "Longitude": "0",
-            //     "Latitude": "ms",
-            //     "Small_Mammal_Richness": "nw",
-            //     "Elevation_m": "0"
-            // };
-            // json_mapping_face = {
-            //     "er": "Beetles_Richness", 
-            //     "bs": "Mean_Temp_degC", 
-            //     "bl": "Mean_Canopy_Height_m", 
-            //     "bv": "Mean_Ann_Precip_mm", 
-            //     // "ms": "Longitude", 
-            //     "ms": "Latitude", 
-            //     "nw": "Small_Mammal_Richness"
-            // }
-        } else if (example == '1') {
-            json_mapping = {
-                "alcohol": "er",
-                "volatile_acidity": "bl",
-                "quality": "bv",
-                "total_sulfur_dioxide": "ms",
-                "free_sulfur_dioxide": "mv",
-                "fixed_acidity": "mc",
-                "residual_sugar": "nw",
-                "density": "nh",
-                "chlorides": "0",
-                "sulphates": "0",
-                "citric_acid": "0",
-                "pH": "bs",
-            }
+        //     json_mapping = {
+        //         "Beetles_Richness": "er",
+        //         "Mean_Temp_degC": "bs",
+        //         "Mean_Canopy_Height_m": "bl",
+        //         "Mean_Ann_Precip_mm": "bv",
+        //         // "Longitude": "ms",
+        //         "Longitude": "0",
+        //         "Latitude": "ms",
+        //         "Small_Mammal_Richness": "nw",
+        //         "Elevation_m": "0"
+        //     };
+        //     json_mapping_face = {
+        //         "er": "Beetles_Richness", 
+        //         "bs": "Mean_Temp_degC", 
+        //         "bl": "Mean_Canopy_Height_m", 
+        //         "bv": "Mean_Ann_Precip_mm", 
+        //         // "ms": "Longitude", 
+        //         "ms": "Latitude", 
+        //         "nw": "Small_Mammal_Richness"
+        //     }
+        // } else if (example == '1') {
+        //     json_mapping = {
+        //         "alcohol": "er",
+        //         "volatile_acidity": "bl",
+        //         "quality": "bv",
+        //         "total_sulfur_dioxide": "ms",
+        //         "free_sulfur_dioxide": "mv",
+        //         "fixed_acidity": "mc",
+        //         "residual_sugar": "nw",
+        //         "density": "nh",
+        //         "chlorides": "0",
+        //         "sulphates": "0",
+        //         "citric_acid": "0",
+        //         "pH": "bs",
+        //     }
 
-            json_mapping_face = {
-                "er": "alcohol", 
-                "bs": "pH", 
-                "bl": "volatile_acidity", 
-                "bv": "quality", 
-                "ms": "total_sulfur_dioxide", 
-                "mv": "free_sulfur_dioxide", 
-                "mc": "fixed_acidity", 
-                "nw": "residual_sugar", 
-                "nh": "density"
-            }
-        } else {
-            for (i = 0; i < variables_forface.length; i++) {
-                if (i < facial_feature.length) {
-                    json_mapping[variables_forface[i]] = facial_feature[i];
-                    json_mapping_face[facial_feature[i]] = variables_forface[i];
-                } else {
-                    json_mapping[variables_forface[i]] = "0";
-                    // json_mapping_face["unmapped" + i] =  variables_forface[i];
-                }
+        //     json_mapping_face = {
+        //         "er": "alcohol", 
+        //         "bs": "pH", 
+        //         "bl": "volatile_acidity", 
+        //         "bv": "quality", 
+        //         "ms": "total_sulfur_dioxide", 
+        //         "mv": "free_sulfur_dioxide", 
+        //         "mc": "fixed_acidity", 
+        //         "nw": "residual_sugar", 
+        //         "nh": "density"
+        //     }
+        // } else {
+        //     for (i = 0; i < variables_forface.length; i++) {
+        //         if (i < facial_feature.length) {
+        //             json_mapping[variables_forface[i]] = facial_feature[i];
+        //             json_mapping_face[facial_feature[i]] = variables_forface[i];
+        //         } else {
+        //             json_mapping[variables_forface[i]] = "0";
+        //             // json_mapping_face["unmapped" + i] =  variables_forface[i];
+        //         }
+        //     }
+        // }
+
+        for (key in feature_names) {
+            if (key != 'id') {
+                json_mapping[key] = '0';
             }
         }
         var str_mapping = JSON.stringify(json_mapping);

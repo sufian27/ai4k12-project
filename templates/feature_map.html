@@ -4,7 +4,7 @@
 <div class="row fixed-right-bottom-parent">
 	<div class="col-3 center-vertical">
 		<div id="face"></div>
-		<div class="note">Try to hover your cursor on the face elements that are mapped to dataset features!</div>
+		<div class="note invisible">Try to hover your cursor on the face elements that are mapped to dataset features!</div>
 	</div>
 	<div class="col-4">
 		<form id="mapping-form">
@@ -15,7 +15,6 @@
 		</form>
 	</div>
 	<div class="col-3 center-vertical">
-		<p>Map several dataset features that you are interested in to facial features on the left!</p>
 		<img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" width="100%">
 		<div class="image-label">
 			{% if example == '2' %}
@@ -27,7 +26,7 @@
 			{% endif %}
 		</div>
 	</div>
-	<button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button>
+	<button type="button" class="btn btn-success fixed-right-bottom" id="next-button">Next</button>
 </div>
 {% endblock %}
 

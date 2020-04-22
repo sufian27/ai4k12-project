@@ -38,7 +38,7 @@
             bs_f_default = 0,
             bl_f_default = 0,
             ms_f_default = 0,
-            mv_f_default = 0,
+            mv_f_default = 0.5,
             mc_f_default = 0,
             nw_f_default = 0,
             nh_f_default = 0;
@@ -79,7 +79,7 @@
                 bs_var = (typeof(bs_f) === "function" && !isNaN(bs_f(d)) ? bs_f(d) : bs_f_default) * 60,
                 bl_var = (typeof(bl_f) === "function" && !isNaN(bl_f(d)) ? bl_f(d) : bl_f_default) * 14 + 10,
                 ms_var = (typeof(ms_f) === "function" && !isNaN(ms_f(d)) ? ms_f(d) : ms_f_default) * 20 + 10, //LK
-                mv_var = (typeof(mv_f) === "function" && !isNaN(mv_f(d)) ? mv_f(d) : mv_f_default) * 30 + 10, //WK
+                mv_var = (typeof(mv_f) === "function" && !isNaN(mv_f(d)) ? (1 - mv_f(d)) : (1 - mv_f_default)) * 30 + 10, //WK
                 mc_var = (typeof(mc_f) === "function" && !isNaN(mc_f(d)) ? mc_f(d) : mc_f_default) * -1 * 35 + 25, //LKG
                 // mc_var = (typeof(mc_f) === "function" && !isNaN(mc_f(d)) ? (1 - mc_f(d)) : (1 - mc_f_default)) * -1 * 35 + 25, 
                 nh_var = (typeof(nh_f) === "function" && !isNaN(nh_f(d)) ? nh_f(d) : nh_f_default) * 20,

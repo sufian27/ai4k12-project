@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="row">
+    {% if example != '1' %}
     <div class="intro-image col-6">
         <img src="{{ url_for('static', filename = 'img/example' + example + '/intro1.jpg') }}" height="100%">
         {% if example == '2' %}
@@ -10,6 +11,7 @@
         <div class="centered">A case of invasive breast carcinoma</div>
         {% endif %}
     </div>
+    {% endif %}
     <div class="intro-image col-6">
         <img src="{{ url_for('static', filename = 'img/example' + example + '/intro2.jpg') }}" width="100%">
         {% if example == '2' %}
@@ -18,8 +20,7 @@
         <div class="centered">A benign case</div>
         {% endif %}
     </div>
-</div>
-<div class="row">
+    {% if example != '1' %}
     <div class="col-6">
         <div class="card border-light">
             {% if example == '2' %}
@@ -33,7 +34,8 @@
             {% endif %}
         </div>
     </div>
-    <div class="col-6">
+    {% endif %}
+    <div class="col-6 center-full">
         <div class="card border-light answer-box" width = "100%">
             <form class="user-answer" id = "intro-question">
                 <label for="message-text" class="col-form-label card-body">
@@ -45,10 +47,8 @@
                     What common chemical factors do you know are related to wine chemistry?
                     {% endif %}
                 </label>
-                <div class="row">
-                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
-                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
-                </div>
+                <textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea>
+                <button type="submit" class="btn btn-outline-success btn-sm float-right" >Submit</button>
             </form>
         </div>
     </div>

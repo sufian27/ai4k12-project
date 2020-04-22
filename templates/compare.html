@@ -35,7 +35,7 @@
 	</div>
 	<div class="col-2 center-vertical">
 		<div id="face1"></div>
-		<button type="button" class="btn btn-outline-success btn-sm" id="compare-btn">Compare</button>
+		<button type="button" class="btn btn-outline-success btn-sm clickable-element" id="compare-btn">Compare</button>
 		<div id="face2"></div>
 	</div>
 	<div class="col-3 center-vertical">
@@ -44,10 +44,11 @@
 	<div class="col-3 fixed-right-bottom-parent">
         <div class="card border-light answer-box fixed-right-bottom">
             <form class="user-answer" id = "pairwise-question">
-                <label for="message-text" class="col-form-label card-body label1">
-                	Compare the two emojis, what are the facial features differentiating the two emojis? 
+                <label for="message-text" class="col-form-label card-body">
+                	Click the compare button to overlay the two emojis, what are the facial features differentiating the two emojis? 
                 </label>
-                <label for="message-text" class="col-form-label card-body label2 hidden">
+                <textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea>
+                <label for="message-text" class="col-form-label card-body">
 	                {% if example == '2' %}
 	                What are the corresponding ecological features differentiating these two field sites?
 	                {% elif example == '3' %}
@@ -56,10 +57,8 @@
 	                What are the corresponding chemical features differentiating these two wines?
 	                {% endif %}
                 </label>
-                <div class="row">
-                    <div class="col-8"><textarea class="form-control" id="user_input" rows="3" type="text" name="user_input"></textarea></div>
-                    <div class="col-4"><button type="submit" class="btn btn-outline-success btn-sm" >Submit</button></div>
-                </div>
+                <textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea>
+                <button type="submit" class="btn btn-outline-success btn-sm" >Submit</button>
             </form>
         </div>
 	</div>
@@ -83,15 +82,18 @@
 	var json_dataset = JSON.parse(json_object).records;
 	// var variables = Object.keys(json_dataset[0]);
 
-	var datapoint_face = dataset_face[27];
+	var data_id1 = sample_dp['seq_id'][0];
+	var data_id2 = sample_dp['seq_id'][1]
+
+	var datapoint_face = dataset_face[data_id1];
 	d3.select('#face1')
 		.call(chernoffFace(1));
-	$('#face1 svg').attr('id', "face27");
+	$('#face1 svg').attr('id', "face"+data_id1);
 	$('#face1 svg').attr('class', 'hover-face');	
-	datapoint_face = dataset_face[38];
+	datapoint_face = dataset_face[data_id2];
 	d3.select('#face2')
 		.call(chernoffFace(1));
-	$('#face2 svg').attr('id', "face38");
+	$('#face2 svg').attr('id', "face"+data_id2);
 	$('#face2 svg').attr('class', 'hover-face');	
 
 	$('#compare-btn').click( function() {
@@ -99,12 +101,12 @@
         var overlay_span2 = $('<span class = "overlay" id = "overlay-face2"></span>');
         $('.overlay-area').append(overlay_span1);
         $('.overlay-area').append(overlay_span2);
-		datapoint_face = dataset_face[27];
+		datapoint_face = dataset_face[data_id1];
 		d3.select('#overlay-face1')
 			.call(chernoffFace(2));
 		$('#overlay-face1 svg').attr('class', 'face-overlay');
 
-		datapoint_face = dataset_face[38];
+		datapoint_face = dataset_face[data_id2];
 		d3.select('#overlay-face2')
 			.call(chernoffFace(2));
 		$('#overlay-face2 svg').attr('class', 'face-overlay');
