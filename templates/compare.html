@@ -82,15 +82,18 @@
 	var json_dataset = JSON.parse(json_object).records;
 	// var variables = Object.keys(json_dataset[0]);
 
-	var datapoint_face = dataset_face[27];
+	var data_id1 = sample_dp['seq_id'][0];
+	var data_id2 = sample_dp['seq_id'][1]
+
+	var datapoint_face = dataset_face[data_id1];
 	d3.select('#face1')
 		.call(chernoffFace(1));
-	$('#face1 svg').attr('id', "face27");
+	$('#face1 svg').attr('id', "face"+data_id1);
 	$('#face1 svg').attr('class', 'hover-face');	
-	datapoint_face = dataset_face[38];
+	datapoint_face = dataset_face[data_id2];
 	d3.select('#face2')
 		.call(chernoffFace(1));
-	$('#face2 svg').attr('id', "face38");
+	$('#face2 svg').attr('id', "face"+data_id2);
 	$('#face2 svg').attr('class', 'hover-face');	
 
 	$('#compare-btn').click( function() {
@@ -98,12 +101,12 @@
         var overlay_span2 = $('<span class = "overlay" id = "overlay-face2"></span>');
         $('.overlay-area').append(overlay_span1);
         $('.overlay-area').append(overlay_span2);
-		datapoint_face = dataset_face[27];
+		datapoint_face = dataset_face[data_id1];
 		d3.select('#overlay-face1')
 			.call(chernoffFace(2));
 		$('#overlay-face1 svg').attr('class', 'face-overlay');
 
-		datapoint_face = dataset_face[38];
+		datapoint_face = dataset_face[data_id2];
 		d3.select('#overlay-face2')
 			.call(chernoffFace(2));
 		$('#overlay-face2 svg').attr('class', 'face-overlay');

@@ -109,7 +109,12 @@ $(document).on('submit', '.user-answer', function(e) {
         
     } else if (title == 'Automatic Clustering') {
         if ($(this).attr('id').includes('cluster-question-familay')) {
-            $(this).parent('.answer-box').remove();
+            var q_id = $(this).attr('id').substr(24);
+            $(this).parent('.answer-box').parent('.col-5').remove();
+            if (q_id == '0') {
+                var overlay_area = $('<div class = "col-4"><div class = "center-face-overlay"></div></div>');
+                $('.row-cluster-' + q_id).append(overlay_area);
+            }         
             if ($('.answer-box').length == 0) {
                 $('#next-button').removeClass('hidden');
             }
