@@ -4,4 +4,3 @@ my-project.sock
 *.pyc
 /env/*
 /__pycache__/*
-Procfile
