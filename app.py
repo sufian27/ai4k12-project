@@ -68,8 +68,7 @@ def logout():
     db.session.add(User_Action('user logged out', session['user_id'])) #log data 
     db.session.commit()
     session.pop('user_id', None)
-    for x in User_Action.query.all():
-        print(x.description)
+    
     return redirect(url_for('login'))
 
 @app.route('/add', methods=['GET', 'POST'])
