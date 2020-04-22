@@ -20,7 +20,7 @@ app.secret_key = 'KJNVDDNK32239JFSKNVRJNONOCEIN2930232I802UONNC'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sufian:sufian123@ai4k12.ccww9pi9mcdx.us-east-1.rds.amazonaws.com:5432/ai4k12'
 
 db = SQLAlchemy(app)
 from models import User, User_Action
@@ -68,6 +68,7 @@ def logout():
     db.session.add(User_Action('user logged out', session['user_id'])) #log data 
     db.session.commit()
     session.pop('user_id', None)
+    #need to call roc-hci endpoint from here
     return redirect(url_for('login'))
 
 @app.route('/add', methods=['GET', 'POST'])
