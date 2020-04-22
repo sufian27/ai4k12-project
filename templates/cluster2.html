@@ -35,7 +35,7 @@
             <p>The value of K means how many families do you want the machine to group the dataset into. Try out different values for the K.</p>
             <p>The best K value for this dataset is 4, which means that the emojis within a family are similar enough to each other and the center emojis of all the families are different enough from each other. Use k = 4 and click the Next button.</p>
         </div>
-        <button type="button" class="btn btn-success clickable-element" id="next-button">Next</button>
+        <button type="button" class="btn btn-success" id="next-button">Next</button>
     </div>
 </div>
 
@@ -73,7 +73,7 @@
 
     // generate the overaly of clusters
     for ( var i = 0; i < k_value; i ++ ) {
-        var cluster_box = $('<div class = "row row-cluster-' + i + '"><div class = "col-4 expand-area" id = "expand' + i + '"></div><div class = "col-3 cluster-canvas" style = "height: 170px;"><div class="compare-canvas" id = "cluster' + i + '" ></div></div><div class = "col-5" id = "cluster-question-box' + i + '"></div></div>');
+        var cluster_box = $('<div class = "row row-cluster-' + i + '"><div class = "col-4 expand-area" id = "expand' + i + '"></div><div class = "col-3 cluster-canvas" style = "height: 170px;"><div class="compare-canvas clickable-element" id = "cluster' + i + '" ></div></div><div class = "col-5" id = "cluster-question-box' + i + '"></div></div>');
         $('#cluster-vis').append(cluster_box);
     }
 

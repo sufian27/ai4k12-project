@@ -176,6 +176,7 @@ function add_cluster() {
     compare_template.children(".compare-canvas").children().remove();
     compare_template.children(".compare-index").children().remove();
     compare_template.children(".compare-canvas").attr('id', 'canvas' + current_num);
+    compare_template.children(".compare-canvas").addClass('clickable-element');
     // $('.compare-row').append(compare_template);
     $('.compare-block-row').append(compare_template);
     if (current_num == 1) {
@@ -263,7 +264,7 @@ function mousePosition(ev){
     }; 
 }
 
-function click_record_fuc() {
+$(document).on('click', '.clickable-element', function() {
     var data = {
         page: title,
         element: $(this).attr('id'),
@@ -292,7 +293,7 @@ function click_record_fuc() {
     .catch(function (error) {
         console.log("Fetch error: " + error);
     });
-}
+});
 
 function toDecimal1NoZero(x) {
     var float_num = parseFloat(x);

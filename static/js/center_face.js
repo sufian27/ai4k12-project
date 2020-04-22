@@ -39,6 +39,7 @@
             if ($('.cluster-canvas').length > 1) {
                 $(this).parent('.cluster-canvas').children('.overlay-btn').remove();
                 $('#center' + current_cluster_id).parent('span').remove();
+                $('.center-face-overlay').children('.cluster' + current_cluster_id).remove();
             }
 
         } else if ($(this).children('span').length > 1) {
