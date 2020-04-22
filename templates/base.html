@@ -31,8 +31,8 @@
                 "Mean_Ann_Precip_mm": ["Mean Annual Precipitation(mm)" ,"Precipitation"],
                 "Mean_Canopy_Height_m": ["Mean Canopy Height(m)", "Canopy Height"],
                 "Mean_Temp_degC": ["Mean Temperature (Celsius)","Temperature"],
-                "Elevation_m": ["Elevation(m)" ,"Elevation"],
-                "Longitude": ["Longitude(degree)", "Longitude"],
+                // "Elevation_m": ["Elevation(m)" ,"Elevation"],
+                // "Longitude": ["Longitude(degree)", "Longitude"],
                 "Latitude": ["Latitude(degree)", "Latitude"]
             };
             var sample_dp = {
@@ -49,9 +49,9 @@
                 "fixed_acidity": ["Fixed Acidity", "Fixed Acidity"],
                 "residual_sugar": ["Residual Sugar", "Residual Sugar"],
                 "density": ["Density", "Density"],
-                "chlorides": ["Chlorides", "Chlorides"],
-                "sulphates": ["Sulphates", "Sulphates"],
-                "citric_acid": ["Citric Acid", "Citric Acid"],
+                // "chlorides": ["Chlorides", "Chlorides"],
+                // "sulphates": ["Sulphates", "Sulphates"],
+                // "citric_acid": ["Citric Acid", "Citric Acid"],
                 "pH": ["pH", "pH"]
             };
 
@@ -107,7 +107,7 @@
         <div id="tooltip" class="tip"></div>
         {% block content %}{% endblock %}
 
-        <footer id="toolbox">
+        <footer id="toolbox" class="hidden">
             {% if example %}
             <div class="collapse" id="collapseExample" style="position: fixed; bottom: 50px; left: 140px; z-index: 1000;">
                 <nav aria-label="breadcrumb">
