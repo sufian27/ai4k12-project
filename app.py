@@ -15,7 +15,7 @@ c = conn.cursor()
 #init app
 # app = Flask(__name__)
 app = Flask(__name__, static_url_path='/static')
-app.secret_key = os.urandom(24)
+app.secret_key = 'KJNVDDNK32239JFSKNVRJNONOCEIN2930232I802UONNC'
 #init log database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
