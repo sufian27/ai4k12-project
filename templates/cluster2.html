@@ -22,7 +22,7 @@
 </div>
 
 <div class="row fixed-right-bottom-parent">
-    <div class="col-9" id="cluster-vis" ></div>
+    <div class="col-10" id="cluster-vis" ></div>
     <div class="fixed-right-bottom">
         <div class="card border-light" id="first_step">
             {% if example == '2' %}
@@ -35,9 +35,8 @@
             <p>The value of K means how many families do you want the machine to group the dataset into. Try out different values for the K.</p>
             <p>The best K value for this dataset is 4, which means that the emojis within a family are similar enough to each other and the center emojis of all the families are different enough from each other. Use k = 4 and click the Next button.</p>
         </div>
-        <button type="button" class="btn btn-outline-success clickable-element" id="next-button">Next</button>
+        <button type="button" class="btn btn-success clickable-element" id="next-button">Next</button>
     </div>
-    <!-- <button type="button" class="btn btn-outline-success clickable-element fixed-right-bottom" id="next-button">Next</button> -->
 </div>
 
 {% endblock %}
@@ -49,9 +48,9 @@
     function readpara (para) {
         return para;
     }
-    var k = readpara( {{ k }} );
+    var k_value = readpara( {{ k }} );
     console.log('---');
-    console.log(k);
+    console.log(k_value);
     var json_cluster = readpara( {{ json_cluster | safe }} );
     console.log(json_cluster);
     var json_object = readpara( {{ json_data | tojson | safe }} );
@@ -68,12 +67,12 @@
         }
     }
     for (var i = 0; i < $('.dropdown-item').length; i++) {
-        var k_value = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
-        $('.dropdown-item').eq(i).attr('href','/cluster2?example=' + example + '&k=' + k_value + '&unmapped=' + unmapped_list);
+        var k_value_dropd = $('.dropdown-item').eq(i).text().replace(/[^\d]/g, '');
+        $('.dropdown-item').eq(i).attr('href','/cluster2?example=' + example + '&k=' + k_value_dropd + '&unmapped=' + unmapped_list);
     }
 
     // generate the overaly of clusters
-    for ( var i = 0; i < k; i ++ ) {
+    for ( var i = 0; i < k_value; i ++ ) {
         var cluster_box = $('<div class = "row row-cluster-' + i + '"><div class = "col-4 expand-area" id = "expand' + i + '"></div><div class = "col-3 cluster-canvas" style = "height: 170px;"><div class="compare-canvas" id = "cluster' + i + '" ></div></div><div class = "col-5" id = "cluster-question-box' + i + '"></div></div>');
         $('#cluster-vis').append(cluster_box);
     }
@@ -115,15 +114,18 @@
         '3': ['cases', 'cell']
     };
     $('#next-button').click( function() {
+        console.log('lalala');
+        console.log($('#first_step').hasClass('hidden'));
+        console.log(k_value);
         if (! $('#first_step').hasClass('hidden')) {
-            for (var i = 0; i < k; i++) {
+            for (var i = 0; i < k_value; i++) {
                 var new_step = $('<div class="card border-light answer-box" width = "100%"><form class="user-answer" id = "cluster-question-familay' + i + '"><label for="message-text" class="col-form-label card-body">What are the facial features and the corresponding ' + term[example][1] +' features shared by ' + term[example][0] +' in this family?' + ( i == 0 ? ' Hover on the face elements to see their mapping features.' : '') + '</label><textarea class="form-control user-input" rows="3" type="text" name="user_input"></textarea><button type="submit" class="btn btn-outline-success btn-sm float-right" >Submit</button></form></div>');
                 $('#cluster-question-box' + i).append(new_step);
             }    
             $(this).addClass('hidden');
             $('#first_step').addClass('hidden');
         } else {
-            for (var i = 0; i < k; i++) {
+            for (var i = 0; i < k_value; i++) {
                 $('#cluster-question-box' + i).addClass('hidden');
                 $('#cluster' + i).trigger('click');
             }

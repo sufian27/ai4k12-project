@@ -12,7 +12,8 @@
 	}
 	var stem_content = [];
 	var q_num = 0;
-	if (example == 1) {
+	if (example == 1 || example == 3) {
+		// var ending = $('<span></span>')
 	} else if (example == 2) {
 		stem_content = [
 			{
@@ -22,16 +23,16 @@
 				'Representative of the field sites': 'High species richness. High annual precipitation. Moderate temperature. High canopy height.'
 			},
 			{
-				"pic": 'static/img/example' + example + '/stem2.jpg',
-				'Site Name': "Soaproot Saddle - SOAP, California",
-				"Dominant NLCD (National Land Cover Database) classes": "Evergreen Forest, Shrub/Shrub",
-				'Representative of the field sites': 'Low beetle richness. Medium small mammal richness. High annual precipitation. Moderate annual temperature. High canopy height.'
-			},
-			{
 				"pic": 'static/img/example' + example + '/stem3.jpg',
 				'Site Name': "Konza Prairie Biological Station - KONZ, Kansas",
 				"Dominant NLCD (National Land Cover Database) classes": "Deciduous Forest, Grassland/Herbaceous",
 				'Representative of the field sites': 'Low beetle richness. Medium small mammal richness. Medium annual precipitation. Moderate annual temperature. Low canopy height.'
+			},
+			{
+				"pic": 'static/img/example' + example + '/stem2.jpg',
+				'Site Name': "Soaproot Saddle - SOAP, California",
+				"Dominant NLCD (National Land Cover Database) classes": "Evergreen Forest, Shrub/Shrub",
+				'Representative of the field sites': 'Low beetle richness. Medium small mammal richness. High annual precipitation. Moderate annual temperature. High canopy height.'
 			},
 			{
 				"pic": 'static/img/example' + example + '/stem4.jpg',

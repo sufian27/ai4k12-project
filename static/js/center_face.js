@@ -76,7 +76,7 @@
                 $(this).parent('.compare-block').removeClass('selected-block');
             }
 
-            if ($('.cluster-canvas').length > 1) {
+            if (($('.cluster-canvas').length > 1) && ($('.center-face-overlay').length > 0)) {
                 var overlay_btn = $('<button type="button" class = "overlay-btn btn-outline-success btn-sm clickable-element" id = "overlay-button-' + current_cluster_id + '">Compare</button>');
                 $(this).parent('.cluster-canvas').append(overlay_btn);
             }

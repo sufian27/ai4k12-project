@@ -33,6 +33,16 @@
         $("#toolbox .dataset2face").attr("href", "/dataset2face?example=" + example);
         $("#toolbox .compare").attr("href", "/compare?example=" + example);
         $("#toolbox .cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
+
+        if (title == 'Factor') {
+            $('.page-intro').append($('<b> - Here are related features and their definitions to get you prepared to start the scientific discovery.</b>'));
+        } else if (title == 'Dataset Introduction') {
+            $('.page-intro').append($('<b> - Here are two data points from the dataset with these related features.</b>'));
+        } else if (title == 'Make Your Emoji') {
+            $('.page-intro').append($('<b> - Drag the dataset features and drop them to different facial features.</b>'));
+        } else if (title == 'Feature Slider') {
+            $('.page-intro').append($('<b> - Play around the sliders to observe how dataset features change the facial features.</b>'));
+        }
     }
 
 });
@@ -181,9 +191,6 @@ $(document).on('mouseover', ".face-ele", function(e) {
         } else if ($(this).parents('svg').hasClass('center')) {
             var id_line = $('<p>Center Face</p>');
             $("#tooltip").append(id_line);
-        } else if (! $(this).parents('svg').hasClass('user-generated')) {
-            var id_line = $('<p>Face Overlay</p>');
-            $("#tooltip").append(id_line);
         }
     }
 
@@ -277,6 +284,10 @@ function dropFeature(ev) {
     }
     if (title == 'Make Your Emoji') {
         $(update_map());
+        if ($('.note').hasClass('invisible')) {
+            $('.note').removeClass('invisible');
+            $('.note').css('visibility', 'visible');
+        }
     }    
 }
 
