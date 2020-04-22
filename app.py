@@ -42,7 +42,7 @@ def index():
     if request.method == "GET": #handle asynchronous request
         db.session.add(User_Action('user at home page', session['user_id'])) #log data 
         db.session.commit()
-        return render_template('index.html', title='Home')
+        return render_template('index.html', title='SmileyCluster')
     else:
         return 'Invalid Data'
 
@@ -283,6 +283,19 @@ def answer():
     if request.method == "POST": #handle asynchronous request for log data
         req = request.get_json()
         db.session.add(User_Action('user response: {}, {}'.format(req['q_index'], req['val']), session['user_id']))
+        db.session.commit()
+        res = make_response(jsonify(req), 200)
+        return res
+    else:
+        return 'Invalid Data'
+
+@app.route('/feedback', methods = ['GET', 'POST'])
+def feedback():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == "POST": #handle asynchronous request for log data
+        req = request.get_json()
+        db.session.add(User_Action('user feedback: {}, {}'.format(req['page'], req['val']), session['user_id']))
         db.session.commit()
         res = make_response(jsonify(req), 200)
         return res

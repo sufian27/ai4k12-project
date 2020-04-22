@@ -12,6 +12,10 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 
+    // $('#feedback-btn').click(function () {
+    //     $('.feedback-box').toggleClass('hidden');
+    // });
+
     if(example > 0) {
         if (localStorage.getItem("mappingRule") === null) {          
             var unmapped_list = [];
@@ -122,6 +126,44 @@ $(document).on('submit', '.user-answer', function(e) {
             location.href = "/stem?example=" + example;
         }
     }
+});
+
+$(document).on('submit', '.user-feedback', function(e) {
+    console.log(title);
+    e.preventDefault();
+    var user_input = $(this).children('.user-input').val();
+    var data = {
+        page: title,
+        val: user_input
+    };
+    console.log('---');
+    console.log(this.value);
+    console.log($(this).attr('id'));
+    fetch(`${window.origin}/feedback`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(data),
+        cache: "no-cache",
+        headers: new Headers({
+            "content-type": "application/json"
+        })
+    })
+    .then(function (response) {
+        if (response.status !== 200) {
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+            }
+        response.json().then(function (data) {
+            console.log('===');
+            console.log(data);
+        });
+    })
+    .catch(function (error) {
+        console.log("Fetch error: " + error);
+    });
+
+    $(this).children('.user-input').val("");
+    $('#feedbackModal').modal('hide');
 });
 
 function add_cluster() {

@@ -38,7 +38,7 @@
             bs_f_default = 0,
             bl_f_default = 0,
             ms_f_default = 0,
-            mv_f_default = 0,
+            mv_f_default = 0.5,
             mc_f_default = 0,
             nw_f_default = 0,
             nh_f_default = 0;

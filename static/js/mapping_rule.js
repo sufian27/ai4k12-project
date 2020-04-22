@@ -90,7 +90,9 @@
         // }
 
         for (key in feature_names) {
-            json_mapping[key] = '0';
+            if (key != 'id') {
+                json_mapping[key] = '0';
+            }
         }
         var str_mapping = JSON.stringify(json_mapping);
         localStorage.setItem('mappingRule', str_mapping);
