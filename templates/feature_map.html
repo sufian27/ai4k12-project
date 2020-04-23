@@ -56,6 +56,34 @@
 	$('#face svg').attr('class', 'user-generated');	
 
 	$('#next-button').click( function (){
+	    var getLocalData = localStorage.getItem('mappingRule');
+   		var json_mapping = JSON.parse(getLocalData);
+	    var data = {
+	        val: json_mapping
+	    };
+	    fetch(`${window.origin}/mapping_record`, {
+	        method: "POST",
+	        credentials: "include",
+	        body: JSON.stringify(data),
+	        cache: "no-cache",
+	        headers: new Headers({
+	            "content-type": "application/json"
+	        })
+	    })
+	    .then(function (response) {
+	        if (response.status !== 200) {
+	            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+	            return;
+	            }
+	        response.json().then(function (data) {
+	            console.log('===');
+	            console.log(data);
+	        });
+	    })
+	    .catch(function (error) {
+	        console.log("Fetch error: " + error);
+	    });
+
 		location.href = "/slider?example=" + example;
 	});
 

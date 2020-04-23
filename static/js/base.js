@@ -39,13 +39,13 @@
         $("#toolbox .cluster").attr("href", "/cluster2?example=" + example + "&k=" + 2 + "&unmapped=" + unmapped_list);
 
         if (title == 'Factor') {
-            $('.page-intro').append($('<b> - Here are related features and their definitions to get you prepared to start the scientific discovery.</b>'));
+            $('.page-intro').append($('<b> - Here are related features and their definitions to get you prepared to start the scientific discovery</b>'));
         } else if (title == 'Dataset Introduction') {
-            $('.page-intro').append($('<b> - Here are two data points from the dataset with these related features.</b>'));
+            $('.page-intro').append($('<b> - Here are two data points from the dataset with these related features</b>'));
         } else if (title == 'Make Your Emoji') {
-            $('.page-intro').append($('<b> - Drag the dataset features and drop them to different facial features.</b>'));
+            $('.page-intro').append($('<b> - Drag some of the dataset features you are most interested in and drop them to different facial features</b>'));
         } else if (title == 'Feature Slider') {
-            $('.page-intro').append($('<b> - Play around the sliders to observe how dataset features change the facial features.</b>'));
+            $('.page-intro').append($('<b> - Play around the sliders to observe how dataset features change the facial features</b>'));
         } else if (title == 'What we found' && example == '2') {
             $('.page-intro').append($('<b> - Actual representative field site from the four families!</b>'));
         }

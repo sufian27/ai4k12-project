@@ -317,6 +317,21 @@ def click_record():
     else:
         return 'Invalid Data'
 
+@app.route('/mapping_record', methods = ['GET', 'POST'])
+def mapping_record():
+    if g.user == None:
+        return redirect(url_for('login'))
+    if request.method == "POST": #handle asynchronous request for log data
+        req = request.get_json()
+        print('------------')
+        print(req)
+        db.session.add(User_Action('user final mapping {}'.format(req['val']), session['user_id']))
+        db.session.commit()
+        res = make_response(jsonify(req), 200)
+        return res
+    else:
+        return 'Invalid Data'
+
 @app.route('/uploadcanvas', methods = ['GET', 'POST'])
 def testing():
     if request.method == 'POST':
