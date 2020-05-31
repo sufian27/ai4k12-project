@@ -18,9 +18,7 @@ app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'KJNVDDNK32239JFSKNVRJNONOCEIN2930232I802UONNC'
 #init log database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sufian:sufian123@ai4k12.ccww9pi9mcdx.us-east-1.rds.amazonaws.com:5432/ai4k12'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///logdata.db'
 
 db = SQLAlchemy(app)
 from models import User, User_Action
