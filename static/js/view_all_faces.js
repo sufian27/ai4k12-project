@@ -16,7 +16,8 @@ $(document).ready( function() {
           container.addEventListener("dragstart", dragstart, false)
           container.addEventListener("dragenter", dragenter)
           // container.addEventListener("drop", drop, false)
-          container.style.mixBlendMode= 'screen'
+          container.style.mixBlendMode= 'hard-light'
+
 
 
     }
@@ -58,48 +59,78 @@ function dragenter(e) {
 function drop(event, target) {
   event.preventDefault();
   console.log(target.id)
+  if(target.id!==dragStartComponentID){ //do anything only if user does not drop element on itself
+  var idCodeOfDragStart= dragStartComponentID.slice(2,)
+  console.log(idCodeOfDragStart)
    var secondDiv=document.getElementById(target.id)
    var firstDiv= document.getElementById(dragStartComponentID)
-   firstDiv.style.position='absolute'
-   secondDiv.style.position='absolute'
-
-   var el1Style = window.getComputedStyle(firstDiv);
-  var left1Value = el1Style.getPropertyValue("left").replace("px", "");
-  var el2Style = window.getComputedStyle(secondDiv);
- var left2Value = el2Style.getPropertyValue("left").replace("px", "");
-
-var top1Value = el1Style.getPropertyValue("top").replace("px", "");
-var top2Value = el2Style.getPropertyValue("top").replace("px", "");
+   //firstDiv.style.position='absolute'
+  // secondDiv.style.position='absolute'
+   var position1=firstDiv.getBoundingClientRect()
+   var left1Value=position1.left
+   var top1Value=position1.top
+   var position2=secondDiv.getBoundingClientRect()
+   var left2Value=position2.left
+   var top2Value=position2.top
+ //   var el1Style = window.getComputedStyle(firstDiv);
+ //  var left1Value = el1Style.getPropertyValue("left").replace("px", "");
+ //  var el2Style = window.getComputedStyle(secondDiv);
+ // var left2Value = el2Style.getPropertyValue("left").replace("px", "");
+//
+// var top1Value = el1Style.getPropertyValue("top").replace("px", "");
+// var top2Value = el2Style.getPropertyValue("top").replace("px", "");
 
 
  console.log(left1Value)
  // console.log(secondDiv)
  console.log(left2Value)
+ firstDiv.style.position='relative'
 
- secondDiv.style.position='relative'
+ //secondDiv.style.position='relative'
 
   var leftDif= left2Value-left1Value
-    firstDiv.style.left = (Number(left1Value) + leftDif) + "px";
+  if(left2Value<left1Value ||left2Value===left1Value){
+    // var face_plance_content = $('<span id = "id' + idCount++ + '"class="droppable" draggable="true" ondrop="drop(event, this)" ondragover="allowDrop(event)" "></span>');
+    // var svgElement=$('<svg width="100" height="120" viewBox="0 0 100 120" class="hover-face"/>' )
+    // face_plance_content.append(svgElement)
+  //  $(face_plance_content).insertAfter(document.getElementById(dragStartComponentID));
+    firstDiv.style.left = (firstDiv.style.left + leftDif) + "px";
+
+    // secondDiv.style.left=(Number(left2Value-10))+'px'
+    // secondDiv.style.top=(Number(top2Value+10))+'px'
+    // firstDiv.style.top=(Number(top1Value+10))+'px'
+
+  }else{
+    // var face_plance_content = $('<span id = "id' + idCount++ + '"class="droppable" draggable="true" ondrop="drop(event, this)" ondragover="allowDrop(event)" "></span>');
+    // var svgElement=$('<svg width="100" height="120" viewBox="0 0 100 120" class="hover-face"/>' )
+    // face_plance_content.append(svgElement)
+    // $(face_plance_content).insertAfter(document.getElementById(dragStartComponentID));
+    firstDiv.style.left = firstDiv.style.left + leftDif + "px";
+
+
+    // $(face_plance_content).insertAfter(document.getElementById(target.id));
+  }
 
 
 
   var topDif= top2Value-top1Value
     if(top2Value>top1Value){
-    firstDiv.style.top = (Number(top1Value) - topDif) + "px";
-  }else{
-    firstDiv.style.top = (Number(top1Value) + topDif) + "px";
+    firstDiv.style.top = (firstDiv.style.top + topDif) + "px";
+  }else if(top2Value<top1Value){
+    firstDiv.style.top = (firstDiv.style.top + topDif) + "px";
 
+  }else{
+    firstDiv.style.top=firstDiv.style.top+'px'
   }
   console.log(top1Value)
   // console.log(secondDiv)
   console.log(top2Value)
 
-  var face_plance_content = $('<span id = "id' + idCount++ + '"class="droppable" draggable="true" ondrop="drop(event, this)" ondragover="allowDrop(event)" "></span>');
-  var svgElement=$('<svg width="100" height="120" viewBox="0 0 100 120" class="hover-face"/>' )
-  face_plance_content.append(svgElement)
-  $(face_plance_content).insertBefore(document.getElementById('id'+lastFaceId--));
 
 
+  //  $(face_plance_content).insertAfter(document.getElementById(target.id));
+
+  }
   //  secondDiv.style.left = (Number(left2Value) - 100) + "px";
 
 
