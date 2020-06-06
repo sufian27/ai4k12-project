@@ -36,6 +36,8 @@ $(document).ready( function() {
 let lastFaceId;
 let dragStartComponentID;
 let idCount=2000
+let listOfFacesDroppedUpon=[]
+
 function dragover(e) {
   e.preventDefault()
   //console.log(e.target.id)
@@ -58,12 +60,26 @@ function dragenter(e) {
 }
 function drop(event, target) {
   event.preventDefault();
-  console.log(target.id)
-  if(target.id!==dragStartComponentID){ //do anything only if user does not drop element on itself
+
+  if(target.id!==dragStartComponentID){
+    let opacVal=0.8
+    for(var i=0; i<listOfFacesDroppedUpon.length;i++){
+      if(listOfFacesDroppedUpon[i].localeCompare(target.id)===0){
+        opacVal=opacVal-0.1
+      }
+    }
+    //do spmething only if user does not drop element on itself
+
+       listOfFacesDroppedUpon.push(target.id)
+
   var idCodeOfDragStart= dragStartComponentID.slice(2,)
-  console.log(idCodeOfDragStart)
+
    var secondDiv=document.getElementById(target.id)
+
+   console.log(dragStartComponentID, target.id)
    var firstDiv= document.getElementById(dragStartComponentID)
+   secondDiv.style.opacity='0.9'
+   firstDiv.style.opacity=opacVal
    //firstDiv.style.position='absolute'
   // secondDiv.style.position='absolute'
    var position1=firstDiv.getBoundingClientRect()
