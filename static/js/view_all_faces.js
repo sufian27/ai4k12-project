@@ -62,15 +62,18 @@ function drop(event, target) {
   event.preventDefault();
 
   if(target.id!==dragStartComponentID){
-    let opacVal=0.8
+    let opacVal=0.9
     for(var i=0; i<listOfFacesDroppedUpon.length;i++){
       if(listOfFacesDroppedUpon[i].localeCompare(target.id)===0){
         opacVal=opacVal-0.1
       }
     }
+    if(opacVal<0.4){
+      opacVal=0.4
+    }
     //do spmething only if user does not drop element on itself
-
-       listOfFacesDroppedUpon.push(target.id)
+    console.log(opacVal)
+  listOfFacesDroppedUpon.push(target.id)
 
   var idCodeOfDragStart= dragStartComponentID.slice(2,)
 
@@ -78,7 +81,7 @@ function drop(event, target) {
 
    console.log(dragStartComponentID, target.id)
    var firstDiv= document.getElementById(dragStartComponentID)
-   secondDiv.style.opacity='0.9'
+   secondDiv.style.opacity=opacVal
    firstDiv.style.opacity=opacVal
    //firstDiv.style.position='absolute'
   // secondDiv.style.position='absolute'
